@@ -3,7 +3,7 @@
     <!-- explicit list view definition -->
 
     <record model="ir.ui.view" id="gestion_cursos.cursos_list">
-      <field name="name"gestion_cursos cursos list</field>
+      <field name="name">gestion_cursos curso list</field>
       <field name="model">gestion_cursos.curso</field>
       <field name="arch" type="xml">
         <list>
@@ -23,8 +23,8 @@
 
     <!-- actions opening views on models -->
 
-    <record model="ir.actions.act_window" id="gestion_cursos.cursos_action_window">
-      <field name="name">cursos window</field>
+    <record model="ir.actions.act_window" id="gestion_cursos.cursos_action_window_curso">
+      <field name="name">Cursos</field>
       <field name="res_model">gestion_cursos.curso</field>
       <field name="view_mode">list,form</field>
     </record>
@@ -58,7 +58,7 @@
     <!-- actions -->
 
     <menuitem name="Lista de Cursos" id="gestion_cursos.cursos_menu_3_list" parent="gestion_cursos.cursos_menu_3"
-              action="gestion_cursos.cursos_action_window"/>
+              action="gestion_cursos.cursos_action_window_curso"/>
     <!-- <menuitem name="Server to list" id="todo_list" parent="todo_list.menu_2"
               action="todo_list.action_server"/> -->
 
