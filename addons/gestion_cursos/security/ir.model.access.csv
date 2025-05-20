@@ -1,2 +1,3 @@
 id,name,model_id:id,group_id:id,perm_read,perm_write,perm_create,perm_unlink
 access_gestion_cursos_categoria,gestion_cursos.categoria,model_gestion_cursos_categoria,base.group_user,1,1,1,1
+access_gestion_cursos_familia_profesional,gestion_cursos.familia_profesional,model_gestion_cursos_familia_profesional,base.group_user,1,1,1,1
