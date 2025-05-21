@@ -5,6 +5,6 @@ class Categoria(models.Model):
     _description = 'gestion_cursos.categoria'
     _rec_name = 'nombre'
 
-    nombre = fields.Text(string = 'Nombre')
+    nombre = fields.Char(string = 'Nombre')
     descripcion = fields.Text(string = 'Descripción')
     id_curso = fields.One2many('gestion_cursos.curso', 'id_categoria', string='Cursos')

@@ -5,7 +5,7 @@ class Curso(models.Model):
     _description = 'gestion_cursos.curso'
     _rec_name = 'nombre'
 
-    nombre = fields.Text(string = 'Nombre')
+    nombre = fields.Char(string = 'Nombre')
     descripcion = fields.Text(string = 'Descripción')
     nivel = fields.Selection([
         ('1', '1'),
@@ -32,3 +32,36 @@ class Curso(models.Model):
     fecha_fin = fields.Date(string='Fecha Fin')
     id_categoria = fields.Many2one('gestion_cursos.categoria', string='Categoría')
     id_familia_profesional = fields.Many2one('gestion_cursos.familia_profesional', string='Familia Profesional')
+    id_evento_calendario = fields.Many2one('calendar.event', string='Evento del Calendario', readonly=True)
+
+    @api.model_create_multi
+    def create(self, vals_list):
+        cursos = super().create(vals_list)
+        for curso in cursos:
+            calendar_event = self.env['calendar.event'].create({
+                'name': curso.nombre,
+                'description': curso.descripcion,
+                'start': curso.fecha_inicio,
+                'stop': curso.fecha_fin or curso.fecha_inicio,
+                'user_id': self.env.user.id,
+            })
+            curso.id_evento_calendario = calendar_event
+        return cursos
+
+    def write(self, vals):
+        result = super().write(vals)
+        for curso in self:
+            if curso.id_evento_calendario:
+                curso.id_evento_calendario.write({
+                    'name': curso.nombre,
+                    'description': curso.descripcion,
+                    'start': curso.fecha_inicio,
+                    'stop': curso.fecha_fin or curso.fecha_inicio,
+                })
+        return result
+
+    def unlink(self):
+        for curso in self:
+            if curso.id_evento_calendario:
+                curso.id_evento_calendario.unlink()
+        return super().unlink()
