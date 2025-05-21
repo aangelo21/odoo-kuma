@@ -29,3 +29,5 @@ class Curso(models.Model):
     unidades_didacticas = fields.Integer(string = 'Unidades didácticas')
     fecha_inicio = fields.Date(string='Fecha Inicio')
     fecha_fin = fields.Date(string='Fecha Fin')
+    id_categoria = fields.Many2one('gestion_cursos.categoria', string='Categoría')
+    id_familia_profesional = fields.Many2one('gestion_cursos.familia_profesional', string='Familia Profesional')

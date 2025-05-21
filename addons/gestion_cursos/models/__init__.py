@@ -1,5 +1,5 @@
 # -*- coding: utf-8 -*-
 
-from . import cursos
+from . import curso
 from . import categoria
 from . import familia_profesional

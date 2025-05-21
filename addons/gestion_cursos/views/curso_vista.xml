@@ -16,6 +16,8 @@
           <field name="unidades_didacticas"/>
           <field name="fecha_inicio"/>
           <field name="fecha_fin"/>
+          <field name="id_categoria"/>
+          <field name="id_familia_profesional"/>
         </list>
       </field>
     </record>
