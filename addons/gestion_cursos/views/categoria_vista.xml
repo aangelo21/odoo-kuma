@@ -9,6 +9,7 @@
         <list>
           <field name="nombre"/>
           <field name="descripcion"/>
+          <field name="color"/>
           <field name="id_curso"/>
         </list>
       </field>

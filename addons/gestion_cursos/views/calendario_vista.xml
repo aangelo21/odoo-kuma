@@ -1,0 +1,29 @@
+<odoo>
+  <data>
+    <record id="view_gestion_cursos_curso_calendar" model="ir.ui.view">
+      <field name="name">gestion_cursos.curso.calendar</field>
+      <field name="model">gestion_cursos.curso</field>
+      <field name="arch" type="xml">
+        <calendar string="Cursos" date_start="fecha_inicio" date_stop="fecha_fin" color="color_categoria">
+          <field name="nombre"/>
+          <field name="descripcion"/>
+          <field name="id_categoria"/>
+        </calendar>
+      </field>
+    </record>
+
+    <record id="action_gestion_cursos_curso_calendar" model="ir.actions.act_window">
+      <field name="name">Calendario de Cursos</field>
+      <field name="res_model">gestion_cursos.curso</field>
+      <field name="view_mode">calendar</field>
+      <field name="view_id" ref="view_gestion_cursos_curso_calendar"/>
+    </record>
+
+    <menuitem id="gestion_cursos.cursos_menu_3" name="Gestión de Cursos" sequence="1"/>
+
+    <menuitem id="menu_gestion_cursos_curso_calendar"
+              name="Calendario de cursos"
+              parent="gestion_cursos.cursos_menu_3"
+              action="action_gestion_cursos_curso_calendar"/>
+  </data>
+</odoo>

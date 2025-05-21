@@ -23,6 +23,7 @@ Long description of module's purpose
     # always loaded
     'data': [
         'security/ir.model.access.csv',
+        'views/calendario_vista.xml',
         'views/curso_vista.xml',
         'views/categoria_vista.xml',
         'views/familia_profesional_vista.xml',

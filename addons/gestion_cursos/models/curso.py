@@ -33,6 +33,11 @@ class Curso(models.Model):
     id_categoria = fields.Many2one('gestion_cursos.categoria', string='Categoría')
     id_familia_profesional = fields.Many2one('gestion_cursos.familia_profesional', string='Familia profesional')
     id_evento_calendario = fields.Many2one('calendar.event', string='Evento del calendario', readonly=True)
+    color_categoria = fields.Selection(
+        related='id_categoria.color',
+        string='Color de categoría',
+        store=False
+    )
 
     @api.model_create_multi
     def create(self, vals_list):
