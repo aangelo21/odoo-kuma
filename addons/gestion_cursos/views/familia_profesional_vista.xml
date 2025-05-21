@@ -18,7 +18,7 @@
     <!-- actions opening views on models -->
 
     <record model="ir.actions.act_window" id="gestion_cursos.action_window_familia_profesional">
-      <field name="name">Familia Profesional</field>
+      <field name="name">Familias profesionales</field>
       <field name="res_model">gestion_cursos.familia_profesional</field>
       <field name="view_mode">list,form</field>
     </record>
@@ -46,12 +46,12 @@
 
     <!-- menu categories -->
 
-    <menuitem name="Familia Profesional" id="gestion_cursos.menu_2" parent="gestion_cursos.menu_root"/>
+    <menuitem name="Familias profesionales" id="gestion_cursos.menu_2" parent="gestion_cursos.menu_root"/>
     <!-- <menuitem name="Menu 2" id="gestion_cursos.menu_2" parent="gestion_cursos.menu_root"/> -->
 
     <!-- actions -->
 
-    <menuitem name="Lista de Familias Profesionales" id="gestion_cursos.menu_2_list" parent="gestion_cursos.menu_2"
+    <menuitem name="Lista de familias profesionales" id="gestion_cursos.menu_2_list" parent="gestion_cursos.menu_2"
               action="gestion_cursos.action_window_familia_profesional"/>
     <!-- <menuitem name="Server to list" id="gestion_cursos" parent="gestion_cursos.menu_2"
               action="gestion_cursos.action_server"/> -->

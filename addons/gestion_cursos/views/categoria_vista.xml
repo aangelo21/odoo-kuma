@@ -46,12 +46,12 @@
 
     <!-- menu categories -->
 
-    <menuitem name="Categoría" id="gestion_cursos.menu_1" parent="gestion_cursos.menu_root"/>
+    <menuitem name="Categorías" id="gestion_cursos.menu_1" parent="gestion_cursos.menu_root"/>
     <!-- <menuitem name="Menu 2" id="gestion_cursos.menu_2" parent="gestion_cursos.menu_root"/> -->
 
     <!-- actions -->
 
-    <menuitem name="Lista de Categorías" id="gestion_cursos.menu_1_list" parent="gestion_cursos.menu_1"
+    <menuitem name="Lista de categorías" id="gestion_cursos.menu_1_list" parent="gestion_cursos.menu_1"
               action="gestion_cursos.action_window_categoria"/>
     <!-- <menuitem name="Server to list" id="gestion_cursos" parent="gestion_cursos.menu_2"
               action="gestion_cursos.action_server"/> -->

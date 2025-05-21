@@ -59,7 +59,7 @@
 
     <!-- actions -->
 
-    <menuitem name="Lista de Cursos" id="gestion_cursos.cursos_menu_3_list" parent="gestion_cursos.cursos_menu_3"
+    <menuitem name="Lista de cursos" id="gestion_cursos.cursos_menu_3_list" parent="gestion_cursos.cursos_menu_3"
               action="gestion_cursos.cursos_action_window_curso"/>
     <!-- <menuitem name="Server to list" id="todo_list" parent="todo_list.menu_2"
               action="todo_list.action_server"/> -->
