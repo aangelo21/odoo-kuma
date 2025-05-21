@@ -54,7 +54,7 @@ class Curso(models.Model):
         for curso in self:
             if curso.id_evento_calendario:
                 curso.id_evento_calendario.write({
-                    'name': curso.nombre,
+                    'name': curso.id_categoria.nombre + ' - ' + curso.nombre,
                     'description': curso.descripcion,
                     'start': curso.fecha_inicio,
                     'stop': curso.fecha_fin or curso.fecha_inicio,
