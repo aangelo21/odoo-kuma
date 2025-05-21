@@ -1,6 +1,6 @@
 # -*- coding: utf-8 -*-
 {
-    'name': "gestion_cursos",
+    'name': "Gestión Cursos",
 
     'summary': "Short (1 phrase/line) summary of the module's purpose",
 
