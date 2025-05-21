@@ -1,0 +1,68 @@
+<odoo>
+  <data>
+    <!-- explicit list view definition -->
+
+    <record model="ir.ui.view" id="gestion_cursos.cursos_list">
+      <field name="name">gestion_cursos curso list</field>
+      <field name="model">gestion_cursos.curso</field>
+      <field name="arch" type="xml">
+        <list>
+          <field name="nombre"/>
+          <field name="descripcion"/>
+          <field name="nivel"/>
+          <field name="duracion"/>
+          <field name="modalidad"/>
+          <field name="localizacion"/>
+          <field name="unidades_didacticas"/>
+          <field name="fecha_inicio"/>
+          <field name="fecha_fin"/>
+          <field name="id_categoria"/>
+          <field name="id_familia_profesional"/>
+        </list>
+      </field>
+    </record>
+
+
+    <!-- actions opening views on models -->
+
+    <record model="ir.actions.act_window" id="gestion_cursos.cursos_action_window_curso">
+      <field name="name">Cursos</field>
+      <field name="res_model">gestion_cursos.curso</field>
+      <field name="view_mode">list,form</field>
+    </record>
+
+
+    <!-- server action to the one above -->
+
+    <!-- <record model="ir.actions.server" id="todo_list.action_server">
+      <field name="name">todo_list server</field>
+      <field name="model_id" ref="model_todo_list_todo_list"/>
+      <field name="state">code</field>
+      <field name="code">
+        action = {
+          "type": "ir.actions.act_window",
+          "view_mode": "list,form",
+          "res_model": model._name,
+        }
+      </field>
+    </record> -->
+
+
+    <!-- Top menu item -->
+
+    <menuitem name="Gestion Cursos" id="gestion_cursos.menu_root"/>
+
+    <!-- menu categories -->
+
+    <menuitem name="Cursos" id="gestion_cursos.cursos_menu_3" parent="gestion_cursos.menu_root"/>
+    <!-- <menuitem name="People" id="todo_list.menu_2" parent="todo_list.menu_root"/> -->
+
+    <!-- actions -->
+
+    <menuitem name="Lista de Cursos" id="gestion_cursos.cursos_menu_3_list" parent="gestion_cursos.cursos_menu_3"
+              action="gestion_cursos.cursos_action_window_curso"/>
+    <!-- <menuitem name="Server to list" id="todo_list" parent="todo_list.menu_2"
+              action="todo_list.action_server"/> -->
+
+  </data>
+</odoo>
