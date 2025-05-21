@@ -31,8 +31,8 @@ class Curso(models.Model):
     fecha_inicio = fields.Date(string='Fecha Inicio')
     fecha_fin = fields.Date(string='Fecha Fin')
     id_categoria = fields.Many2one('gestion_cursos.categoria', string='Categoría')
-    id_familia_profesional = fields.Many2one('gestion_cursos.familia_profesional', string='Familia Profesional')
-    id_evento_calendario = fields.Many2one('calendar.event', string='Evento del Calendario', readonly=True)
+    id_familia_profesional = fields.Many2one('gestion_cursos.familia_profesional', string='Familia profesional')
+    id_evento_calendario = fields.Many2one('calendar.event', string='Evento del calendario', readonly=True)
 
     @api.model_create_multi
     def create(self, vals_list):
@@ -44,6 +44,7 @@ class Curso(models.Model):
                 'start': curso.fecha_inicio,
                 'stop': curso.fecha_fin or curso.fecha_inicio,
                 'user_id': self.env.user.id,
+                'allday': True,
             })
             curso.id_evento_calendario = calendar_event
         return cursos
@@ -53,10 +54,11 @@ class Curso(models.Model):
         for curso in self:
             if curso.id_evento_calendario:
                 curso.id_evento_calendario.write({
-                    'name': curso.nombre,
+                    'name': curso.id_categoria.nombre + ' - ' + curso.nombre,
                     'description': curso.descripcion,
                     'start': curso.fecha_inicio,
                     'stop': curso.fecha_fin or curso.fecha_inicio,
+                    'allday': True,
                 })
         return result
 
