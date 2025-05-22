@@ -30,6 +30,11 @@ Long description of module's purpose
         # 'views/views.xml',
         # 'views/templates.xml',
     ],
+    'assets' : {
+        'web.assets_backend': [
+            'gestion_cursos/static/scss/custom_colors.scss'
+        ]
+    }
     # only loaded in demonstration mode
     # 'demo': [
     #    'demo/demo.xml',
