@@ -2,98 +2,45 @@
 
 ## 📚 Descripción General
 
-El Sistema de Gestión de Cursos es una aplicación Odoo diseñada específicamente para administrar y organizar cursos de formación de manera eficiente y estructurada. Accesible a través de gestion.ckuma.com, esta plataforma permite gestionar cursos, categorías y familias profesionales de manera intuitiva.
+Este proyecto es un módulo personalizado de Odoo para la gestión de cursos de formación. Permite administrar cursos, categorías y familias profesionales de manera estructurada, integrándose con el sistema Odoo.
 
 ## 🌟 Características Principales
 
-### Gestión de Cursos
-- Nombre y descripción detallada del curso
-- Niveles de formación (del 1 al 4)
-- Duración en horas
-- Modalidades disponibles:
-  - Presencial
-  - Semipresencial
-  - Teleformación
-- Localización:
-  - Nacional
-  - Teleformación
-  - Islas Canarias (todas las islas disponibles)
-- Unidades didácticas
-- Fechas de inicio y fin
-- Integración automática con calendario
+- Gestión de cursos con nombre, descripción, código, duración y modalidad.
+- Organización de cursos por categorías y familias profesionales.
+- Fechas de inicio/fin y consolidación.
+- Número de alumnos, alumnos consolidados y alumnos al finalizar.
+- Vistas de calendario para la planificación de cursos.
+- Filtros y búsqueda avanzada por modalidad, categoría y familia profesional.
+- Acceso controlado por roles y permisos de Odoo.
 
-### Categorías
-- Organización de cursos por categorías
-- Descripción detallada de cada categoría
-- Agrupación flexible de cursos
+## 📂 Estructura del Proyecto
 
-### Familias Profesionales
-- Clasificación por familia profesional
-- Descripción de cada familia
-- Organización jerárquica de cursos
+- `addons/gestion_cursos/models/`: Modelos de datos (`curso.py`, `categoria.py`, `familia_profesional.py`).
+- `addons/gestion_cursos/views/`: Vistas XML para cursos, categorías, familias profesionales y calendario.
+- `addons/gestion_cursos/security/`: Reglas de acceso (`ir.model.access.csv`).
+- `addons/gestion_cursos/static/`: Recursos estáticos (colores SCSS).
+- `addons/gestion_cursos/controllers/`: Controladores (si aplica).
 
-## 🎯 Cómo Usar la Aplicación
+## 🚀 Instalación y Uso
 
-### 1. Acceso al Sistema
-- Acceda a través de gestion.ckuma.com
-- Utilice sus credenciales proporcionadas
+1. Copie la carpeta `gestion_cursos` en el directorio `addons` de su instancia Odoo.
+2. Reinicie el servidor de Odoo.
+3. Active el modo desarrollador y actualice la lista de aplicaciones.
+4. Instale el módulo "Gestión de Cursos" desde el panel de aplicaciones.
 
-### 2. Navegación Principal
-El menú principal incluye tres secciones principales:
-- **Cursos**: Gestión de todos los cursos
-- **Categorías**: Administración de categorías
-- **Familias Profesionales**: Gestión de familias profesionales
+## 🖥️ Navegación Principal
 
-### 3. Gestión de Cursos
-Para crear un nuevo curso:
-1. Acceda a "Lista de Cursos"
-2. Haga clic en "Crear"
-3. Complete los campos requeridos:
-   - Información básica (nombre, descripción)
-   - Nivel y duración
-   - Modalidad y localización
-   - Fechas de inicio y fin
-   - Categoría y familia profesional
-4. Guarde los cambios
-
-### 4. Calendario Integrado
-- Los cursos se sincronizan automáticamente con el calendario
-- Visualice fechas de inicio y fin
-- Gestione la planificación de manera visual
-
-### 5. Gestión de Categorías y Familias Profesionales
-Para crear nuevas categorías o familias profesionales:
-1. Acceda a la sección correspondiente
-2. Haga clic en "Crear"
-3. Complete nombre y descripción
-4. Guarde los cambios
-
-## 🔍 Funcionalidades Especiales
-
-### Filtros y Búsqueda
-- Búsqueda por nombre de curso
-- Filtrado por nivel
-- Filtrado por modalidad
-- Filtrado por localización
-- Organización por categorías y familias profesionales
-
-### Gestión del Calendario
-- Vista de calendario integrada
-- Actualizaciones automáticas
-- Seguimiento de fechas de cursos
-
-## 📱 Acceso y Compatibilidad
-
-- Accesible desde cualquier navegador web moderno
-- Diseño responsivo para dispositivos móviles y tablets
-- Compatible con los principales navegadores (Chrome, Firefox, Safari, Edge)
+- **Cursos**: Gestión y visualización de cursos.
+- **Categorías**: Administración de categorías de cursos.
+- **Familias Profesionales**: Gestión de familias profesionales.
+- **Calendario**: Visualización de cursos en formato calendario.
 
 ## 🔐 Seguridad
 
-- Acceso controlado por roles y permisos
-- Gestión segura de datos
-- Cumplimiento con normativas de protección de datos
+- Acceso gestionado mediante los permisos estándar de Odoo.
+- Cumplimiento de buenas prácticas de seguridad y protección de datos.
 
 ---
 
-Para soporte técnico o consultas, contacte con el equipo de soporte a través de la plataforma.
+Para soporte técnico o consultas, contacte con el equipo de soporte a través de la plataforma o el canal habitual.

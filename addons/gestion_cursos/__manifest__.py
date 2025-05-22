@@ -18,17 +18,23 @@ Long description of module's purpose
     'version': '0.1',
 
     # any module necessary for this one to work correctly
-    'depends': ['base', 'calendar'],
+    'depends': ['base'],
 
     # always loaded
     'data': [
         'security/ir.model.access.csv',
+        'views/calendario_vista.xml',
         'views/curso_vista.xml',
         'views/categoria_vista.xml',
         'views/familia_profesional_vista.xml',
         # 'views/views.xml',
         # 'views/templates.xml',
     ],
+    'assets' : {
+        'web.assets_backend': [
+            'gestion_cursos/static/scss/custom_colors.scss'
+        ]
+    }
     # only loaded in demonstration mode
     # 'demo': [
     #    'demo/demo.xml',
