@@ -31,8 +31,10 @@ Long description of module's purpose
         # 'views/templates.xml',
     ],
     'assets' : {
-        'web.assets_backend': [
-            'gestion_cursos/static/scss/custom_colors.scss'
+    'web.assets_backend': [
+        'gestion_cursos/static/scss/custom_colors.scss',
+        'gestion_cursos/static/scss/iconos-actuales.scss',
+        'gestion_cursos/static/scss/font-size.scss',
         ]
     }
     # only loaded in demonstration mode
