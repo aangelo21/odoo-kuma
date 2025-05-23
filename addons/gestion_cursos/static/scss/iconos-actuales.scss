@@ -1,0 +1,48 @@
+.o_form_button_edit .fa-cog,
+.o_form_button_edit .fa-gear,
+.o_list_button_edit .fa-cog,
+.o_list_button_edit .fa-gear {
+    font-size: 2.2em !important;
+}
+
+.o_form_button_edit .fa,
+.o_form_button_save .fa,
+.o_form_button_cancel .fa {
+    font-size: 2.2em !important;
+}
+
+
+.o_form_view .o_form_editable .o_form_button_edit .fa-cog,
+.o_form_view .o_form_editable .o_form_button_edit .fa-gear,
+.o_form_view .o_form_editable .fa-cog,
+.o_form_view .o_form_editable .fa-gear {
+    font-size: 2.2em !important;
+}
+
+.o_form_button_save .fa,
+.o_form_button_save .fa-cloud,
+.o_form_button_save .fa-cloud-upload,
+.o_form_button_save .fa-cloud-upload-alt {
+    display: none !important;
+}
+
+.o_form_button_cancel .fa-times,
+.o_form_button_cancel .fa-remove {
+    display: none !important;
+}
+
+.o_form_button_save::after {
+    content: "​✔️​";
+    font-size: 1.5em;
+    font-weight: bold;
+    color: inherit;
+    margin-left: 0;
+}
+
+.o_form_button_cancel::after {
+    content: "​​​❌​​";
+    font-size: 1.5em;
+    font-weight: bold;
+    color: inherit;
+    margin-left: 0;
+}

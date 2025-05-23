@@ -6,7 +6,10 @@
       <field name="arch" type="xml">
         <calendar string="Cursos" date_start="fecha_inicio" date_stop="fecha_fin" color="color_categoria">
           <field name="nombre"/>
-          <field name="descripcion"/>
+          <field name="fecha_consolidacion"/>
+	        <field name="numero_alumnos"/>
+          <field name="consolidados_display"/>
+          <field name="finalizados_display"/>
           <field name="id_categoria"/>
         </calendar>
       </field>

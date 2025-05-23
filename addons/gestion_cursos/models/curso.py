@@ -28,6 +28,30 @@ class Curso(models.Model):
         store=False
     )
 
+    consolidados_display = fields.Char(
+        string="Consolidados",
+        compute="_compute_consolidados_display"
+    )
+    
+    finalizados_display = fields.Char(
+        string="Finalizados",
+        compute="_compute_finalizados_display"
+    )
+    
+    @api.depends('numero_alumnos_consolidacion', 'numero_alumnos')
+    def _compute_consolidados_display(self):
+        for record in self:
+            consolidados = record.numero_alumnos_consolidacion or 0
+            total = record.numero_alumnos or 0
+            record.consolidados_display = f"{consolidados}/{total}"
+    
+    @api.depends('numero_alumnos_finalizados', 'numero_alumnos_consolidacion')
+    def _compute_finalizados_display(self):
+        for record in self:
+            finalizados = record.numero_alumnos_finalizados or 0
+            consolidados = record.numero_alumnos_consolidacion or 0
+            record.finalizados_display = f"{finalizados}/{consolidados}"
+
     @api.model_create_multi
     def create(self, vals_list):
         cursos = super().create(vals_list)
