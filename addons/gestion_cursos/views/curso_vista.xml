@@ -19,6 +19,7 @@
           <field name="fecha_consolidacion"/>
           <field name="id_categoria"/>
           <field name="id_familia_profesional"/>
+          <field name="horario_ids"/>
         </list>
       </field>
     </record>
