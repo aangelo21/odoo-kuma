@@ -62,9 +62,132 @@ body {
     color: #fff !important;
 }
 
-.o_login_container {
-    min-height: 100vh;
-    display: flex;
-    align-items: center;
-    justify-content: center;
+.o_login_container, .o_user_switch_btn, .oe_login_form, body.bg-100 {
+    .oe_login_buttons, .o_database_login, .justify-content-between {
+        .btn-primary, 
+        .btn.btn-primary,
+        .btn-secondary,
+        .btn.btn-secondary,
+        .btn-link,
+        a {
+            background-color: $o-brand-secondary !important;
+            border-color: $o-brand-secondary !important;
+            color: #fff !important;
+            text-decoration: none !important;
+
+            &:hover,
+            &:focus,
+            &:active {
+                background-color: $o-brand-primary !important;
+                border-color: $o-brand-primary !important;
+                color: #fff !important;
+            }
+        }
+
+        // Estilo específico para enlaces que deberían parecer botones
+        a.btn, a[role="button"] {
+            display: inline-block;
+            padding: 0.375rem 0.75rem;
+            text-align: center;
+            vertical-align: middle;
+            cursor: pointer;
+            user-select: none;
+            background-color: $o-brand-secondary !important;
+            border: 1px solid $o-brand-secondary !important;
+            border-radius: 0.25rem;
+            transition: all 0.15s ease-in-out;
+            
+            &:hover,
+            &:focus {
+                background-color: $o-brand-primary !important;
+                border-color: $o-brand-primary !important;
+            }
+        }
+    }
+}
+
+// Estilos específicos para el selector de base de datos y otros elementos relacionados con el login
+.database-expiration, 
+.database_block, 
+.database-selector,
+.o_database_list {
+    .btn-primary, 
+    .btn.btn-primary, 
+    .o_user_switch_btn,
+    .btn-secondary,
+    .btn-link,
+    a[role="button"] {
+        background-color: $o-brand-secondary !important;
+        border-color: $o-brand-secondary !important;
+        color: #fff !important;
+        text-decoration: none !important;
+
+        &:hover,
+        &:focus,
+        &:active {
+            background-color: $o-brand-primary !important;
+            border-color: $o-brand-primary !important;
+            color: #fff !important;
+        }
+    }
+}
+
+// Estilos para la página de login
+.o_web_client.o_home_menu_background,
+.container.o_database_list,
+.o_login_container,
+.oe_login_form,
+.kuma_login_container {
+    // Solo el botón principal de iniciar sesión mantiene el estilo de botón
+    .oe_login_buttons .btn-primary:first-child {
+        background-color: $o-brand-secondary !important;
+        border-color: $o-brand-secondary !important;
+        color: #fff !important;
+        
+        &:hover,
+        &:focus {
+            background-color: $o-brand-primary !important;
+            border-color: $o-brand-primary !important;
+        }
+    }
+
+    // El resto de enlaces son solo texto (incluyendo 'Iniciar sesión como superusuario')
+    .btn-link,
+    a:not(.oe_login_buttons .btn-primary:first-child),
+    .reset-password-link,
+    .o_user_switch_btn,
+    button:not(.oe_login_buttons .btn-primary:first-child),
+    .oe_login_buttons .btn-primary:not(:first-child) {
+        color: $o-brand-primary !important;
+        text-decoration: none !important;
+        background: none !important;
+        border: none !important;
+        padding: 0 !important;
+        box-shadow: none !important;
+        font-weight: normal !important;
+        
+        &:hover,
+        &:focus {
+            color: $o-brand-secondary !important;
+            text-decoration: underline !important;
+            background: none !important;
+        }
+    }
+}
+
+// Estilos para enlaces en la parte inferior
+.o_database_list {
+    a, .btn-link {
+        color: $o-brand-primary !important;
+        text-decoration: none !important;
+        background: none !important;
+        border: none !important;
+        padding: 0 !important;
+        
+        &:hover,
+        &:focus {
+            color: $o-brand-secondary !important;
+            text-decoration: underline !important;
+        }
+    }
 }
