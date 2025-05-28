@@ -10,8 +10,8 @@
           <field name="curso_id"/>
           <field name="aula_id"/>
           <field name="dia"/>
-          <field name="hora_inicio" widget="float_time"/>
-          <field name="hora_fin" widget="float_time"/>
+          <field name="hora_inicio"/>
+          <field name="hora_fin"/>
         </list>
       </field>
     </record>
