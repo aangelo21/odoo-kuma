@@ -6,4 +6,18 @@
             <link rel="icon" type="image/png" href="/gestion_cursos/static/img/favicon.png"/>
         </xpath>
     </template>
+
+    <!-- Template para personalizar la página de login -->
+    <template id="login_layout" inherit_id="web.login_layout">
+        <xpath expr="//div[hasclass('justify-content-center')]" position="attributes">
+            <attribute name="class">justify-content-center align-items-center kuma_login_container</attribute>
+        </xpath>
+    </template>
+
+    <!-- Template para personalizar los botones del login -->
+    <template id="login" inherit_id="web.login">
+        <xpath expr="//div[hasclass('justify-content-between')]" position="attributes">
+            <attribute name="class">justify-content-between kuma_login_buttons</attribute>
+        </xpath>
+    </template>
 </odoo>
