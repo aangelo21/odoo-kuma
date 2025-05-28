@@ -1,5 +1,5 @@
-from odoo import models, fields, api
-from odoo.exceptions import ValidationError
+from odoo import models, fields, api # type: ignore
+from odoo.exceptions import ValidationError # type: ignore
 
 class Horario(models.Model):
     _name = 'gestion_cursos.horario'
