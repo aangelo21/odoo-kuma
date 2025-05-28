@@ -22,6 +22,7 @@ class Curso(models.Model):
     fecha_consolidacion = fields.Date(string='Fecha de consolidación')
     id_categoria = fields.Many2one('gestion_cursos.categoria', string='Categoría')
     id_familia_profesional = fields.Many2one('gestion_cursos.familia_profesional', string='Familia profesional')
+    horario_ids = fields.One2many('gestion_cursos.horario', 'curso_id', string='Horarios')
     color_categoria = fields.Selection(
         related='id_categoria.color',
         string='Color de categoría',

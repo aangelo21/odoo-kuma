@@ -27,6 +27,8 @@ Long description of module's purpose
         'views/curso_vista.xml',
         'views/categoria_vista.xml',
         'views/familia_profesional_vista.xml',
+        'views/aula_vista.xml',
+        'views/horario_vista.xml',
         # 'views/views.xml',
         'views/templates.xml',
     ],
