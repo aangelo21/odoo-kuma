@@ -28,15 +28,18 @@ Long description of module's purpose
         'views/categoria_vista.xml',
         'views/familia_profesional_vista.xml',
         # 'views/views.xml',
-        # 'views/templates.xml',
+        'views/templates.xml',
     ],
-    'assets' : {
+    'assets': {
     'web.assets_backend': [
         'gestion_cursos/static/scss/custom_colors.scss',
         'gestion_cursos/static/scss/iconos-actuales.scss',
         'gestion_cursos/static/scss/font-size.scss',
-        ]
-    }
+    ],
+    'web.assets_frontend': [
+        'gestion_cursos/static/css/login.css',
+    ],
+},
     # only loaded in demonstration mode
     # 'demo': [
     #    'demo/demo.xml',

@@ -163,8 +163,7 @@ class Curso(models.Model):
                 </li>
                 <br>
             """)
-        bloques.append("</ul>")
-
+            bloques.append("</ul>")
         if cursos_fin:
             bloques.append("<h3>Cursos que finalizan hoy:</h3><ul>")
             for curso in cursos_fin:
@@ -179,8 +178,7 @@ class Curso(models.Model):
                 </li>
                 <br>
             """)
-        bloques.append("</ul>")
-
+            bloques.append("</ul>")
         if cursos_consolidacion:
             bloques.append("<h3>Cursos que consolidan hoy:</h3><ul>")
             for curso in cursos_consolidacion:
@@ -195,9 +193,17 @@ class Curso(models.Model):
                 </li>
                 <br>
             """)
-        bloques.append("</ul>")
+            bloques.append("</ul>")
 
-        if bloques:
+        if not bloques:
+            cuerpo = f"""
+                <html>
+                    <body>
+                        <p>No hay cursos con fechas coincidentes para hoy ({hoy}).</p>
+                    </body>
+                </html>
+            """
+        else:
             cuerpo = f"""
                 <html>
                     <body>
@@ -206,13 +212,13 @@ class Curso(models.Model):
                     </body>
                 </html>
             """
-            mail_template = {
-                'subject': f'Resumen diario de cursos ({hoy})',
-                'body_html': cuerpo.strip(),
-                'email_from': self.env.user.email,
-                'email_to': ','.join(employees.mapped('work_email')),
-            }
-            self.env['mail.mail'].create(mail_template).send()
+        mail_template = {
+            'subject': f'Resumen diario de cursos ({hoy})',
+            'body_html': cuerpo.strip(),
+            'email_from': self.env.user.email,
+            'email_to': ','.join(employees.mapped('work_email')),
+        }
+        self.env['mail.mail'].create(mail_template).send()
 
     @api.model
     def cron_aviso_fechas_semana(self):
@@ -276,7 +282,15 @@ class Curso(models.Model):
                         """)
                     bloques.append("</ul>")
 
-        if bloques:
+        if not [b for b in bloques if '<li' in b]:
+            cuerpo = f"""
+                <html>
+                    <body>
+                        <p>No hay cursos con fechas coincidentes para esta semana ({lunes.strftime('%d/%m/%Y')} - {viernes.strftime('%d/%m/%Y')}).</p>
+                    </body>
+                </html>
+            """
+        else:
             cuerpo = f"""
                 <html>
                     <body>
@@ -285,10 +299,10 @@ class Curso(models.Model):
                     </body>
                 </html>
             """
-            mail_template = {
-                'subject': f'Resumen semanal de cursos ({lunes.strftime("%d/%m/%Y")} - {viernes.strftime("%d/%m/%Y")})',
-                'body_html': cuerpo.strip(),
-                'email_from': self.env.user.email,
-                'email_to': ','.join(employees.mapped('work_email')),
-            }
-            self.env['mail.mail'].create(mail_template).send()
+        mail_template = {
+            'subject': f'Resumen semanal de cursos ({lunes.strftime("%d/%m/%Y")} - {viernes.strftime("%d/%m/%Y")})',
+            'body_html': cuerpo.strip(),
+            'email_from': self.env.user.email,
+            'email_to': ','.join(employees.mapped('work_email')),
+        }
+        self.env['mail.mail'].create(mail_template).send()

@@ -56,3 +56,15 @@ body {
     color: #fff !important;
     font-weight: bolder;
 }
+
+.modal-header {
+    background-color: $o-brand-primary !important;
+    color: #fff !important;
+}
+
+.o_login_container {
+    min-height: 100vh;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+}
