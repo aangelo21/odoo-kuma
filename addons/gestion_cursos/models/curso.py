@@ -87,7 +87,7 @@ class Curso(models.Model):
         result = super().write(vals)
         for curso in self:
             cambios = []
-            # Comprobar y mostrar cambios en cada fecha
+
             if 'fecha_inicio' in vals:
                 cambios.append(f"<li><strong>Nueva fecha inicio:</strong> {curso.fecha_inicio}</li>")
             else:
