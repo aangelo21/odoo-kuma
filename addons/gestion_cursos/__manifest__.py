@@ -31,15 +31,16 @@ Long description of module's purpose
         'views/templates.xml',
     ],
     'assets': {
-    'web.assets_backend': [
-        'gestion_cursos/static/scss/custom_colors.scss',
-        'gestion_cursos/static/scss/iconos-actuales.scss',
-        'gestion_cursos/static/scss/font-size.scss',
-    ],
-    'web.assets_frontend': [
-        'gestion_cursos/static/css/login.css',
-    ],
-},
+        'web.assets_backend': [
+            'gestion_cursos/static/scss/custom_colors.scss',
+            'gestion_cursos/static/scss/iconos-actuales.scss',
+            'gestion_cursos/static/scss/font-size.scss',
+        ],
+        'web.assets_frontend': [
+            'gestion_cursos/static/scss/custom_colors.scss',
+            'gestion_cursos/static/css/login.css',
+        ],
+    },
     # only loaded in demonstration mode
     # 'demo': [
     #    'demo/demo.xml',
