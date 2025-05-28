@@ -2,13 +2,16 @@
   <data>
     <!-- explicit list view definition -->
 
-    <record model="ir.ui.view" id="gestion_cursos.aula_list">
-      <field name="name">gestion_cursos aula list</field>
-      <field name="model">gestion_cursos.aula</field>
+    <record model="ir.ui.view" id="gestion_clases.horario_list">
+      <field name="name">gestion_clases horario list</field>
+      <field name="model">gestion_clases.horario</field>
       <field name="arch" type="xml">
         <list>
-          <field name="nombre"/>
-          <field name="centro"/>
+          <field name="curso_id"/>
+          <field name="aula_id"/>
+          <field name="dia"/>
+          <field name="hora_inicio"/>
+          <field name="hora_fin"/>
         </list>
       </field>
     </record>
@@ -16,9 +19,9 @@
 
     <!-- actions opening views on models -->
 
-    <record model="ir.actions.act_window" id="gestion_cursos.action_window_aula">
-      <field name="name">Aulas</field>
-      <field name="res_model">gestion_cursos.aula</field>
+    <record model="ir.actions.act_window" id="gestion_clases.action_window_horario">
+      <field name="name">Horarios</field>
+      <field name="res_model">gestion_clases.horario</field>
       <field name="view_mode">list,form</field>
     </record>
 
@@ -41,19 +44,20 @@
 
     <!-- Top menu item -->
 
-    <menuitem name="Gestión cursos" id="gestion_cursos.menu_root"/>
+    <menuitem name="Gestión clases" id="gestion_clases.menu_root"/>
 
     <!-- menu categories -->
 
-    <menuitem name="Aulas" id="gestion_cursos.menu_4" parent="gestion_cursos.menu_root"/>
+    <menuitem name="Horarios" id="gestion_clases.menu_2" parent="gestion_clases.menu_root"/>
     <!-- <menuitem name="Menu 2" id="gestion_cursos.menu_2" parent="gestion_cursos.menu_root"/> -->
 
     <!-- actions -->
 
-    <menuitem name="Lista de aulas" id="gestion_cursos.menu_4_list" parent="gestion_cursos.menu_4"
-              action="gestion_cursos.action_window_aula"/>
+    <menuitem name="Lista de Horarios" id="gestion_clases.menu_2_list" parent="gestion_clases.menu_2"
+              action="gestion_clases.action_window_horario"/>
     <!-- <menuitem name="Server to list" id="gestion_cursos" parent="gestion_cursos.menu_2"
               action="gestion_cursos.action_server"/> -->
+
 
   </data>
 </odoo>

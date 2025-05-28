@@ -2,12 +2,12 @@ from odoo import models, fields, api # type: ignore
 from odoo.exceptions import ValidationError # type: ignore
 
 class Horario(models.Model):
-    _name = 'gestion_cursos.horario'
-    _description = 'gestion_cursos.horario'
+    _name = 'gestion_clases.horario'
+    _description = 'gestion_clases.horario'
     _rec_name = 'dia'
 
     curso_id = fields.Many2one('gestion_cursos.curso', string='Curso', required=True)
-    aula_id = fields.Many2one('gestion_cursos.aula', string='Aula')
+    aula_id = fields.Many2one('gestion_clases.aula', string='Aula')
     dia = fields.Selection([
         ('lunes', 'Lunes'),
         ('martes', 'Martes'),
