@@ -13,6 +13,19 @@
       </field>
     </record>
 
+    <record model="ir.ui.view" id="gestion_clases.aula_form">
+      <field name="name">gestion_clases aula form</field>
+      <field name="model">gestion_clases.aula</field>
+      <field name="arch" type="xml">
+        <form>
+          <separator string="Datos generales"/>
+          <group>
+            <field name="nombre"/>
+            <field name="centro"/>
+          </group>
+        </form>
+      </field>
+    </record>
 
     <!-- actions opening views on models -->
 

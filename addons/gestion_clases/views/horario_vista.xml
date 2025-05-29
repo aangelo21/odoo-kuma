@@ -8,6 +8,7 @@
             <field name="arch" type="xml">
                 <form>
                     <sheet>
+                        <separator string="Datos generales"/>
                         <group>
                             <field name="curso_id"/>
                             <field name="aula_id"/>
