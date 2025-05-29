@@ -6,7 +6,6 @@ class Categoria(models.Model):
     _rec_name = 'nombre'
 
     nombre = fields.Char(string = 'Nombre')
-    descripcion = fields.Text(string = 'Descripción')
     color = fields.Selection([
         ("#FF0000", 'Rojo'),
         ("#0062FF", 'Azul'),
