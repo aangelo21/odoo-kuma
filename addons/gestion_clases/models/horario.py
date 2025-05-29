@@ -1,9 +1,10 @@
 from odoo import models, fields, api # type: ignore
 from odoo.exceptions import ValidationError # type: ignore
+from datetime import datetime
 
 class Horario(models.Model):
     _name = 'gestion_clases.horario'
-    _description = 'gestion_clases.horario'
+    _description = 'Horario de Clases'
     _rec_name = 'curso_id'
 
     curso_id = fields.Many2one('gestion_cursos.curso', string='Curso', required=True)
@@ -13,49 +14,24 @@ class Horario(models.Model):
     miercoles = fields.Boolean(string='Miércoles')
     jueves = fields.Boolean(string='Jueves')
     viernes = fields.Boolean(string='Viernes')
-    hora_inicio = fields.Float(string='Hora inicio', required=True, help='Format: 24h (e.g., 13.5 = 13:30)')
-    hora_fin = fields.Float(string='Hora fin', required=True, help='Format: 24h (e.g., 15.0 = 15:00)')
+    hora_inicio = fields.Float(string='Hora inicio', required=True)
+    hora_fin = fields.Float(string='Hora fin', required=True)
+    hora_inicio_datetime = fields.Datetime(compute='_compute_hora_datetime', store=True)
+    hora_fin_datetime = fields.Datetime(compute='_compute_hora_datetime', store=True)
+
+    @api.depends('hora_inicio', 'hora_fin')
+    def _compute_hora_datetime(self):
+        fecha_base = datetime(2000, 1, 1)
+        for record in self:
+            horas_i = int(record.hora_inicio)
+            minutos_i = int(round((record.hora_inicio - horas_i) * 60))
+            record.hora_inicio_datetime = fecha_base.replace(hour=horas_i, minute=minutos_i, second=0)
+            horas_f = int(record.hora_fin)
+            minutos_f = int(round((record.hora_fin - horas_f) * 60))
+            record.hora_fin_datetime = fecha_base.replace(hour=horas_f, minute=minutos_f, second=0)
 
     @api.constrains('hora_inicio', 'hora_fin')
     def _check_horas(self):
         for record in self:
-            if record.hora_inicio < 0 or record.hora_inicio >= 24:
-                raise ValidationError('La hora de inicio debe estar entre 0 y 24')
-            if record.hora_fin < 0 or record.hora_fin >= 24:
-                raise ValidationError('La hora de fin debe estar entre 0 y 24')
             if record.hora_inicio >= record.hora_fin:
-                raise ValidationError('La hora de inicio debe ser anterior a la hora de fin')
-
-    @api.constrains('aula_id', 'lunes', 'martes', 'miercoles', 'jueves', 'viernes', 'hora_inicio', 'hora_fin')
-    def _check_aula_horario(self):
-        for record in self:
-            if record.aula_id:
-                dias_seleccionados = []
-                if record.lunes:
-                    dias_seleccionados.append(('lunes', '=', True))
-                if record.martes:
-                    dias_seleccionados.append(('martes', '=', True))
-                if record.miercoles:
-                    dias_seleccionados.append(('miercoles', '=', True))
-                if record.jueves:
-                    dias_seleccionados.append(('jueves', '=', True))
-                if record.viernes:
-                    dias_seleccionados.append(('viernes', '=', True))
-
-                if not dias_seleccionados:
-                    raise ValidationError('Debe seleccionar al menos un día de la semana')
-
-                domain = [
-                    ('id', '!=', record.id),
-                    ('aula_id', '=', record.aula_id.id),
-                    ('hora_inicio', '<', record.hora_fin),
-                    ('hora_fin', '>', record.hora_inicio),
-                ]
-
-                if len(dias_seleccionados) > 1:
-                    domain.extend(['|'] * (len(dias_seleccionados) - 1))
-                domain.extend(dias_seleccionados)
-
-                solapados = self.search(domain)
-                if solapados:
-                    raise ValidationError('El aula ya está ocupada en alguno de los días y horarios seleccionados')
+                raise ValidationError('La hora de inicio debe ser anterior a la de fin')
