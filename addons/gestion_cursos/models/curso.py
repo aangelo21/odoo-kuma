@@ -67,8 +67,9 @@ class Curso(models.Model):
                     <p>Se ha añadido un nuevo curso al calendario:</p>
                     <ul>
                         <li><strong>Nombre:</strong> {curso.nombre}</li>
-                        <li><strong>Descripción:</strong> {curso.descripcion}</li>
+                        <li><strong>Expediente:</strong> {curso.expediente}</li>
                         <li><strong>Código:</strong> {curso.codigo}</li>
+                        <li><strong>Tutor:</strong> {curso.tutor}</li>
                         <li><strong>Categoría:</strong> {curso.id_categoria.nombre}</li>
                         <li><strong>Familia profesional:</strong> {curso.id_familia_profesional.nombre}</li>
                         <li><strong>Número de alumnos:</strong> {curso.numero_alumnos}</li>
@@ -130,7 +131,8 @@ class Curso(models.Model):
                     <p>Se ha eliminado el siguiente curso del calendario:</p>
                     <ul>
                         <li><strong>Nombre:</strong> {curso.nombre}</li>
-                        <li><strong>Descripción:</strong> {curso.descripcion}</li>
+                        <li><strong>Expediente:</strong> {curso.expediente}</li>
+                        <li><strong>Tutor:</strong> {curso.tutor}</li>
                         <li><strong>Categoría:</strong> {curso.id_categoria.nombre}</li>
                         <li><strong>Fecha inicio:</strong> {curso.fecha_inicio}</li>
                         <li><strong>Fecha consolidación:</strong> {curso.fecha_consolidacion}</li>
@@ -159,7 +161,8 @@ class Curso(models.Model):
                 bloques.append(f"""
                 <li style="margin-bottom: 20px;">
                     <strong>Nombre:</strong> {curso.nombre}<br/>
-                    <strong>Descripción:</strong> {curso.descripcion}<br/>
+                    <strong>Expediente:</strong> {curso.expediente}<br/>
+                    <strong>Tutor:</strong> {curso.tutor}<br/>
                     <strong>Categoría:</strong> {curso.id_categoria.nombre}<br/>
                     <strong>Fecha inicio:</strong> {curso.fecha_inicio}<br/>
                     <strong>Fecha consolidación:</strong> {curso.fecha_consolidacion}<br/>
@@ -174,7 +177,8 @@ class Curso(models.Model):
                 bloques.append(f"""
                 <li style="margin-bottom: 20px;">
                     <strong>Nombre:</strong> {curso.nombre}<br/>
-                    <strong>Descripción:</strong> {curso.descripcion}<br/>
+                    <strong>Expediente:</strong> {curso.expediente}<br/>
+                    <strong>Tutor:</strong> {curso.tutor}<br/>
                     <strong>Categoría:</strong> {curso.id_categoria.nombre}<br/>
                     <strong>Fecha inicio:</strong> {curso.fecha_inicio}<br/>
                     <strong>Fecha consolidación:</strong> {curso.fecha_consolidacion}<br/>
@@ -189,7 +193,8 @@ class Curso(models.Model):
                 bloques.append(f"""
                 <li style="margin-bottom: 20px;">
                     <strong>Nombre:</strong> {curso.nombre}<br/>
-                    <strong>Descripción:</strong> {curso.descripcion}<br/>
+                    <strong>Expediente:</strong> {curso.expediente}<br/>
+                    <strong>Tutor:</strong> {curso.tutor}<br/>
                     <strong>Categoría:</strong> {curso.id_categoria.nombre}<br/>
                     <strong>Fecha inicio:</strong> {curso.fecha_inicio}<br/>
                     <strong>Fecha consolidación:</strong> {curso.fecha_consolidacion}<br/>
@@ -249,7 +254,8 @@ class Curso(models.Model):
                         bloques.append(f"""
                             <li style="margin-bottom: 10px;">
                                 <strong>Nombre:</strong> {curso.nombre}<br/>
-                                <strong>Descripción:</strong> {curso.descripcion}<br/>
+                                <strong>Expediente:</strong> {curso.expediente}<br/>
+                                <strong>Tutor:</strong> {curso.tutor}<br/>
                                 <strong>Categoría:</strong> {curso.id_categoria.nombre}<br/>
                                 <strong>Fecha inicio:</strong> {curso.fecha_inicio}<br/>
                                 <strong>Fecha consolidación:</strong> {curso.fecha_consolidacion}<br/>
@@ -263,7 +269,8 @@ class Curso(models.Model):
                         bloques.append(f"""
                             <li style="margin-bottom: 10px;">
                                 <strong>Nombre:</strong> {curso.nombre}<br/>
-                                <strong>Descripción:</strong> {curso.descripcion}<br/>
+                                <strong>Expediente:</strong> {curso.expediente}<br/>
+                                <strong>Tutor:</strong> {curso.tutor}<br/>
                                 <strong>Categoría:</strong> {curso.id_categoria.nombre}<br/>
                                 <strong>Fecha inicio:</strong> {curso.fecha_inicio}<br/>
                                 <strong>Fecha consolidación:</strong> {curso.fecha_consolidacion}<br/>
@@ -277,7 +284,8 @@ class Curso(models.Model):
                         bloques.append(f"""
                             <li style="margin-bottom: 10px;">
                                 <strong>Nombre:</strong> {curso.nombre}<br/>
-                                <strong>Descripción:</strong> {curso.descripcion}<br/>
+                                <strong>Expediente:</strong> {curso.expediente}<br/>
+                                <strong>Tutor:</strong> {curso.tutor}<br/>
                                 <strong>Categoría:</strong> {curso.id_categoria.nombre}<br/>
                                 <strong>Fecha inicio:</strong> {curso.fecha_inicio}<br/>
                                 <strong>Fecha consolidación:</strong> {curso.fecha_consolidacion}<br/>
