@@ -5,11 +5,4 @@
             <link rel="icon" type="image/png" href="/gestion_cursos/static/img/favicon.png"/>
         </xpath>
     </template>
-    <!--
-    <template id="login" inherit_id="web.login">
-        <xpath expr="//div[hasclass('justify-content-between')]" position="attributes">
-            <attribute name="class">justify-content-between kuma_login_buttons</attribute>
-        </xpath>
-    </template>
-    -->
 </odoo>

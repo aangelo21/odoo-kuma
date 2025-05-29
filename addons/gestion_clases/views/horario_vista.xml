@@ -1,7 +1,7 @@
 <?xml version="1.0" encoding="utf-8"?>
 <odoo>
     <data>
-        <!-- Form View -->
+
         <record model="ir.ui.view" id="gestion_clases.horario_form">
             <field name="name">gestion_clases.horario.form</field>
             <field name="model">gestion_clases.horario</field>
@@ -28,7 +28,7 @@
                 </form>
             </field>
         </record>        
-          <!-- List View -->
+
         <record model="ir.ui.view" id="gestion_clases.horario_list">
             <field name="name">gestion_clases.horario.list</field>
             <field name="model">gestion_clases.horario</field>
@@ -47,7 +47,6 @@
             </field>
         </record>
 
-        <!-- Search View -->
         <record model="ir.ui.view" id="gestion_clases.horario_search">
             <field name="name">gestion_clases.horario.search</field>
             <field name="model">gestion_clases.horario</field>
@@ -68,13 +67,11 @@
             </field>
         </record>
 
-        <!-- Action Window -->
         <record model="ir.actions.act_window" id="gestion_clases.action_window_horario">            <field name="name">Horarios</field>
             <field name="res_model">gestion_clases.horario</field>
             <field name="view_mode">list,form</field>
         </record>
-
-        <!-- Menu Items -->
+        
         <menuitem name="Gestión aulas" id="gestion_clases.menu_root"/>
         <menuitem name="Horarios" id="gestion_clases.menu_2" parent="gestion_clases.menu_root"/>
         <menuitem name="Lista de Horarios" 
