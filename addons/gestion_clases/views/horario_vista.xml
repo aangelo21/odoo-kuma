@@ -1,63 +1,84 @@
+<?xml version="1.0" encoding="utf-8"?>
 <odoo>
-  <data>
-    <!-- explicit list view definition -->
+    <data>
+        <!-- Form View -->
+        <record model="ir.ui.view" id="gestion_clases.horario_form">
+            <field name="name">gestion_clases.horario.form</field>
+            <field name="model">gestion_clases.horario</field>
+            <field name="arch" type="xml">
+                <form>
+                    <sheet>
+                        <group>
+                            <field name="curso_id"/>
+                            <field name="aula_id"/>
+                        </group>
+                        <group string="Días de la semana">
+                            <field name="lunes"/>
+                            <field name="martes"/>
+                            <field name="miercoles"/>
+                            <field name="jueves"/>
+                            <field name="viernes"/>
+                        </group>
+                        <group string="Horario">
+                            <field name="hora_inicio" widget="float_time" options="{'hours_format': 'HH:mm'}"/>
+                            <field name="hora_fin" widget="float_time" options="{'hours_format': 'HH:mm'}"/>
+                        </group>
+                    </sheet>
+                </form>
+            </field>
+        </record>        
+          <!-- List View -->
+        <record model="ir.ui.view" id="gestion_clases.horario_list">
+            <field name="name">gestion_clases.horario.list</field>
+            <field name="model">gestion_clases.horario</field>
+            <field name="arch" type="xml">
+                <list>
+                    <field name="curso_id"/>
+                    <field name="aula_id"/>
+                    <field name="hora_inicio" widget="float_time"/>
+                    <field name="hora_fin" widget="float_time"/>
+                    <field name="lunes"/>
+                    <field name="martes"/>
+                    <field name="miercoles"/>
+                    <field name="jueves"/>
+                    <field name="viernes"/>
+                </list>
+            </field>
+        </record>
 
-    <record model="ir.ui.view" id="gestion_clases.horario_list">
-      <field name="name">gestion_clases horario list</field>
-      <field name="model">gestion_clases.horario</field>
-      <field name="arch" type="xml">
-        <list>
-          <field name="curso_id"/>
-          <field name="aula_id"/>
-          <field name="dia"/>
-          <field name="hora_inicio"/>
-          <field name="hora_fin"/>
-        </list>
-      </field>
-    </record>
+        <!-- Search View -->
+        <record model="ir.ui.view" id="gestion_clases.horario_search">
+            <field name="name">gestion_clases.horario.search</field>
+            <field name="model">gestion_clases.horario</field>
+            <field name="arch" type="xml">
+                <search>
+                    <field name="curso_id"/>
+                    <field name="aula_id"/>
+                    <filter string="Lunes" name="lunes" domain="[('lunes', '=', True)]"/>
+                    <filter string="Martes" name="martes" domain="[('martes', '=', True)]"/>
+                    <filter string="Miércoles" name="miercoles" domain="[('miercoles', '=', True)]"/>
+                    <filter string="Jueves" name="jueves" domain="[('jueves', '=', True)]"/>
+                    <filter string="Viernes" name="viernes" domain="[('viernes', '=', True)]"/>
+                    <group expand="0" string="Group By">
+                        <filter string="Curso" name="group_by_curso" context="{'group_by': 'curso_id'}"/>
+                        <filter string="Aula" name="group_by_aula" context="{'group_by': 'aula_id'}"/>
+                    </group>
+                </search>
+            </field>
+        </record>
 
+        <!-- Action Window -->
+        <record model="ir.actions.act_window" id="gestion_clases.action_window_horario">            <field name="name">Horarios</field>
+            <field name="res_model">gestion_clases.horario</field>
+            <field name="view_mode">list,form</field>
+        </record>
 
-    <!-- actions opening views on models -->
-
-    <record model="ir.actions.act_window" id="gestion_clases.action_window_horario">
-      <field name="name">Horarios</field>
-      <field name="res_model">gestion_clases.horario</field>
-      <field name="view_mode">list,form</field>
-    </record>
-
-
-    <!-- server action to the one above -->
-<!--
-    <record model="ir.actions.server" id="gestion_cursos.action_server">
-      <field name="name">gestion_cursos server</field>
-      <field name="model_id" ref="model_gestion_cursos_gestion_cursos"/>
-      <field name="state">code</field>
-      <field name="code">
-        action = {
-          "type": "ir.actions.act_window",
-          "view_mode": "list,form",
-          "res_model": model._name,
-        }
-      </field>
-    </record>
--->
-
-    <!-- Top menu item -->
-
-    <menuitem name="Gestión clases" id="gestion_clases.menu_root"/>
-
-    <!-- menu categories -->
-
-    <menuitem name="Horarios" id="gestion_clases.menu_2" parent="gestion_clases.menu_root"/>
-    <!-- <menuitem name="Menu 2" id="gestion_cursos.menu_2" parent="gestion_cursos.menu_root"/> -->
-
-    <!-- actions -->
-
-    <menuitem name="Lista de Horarios" id="gestion_clases.menu_2_list" parent="gestion_clases.menu_2"
-              action="gestion_clases.action_window_horario"/>
-    <!-- <menuitem name="Server to list" id="gestion_cursos" parent="gestion_cursos.menu_2"
-              action="gestion_cursos.action_server"/> -->
-
-
-  </data>
+        <!-- Menu Items -->
+        <menuitem name="Gestión aulas" id="gestion_clases.menu_root"/>
+        <menuitem name="Horarios" id="gestion_clases.menu_2" parent="gestion_clases.menu_root"/>
+        <menuitem name="Lista de Horarios" 
+                  id="gestion_clases.menu_2_list" 
+                  parent="gestion_clases.menu_2"
+                  action="gestion_clases.action_window_horario"/>
+    </data>
 </odoo>

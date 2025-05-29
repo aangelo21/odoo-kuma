@@ -41,7 +41,7 @@
 
     <!-- Top menu item -->
 
-    <menuitem name="Gestión clases" id="gestion_clases.menu_root"/>
+    <menuitem name="Gestión aulas" id="gestion_clases.menu_root"/>
 
     <!-- menu categories -->
 
