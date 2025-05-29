@@ -7,8 +7,9 @@ class Curso(models.Model):
     _rec_name = 'nombre'
 
     nombre = fields.Char(string = 'Nombre')
-    descripcion = fields.Text(string = 'Descripción')
+    expediente = fields.Char(string = 'Expediente')
     codigo = fields.Char(string = 'Código')
+    tutor = fields.Char(string = 'Tutor')
     duracion = fields.Integer(string = 'Duración')
     modalidad = fields.Selection([
         ('presencial', 'Presencial'),

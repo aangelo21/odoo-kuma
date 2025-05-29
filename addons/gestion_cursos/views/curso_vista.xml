@@ -7,17 +7,18 @@
       <field name="arch" type="xml">
         <list>
           <field name="nombre"/>
-          <field name="descripcion"/>
+          <field name="expediente"/>
           <field name="codigo"/>
-          <field name="duracion"/>
-          <field name="modalidad"/>
-          <field name="numero_alumnos"/>
-          <field name="numero_alumnos_consolidacion"/>
-          <field name="numero_alumnos_finalizados"/>
+          <field name="tutor"/>
           <field name="fecha_inicio"/>
           <field name="fecha_fin"/>
           <field name="fecha_consolidacion"/>
+          <field name="numero_alumnos"/>
+          <field name="numero_alumnos_consolidacion"/>
+          <field name="numero_alumnos_finalizados"/>
           <field name="id_categoria"/>
+          <field name="duracion"/>
+          <field name="modalidad"/>
           <field name="id_familia_profesional"/>
         </list>
       </field>
@@ -34,8 +35,5 @@
 
     <menuitem name="Lista de cursos" id="gestion_cursos.cursos_menu_3_list" parent="gestion_cursos.cursos_menu_3"
               action="gestion_cursos.cursos_action_window_curso"/>
-    <!-- <menuitem name="Server to list" id="todo_list" parent="todo_list.menu_2"
-              action="todo_list.action_server"/> -->
-
   </data>
 </odoo>
