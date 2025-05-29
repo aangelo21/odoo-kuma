@@ -1,6 +1,6 @@
 from odoo import models, fields, api # type: ignore
 from odoo.exceptions import ValidationError # type: ignore
-from datetime import datetime
+from datetime import datetime, timedelta
 
 class Horario(models.Model):
     _name = 'gestion_clases.horario'
@@ -16,19 +16,39 @@ class Horario(models.Model):
     viernes = fields.Boolean(string='Viernes')
     hora_inicio = fields.Float(string='Hora inicio', required=True)
     hora_fin = fields.Float(string='Hora fin', required=True)
-    hora_inicio_datetime = fields.Datetime(compute='_compute_hora_datetime', store=True)
-    hora_fin_datetime = fields.Datetime(compute='_compute_hora_datetime', store=True)
+    fecha_inicio = fields.Datetime(compute='_compute_fechas', store=True)
+    fecha_fin = fields.Datetime(compute='_compute_fechas', store=True)
 
-    @api.depends('hora_inicio', 'hora_fin')
-    def _compute_hora_datetime(self):
-        fecha_base = datetime(2000, 1, 1)
+    @api.depends('lunes', 'martes', 'miercoles', 'jueves', 'viernes', 'hora_inicio', 'hora_fin')
+    def _compute_fechas(self):
+        today = datetime.now()
+        start_of_week = today - timedelta(days=today.weekday())
         for record in self:
-            horas_i = int(record.hora_inicio)
-            minutos_i = int(round((record.hora_inicio - horas_i) * 60))
-            record.hora_inicio_datetime = fecha_base.replace(hour=horas_i, minute=minutos_i, second=0)
-            horas_f = int(record.hora_fin)
-            minutos_f = int(round((record.hora_fin - horas_f) * 60))
-            record.hora_fin_datetime = fecha_base.replace(hour=horas_f, minute=minutos_f, second=0)
+            base_date = start_of_week
+            dates = []
+            if record.lunes:
+                dates.append(base_date + timedelta(days=0))
+            if record.martes:
+                dates.append(base_date + timedelta(days=1))
+            if record.miercoles:
+                dates.append(base_date + timedelta(days=2))
+            if record.jueves:
+                dates.append(base_date + timedelta(days=3))
+            if record.viernes:
+                dates.append(base_date + timedelta(days=4))
+            
+            if dates:
+                date = dates[0]
+                hora_i = int(record.hora_inicio)
+                minutos_i = int((record.hora_inicio - hora_i) * 60)
+                record.fecha_inicio = datetime(date.year, date.month, date.day, hora_i, minutos_i)
+                
+                hora_f = int(record.hora_fin)
+                minutos_f = int((record.hora_fin - hora_f) * 60)
+                record.fecha_fin = datetime(date.year, date.month, date.day, hora_f, minutos_f)
+            else:
+                record.fecha_inicio = False
+                record.fecha_fin = False
 
     @api.constrains('hora_inicio', 'hora_fin')
     def _check_horas(self):
