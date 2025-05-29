@@ -30,7 +30,6 @@ class Horario(models.Model):
     def _check_aula_horario(self):
         for record in self:
             if record.aula_id:
-                # Verificar que al menos un día está seleccionado
                 dias_seleccionados = []
                 if record.lunes:
                     dias_seleccionados.append(('lunes', '=', True))
@@ -46,7 +45,6 @@ class Horario(models.Model):
                 if not dias_seleccionados:
                     raise ValidationError('Debe seleccionar al menos un día de la semana')
 
-                # Construir el dominio para buscar solapamientos
                 domain = [
                     ('id', '!=', record.id),
                     ('aula_id', '=', record.aula_id.id),
@@ -54,12 +52,10 @@ class Horario(models.Model):
                     ('hora_fin', '>', record.hora_inicio),
                 ]
 
-                # Añadir condiciones OR para los días
                 if len(dias_seleccionados) > 1:
                     domain.extend(['|'] * (len(dias_seleccionados) - 1))
                 domain.extend(dias_seleccionados)
 
-                # Buscar solapamientos
                 solapados = self.search(domain)
                 if solapados:
                     raise ValidationError('El aula ya está ocupada en alguno de los días y horarios seleccionados')

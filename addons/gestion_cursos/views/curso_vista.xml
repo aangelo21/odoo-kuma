@@ -1,7 +1,6 @@
 <odoo>
   <data>
 
-    <!-- Vista de lista -->
     <record model="ir.ui.view" id="gestion_cursos.cursos_list">
       <field name="name">gestion_cursos curso list</field>
       <field name="model">gestion_cursos.curso</field>
@@ -26,7 +25,6 @@
       </field>
     </record>
 
-    <!-- Vista de formulario -->
     <record model="ir.ui.view" id="gestion_cursos.cursos_form">
       <field name="name">gestion_cursos curso form</field>
       <field name="model">gestion_cursos.curso</field>

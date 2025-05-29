@@ -27,9 +27,5 @@ Long description of module's purpose
             'gestion_cursos/static/css/login.css',
         ],
     },
-    # only loaded in demonstration mode
-    # 'demo': [
-    #    'demo/demo.xml',
-    #],
 }
 

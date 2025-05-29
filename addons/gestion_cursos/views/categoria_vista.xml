@@ -1,8 +1,5 @@
 <odoo>
   <data>
-    <!-- explicit list view definition -->
-
-    <!-- Vista de lista -->
     <record model="ir.ui.view" id="gestion_cursos.categoria_list">
       <field name="name">gestion_cursos categoria list</field>
       <field name="model">gestion_cursos.categoria</field>
@@ -15,7 +12,6 @@
       </field>
     </record>
 
-    <!-- Vista de formulario -->
     <record model="ir.ui.view" id="gestion_cursos.categoria_form">
       <field name="name">gestion_cursos categoria form</field>
       <field name="model">gestion_cursos.categoria</field>
@@ -34,46 +30,18 @@
       </field>
     </record>
 
-    <!-- actions opening views on models -->
-
     <record model="ir.actions.act_window" id="gestion_cursos.action_window_categoria">
       <field name="name">Categorías</field>
       <field name="res_model">gestion_cursos.categoria</field>
       <field name="view_mode">list,form</field>
     </record>
 
-
-    <!-- server action to the one above -->
-<!--
-    <record model="ir.actions.server" id="gestion_cursos.action_server">
-      <field name="name">gestion_cursos server</field>
-      <field name="model_id" ref="model_gestion_cursos_gestion_cursos"/>
-      <field name="state">code</field>
-      <field name="code">
-        action = {
-          "type": "ir.actions.act_window",
-          "view_mode": "list,form",
-          "res_model": model._name,
-        }
-      </field>
-    </record>
--->
-
-    <!-- Top menu item -->
-
     <menuitem name="Gestión cursos" id="gestion_cursos.menu_root"/>
 
-    <!-- menu categories -->
-
     <menuitem name="Categorías" id="gestion_cursos.menu_1" parent="gestion_cursos.menu_root"/>
-    <!-- <menuitem name="Menu 2" id="gestion_cursos.menu_2" parent="gestion_cursos.menu_root"/> -->
-
-    <!-- actions -->
 
     <menuitem name="Lista de categorías" id="gestion_cursos.menu_1_list" parent="gestion_cursos.menu_1"
               action="gestion_cursos.action_window_categoria"/>
-    <!-- <menuitem name="Server to list" id="gestion_cursos" parent="gestion_cursos.menu_2"
-              action="gestion_cursos.action_server"/> -->
 
   </data>
 </odoo>

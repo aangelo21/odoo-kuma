@@ -234,7 +234,7 @@ class Curso(models.Model):
         dias_es = ['Lunes', 'Martes', 'Miércoles', 'Jueves', 'Viernes']
 
         bloques = []
-        for i in range(5):  # Lunes a viernes
+        for i in range(5):
             dia = lunes + timedelta(days=i)
             cursos_inicio = self.search([('fecha_inicio', '=', dia)])
             cursos_fin = self.search([('fecha_fin', '=', dia)])
