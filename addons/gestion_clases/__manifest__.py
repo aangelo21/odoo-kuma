@@ -1,6 +1,6 @@
 # -*- coding: utf-8 -*-
 {
-    'name': "gestion_clases",
+    'name': "Gestion de Aulas",
 
     'summary': "Short (1 phrase/line) summary of the module's purpose",
 
