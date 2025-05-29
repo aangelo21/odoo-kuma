@@ -1,6 +1,7 @@
 from odoo import models, fields, api # type: ignore
 from odoo.exceptions import ValidationError # type: ignore
 from datetime import datetime, timedelta
+import pytz
 
 class Horario(models.Model):
     _name = 'gestion_clases.horario'
@@ -21,7 +22,9 @@ class Horario(models.Model):
 
     @api.depends('lunes', 'martes', 'miercoles', 'jueves', 'viernes', 'hora_inicio', 'hora_fin')
     def _compute_fechas(self):
-        today = datetime.now()
+        user_tz = self.env.user.tz or 'UTC'
+        tz = pytz.timezone(user_tz)
+        today = fields.Date.context_today(self)
         start_of_week = today - timedelta(days=today.weekday())
         for record in self:
             base_date = start_of_week
@@ -41,11 +44,12 @@ class Horario(models.Model):
                 date = dates[0]
                 hora_i = int(record.hora_inicio)
                 minutos_i = int((record.hora_inicio - hora_i) * 60)
-                record.fecha_inicio = datetime(date.year, date.month, date.day, hora_i, minutos_i)
-                
+                dt_inicio = tz.localize(datetime(date.year, date.month, date.day, hora_i, minutos_i))
+                record.fecha_inicio = fields.Datetime.to_string(dt_inicio.astimezone(pytz.UTC))
                 hora_f = int(record.hora_fin)
                 minutos_f = int((record.hora_fin - hora_f) * 60)
-                record.fecha_fin = datetime(date.year, date.month, date.day, hora_f, minutos_f)
+                dt_fin = tz.localize(datetime(date.year, date.month, date.day, hora_f, minutos_f))
+                record.fecha_fin = fields.Datetime.to_string(dt_fin.astimezone(pytz.UTC))
             else:
                 record.fecha_inicio = False
                 record.fecha_fin = False
