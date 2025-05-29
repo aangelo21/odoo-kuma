@@ -2,6 +2,7 @@
   <data>
     <!-- explicit list view definition -->
 
+    <!-- Vista de lista -->
     <record model="ir.ui.view" id="gestion_cursos.familia_profesional_list">
       <field name="name">gestion_cursos familia_profesional list</field>
       <field name="model">gestion_cursos.familia_profesional</field>
@@ -13,6 +14,23 @@
       </field>
     </record>
 
+    <!-- Vista de formulario -->
+    <record model="ir.ui.view" id="gestion_cursos.familia_profesional_form">
+      <field name="name">gestion_cursos familia_profesional form</field>
+      <field name="model">gestion_cursos.familia_profesional</field>
+      <field name="arch" type="xml">
+        <form>
+          <separator string="Datos generales"/>
+          <group>
+            <field name="nombre"/>
+          </group>
+          <separator string="Cursos relacionados"/>
+          <group>
+            <field name="id_curso"/>
+          </group>
+        </form>
+      </field>
+    </record>
 
     <!-- actions opening views on models -->
 

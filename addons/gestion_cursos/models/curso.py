@@ -15,6 +15,9 @@ class Curso(models.Model):
         ('presencial', 'Presencial'),
         ('semipresencial', 'Semipresencial'),
         ('teleformación', 'Teleformación')], string = 'Modalidad')
+    tipo_destinatario = fields.Selection([
+        ('desempleados', 'Desempleados'),
+        ('ocupados', 'Ocupados'),], string = 'Destinatario')
     numero_alumnos = fields.Integer(string = 'Número de alumnos')
     numero_alumnos_consolidacion = fields.Integer(string = 'Número de alumnos consolidación')
     numero_alumnos_finalizados = fields.Integer(string = 'Número de alumnos finalizados')

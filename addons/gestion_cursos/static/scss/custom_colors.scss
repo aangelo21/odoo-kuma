@@ -203,3 +203,17 @@ body {
         display: none !important;
     }
 }
+
+input.o_input, textarea.o_input, select.o_input {
+    border: 1.5px solid #003466 !important;
+    border-radius: 6px !important;
+    background: #fff !important;
+    color: #003466 !important;
+    min-height: 32px;
+}
+
+input.o_input:focus, textarea.o_input:focus, select.o_input:focus {
+    border-color: #de0000 !important;
+    box-shadow: 0 0 0 2px #de000033 !important;
+    background: #f9f9f9 !important;
+}
