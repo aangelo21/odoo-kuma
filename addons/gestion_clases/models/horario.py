@@ -81,12 +81,6 @@ class Horario(models.Model):
                 })
             fecha_actual += timedelta(days=1)
 
-    @api.constrains('hora_inicio', 'hora_fin')
-    def _check_horas(self):
-        for record in self:
-            if record.hora_inicio >= record.hora_fin:
-                raise ValidationError('La hora de inicio debe ser anterior a la de fin')
-
     def write(self, vals):
         res = super().write(vals)
         if self.es_plantilla:
@@ -102,38 +96,47 @@ class Horario(models.Model):
                     ('es_plantilla', '=', False)
                 ]).unlink()
         return super().unlink()
-
-    @api.constrains('aula_id', 'fecha', 'fecha_fin', 'es_plantilla')
-    def _check_solapamiento(self):
+    
+    @api.constrains('hora_inicio', 'hora_fin')
+    def _check_horas(self):
         for record in self:
-            if record.es_plantilla:
-                return
+            if record.hora_inicio < 0 or record.hora_inicio >= 24:
+                raise ValidationError('La hora de inicio debe estar entre 0 y 24')
+            if record.hora_fin < 0 or record.hora_fin >= 24:
+                raise ValidationError('La hora de fin debe estar entre 0 y 24')
+            if record.hora_inicio >= record.hora_fin:
+                raise ValidationError('La hora de inicio debe ser anterior a la hora de fin')
 
-            if not record.aula_id or not record.fecha or not record.fecha_fin:
-                return
+    @api.constrains('aula_id', 'lunes', 'martes', 'miercoles', 'jueves', 'viernes', 'hora_inicio', 'hora_fin')
+    def _check_aula_horario(self):
+        for record in self:
+            if record.aula_id:
+                dias_seleccionados = []
+                if record.lunes:
+                    dias_seleccionados.append(('lunes', '=', True))
+                if record.martes:
+                    dias_seleccionados.append(('martes', '=', True))
+                if record.miercoles:
+                    dias_seleccionados.append(('miercoles', '=', True))
+                if record.jueves:
+                    dias_seleccionados.append(('jueves', '=', True))
+                if record.viernes:
+                    dias_seleccionados.append(('viernes', '=', True))
 
-            # Buscar horarios que se solapen
-            horarios_solapados = self.env['gestion_clases.horario'].search([
-                ('id', '!=', record.id),
-                ('aula_id', '=', record.aula_id.id),
-                ('es_plantilla', '=', False),
-                '|',
-                '&',
-                ('fecha', '<=', record.fecha),
-                ('fecha_fin', '>', record.fecha),
-                '&',
-                ('fecha', '<', record.fecha_fin),
-                ('fecha_fin', '>=', record.fecha_fin)
-            ])
+                if not dias_seleccionados:
+                    raise ValidationError('Debe seleccionar al menos un día de la semana')
 
-            if horarios_solapados:
-                raise ValidationError(
-                    f'Hay un solapamiento de horarios en el aula {record.aula_id.nombre}:\n' +
-                    '\n'.join([
-                        f'- Curso: {h.curso_id.nombre}, ' +
-                        f'Fecha: {h.fecha.strftime("%d/%m/%Y")}, ' +
-                        f'Hora: {int(h.hora_inicio)}:{int((h.hora_inicio % 1) * 60):02d} - ' +
-                        f'{int(h.hora_fin)}:{int((h.hora_fin % 1) * 60):02d}'
-                        for h in horarios_solapados
-                    ])
-                )
+                domain = [
+                    ('id', '!=', record.id),
+                    ('aula_id', '=', record.aula_id.id),
+                    ('hora_inicio', '<', record.hora_fin),
+                    ('hora_fin', '>', record.hora_inicio),
+                ]
+
+                if len(dias_seleccionados) > 1:
+                    domain.extend(['|'] * (len(dias_seleccionados) - 1))
+                domain.extend(dias_seleccionados)
+
+                solapados = self.search(domain)
+                if solapados:
+                    raise ValidationError('El aula ya está ocupada en alguno de los días y horarios seleccionados')
