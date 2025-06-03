@@ -8,11 +8,10 @@
             <field name="arch" type="xml">
                 <form>
                     <sheet>
+                        <separator string="Datos generales"/>
                         <group>
                             <field name="curso_id"/>
                             <field name="aula_id"/>
-                            <field name="hora_inicio" widget="float_time"/>
-                            <field name="hora_fin" widget="float_time"/>
                             <field name="es_plantilla" invisible="1"/>
                         </group>
                         <group string="Días de la semana">
@@ -21,6 +20,11 @@
                             <field name="miercoles"/>
                             <field name="jueves"/>
                             <field name="viernes"/>
+                        </group>
+                        <separator string="Horario"/>
+                        <group>
+                            <field name="hora_inicio" widget="float_time"/>
+                            <field name="hora_fin" widget="float_time"/>
                         </group>
                     </sheet>
                 </form>
