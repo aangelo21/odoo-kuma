@@ -16,7 +16,6 @@ class Horario(models.Model):
     plantilla_id = fields.Many2one('gestion_clases.horario', string='Horario plantilla')
     temario = fields.Text(string='Temario', help='Contenido impartido en la clase')
 
-    # Horarios por día
     lunes = fields.Boolean(string='Lunes')
     lunes_hora_inicio = fields.Float(string='Hora inicio lunes')
     lunes_hora_fin = fields.Float(string='Hora fin lunes')
@@ -72,7 +71,6 @@ class Horario(models.Model):
             dia_semana = fecha_actual.weekday()
             hora_inicio = hora_fin = False
             
-            # Obtener horario según el día
             if dia_semana == 0 and self.lunes:
                 hora_inicio = self.lunes_hora_inicio
                 hora_fin = self.lunes_hora_fin
@@ -148,7 +146,6 @@ class Horario(models.Model):
             if record.es_plantilla:
                 domain.append(('es_plantilla', '=', True))
                 
-                # Verificar solapamiento por cada día seleccionado
                 dias = []
                 horas = {}
                 
@@ -176,11 +173,9 @@ class Horario(models.Model):
                 otros_horarios = self.search(domain)
                 
                 for otro in otros_horarios:
-                    # Verificar si hay solapamiento en las fechas del curso
                     if (otro.curso_id.fecha_fin >= record.curso_id.fecha_inicio and 
                         otro.curso_id.fecha_inicio <= record.curso_id.fecha_fin):
                         
-                        # Verificar solapamiento de horas por cada día
                         for dia, (hora_inicio, hora_fin) in horas.items():
                             otro_hora_inicio = getattr(otro, f'{dia}_hora_inicio')
                             otro_hora_fin = getattr(otro, f'{dia}_hora_fin')
@@ -206,7 +201,6 @@ class Horario(models.Model):
     def unlink(self):
         for record in self:
             if record.es_plantilla:
-                # Eliminar todos los eventos generados por esta plantilla
                 self.env['gestion_clases.horario'].search([
                     ('plantilla_id', '=', record.id),
                     ('es_plantilla', '=', False)
