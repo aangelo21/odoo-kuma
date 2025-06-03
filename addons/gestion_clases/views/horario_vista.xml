@@ -135,8 +135,6 @@
                 <kanban default_group_by="aula_id" class="o_kanban_small_column" on_create="quick_create" records_draggable="1">
                     <field name="curso_id"/>
                     <field name="aula_id"/>
-                    <field name="hora_inicio"/>
-                    <field name="hora_fin"/>
                     <field name="fecha"/>
                     <field name="fecha_fin"/>
                     <field name="es_plantilla"/>
@@ -155,19 +153,11 @@
                                     <div t-if="!record.es_plantilla.raw_value">
                                         <div class="o_kanban_record_subtitle">
                                             <span class="o_primary">
-                                                <field name="hora_inicio" widget="float_time"/> - <field name="hora_fin" widget="float_time"/>
+                                                <field name="fecha" widget="datetime"/>
                                             </span>
-                                        </div>
-                                        <div class="o_kanban_record_bottom mt8">
-                                            <div class="oe_kanban_bottom_left">
-                                                <field name="fecha" widget="date"/>
-                                            </div>
                                         </div>
                                     </div>
                                     <div t-if="record.es_plantilla.raw_value" class="o_kanban_record_subtitle">
-                                        <div>
-                                            <field name="hora_inicio" widget="float_time"/> - <field name="hora_fin" widget="float_time"/>
-                                        </div>
                                         <div class="mt8">
                                             <span t-if="record.lunes.raw_value" class="badge bg-primary me-1">L</span>
                                             <span t-if="record.martes.raw_value" class="badge bg-success me-1">M</span>
