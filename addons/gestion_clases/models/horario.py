@@ -110,7 +110,7 @@ class Horario(models.Model):
     @api.constrains('aula_id', 'lunes', 'martes', 'miercoles', 'jueves', 'viernes', 'hora_inicio', 'hora_fin')
     def _check_aula_horario(self):
         for record in self:
-            if record.aula_id:
+            if record.es_plantilla:
                 dias_seleccionados = []
                 if record.lunes:
                     dias_seleccionados.append(('lunes', '=', True))
@@ -126,17 +126,31 @@ class Horario(models.Model):
                 if not dias_seleccionados:
                     raise ValidationError('Debe seleccionar al menos un día de la semana')
 
+            if record.aula_id:
                 domain = [
                     ('id', '!=', record.id),
                     ('aula_id', '=', record.aula_id.id),
-                    ('hora_inicio', '<', record.hora_fin),
-                    ('hora_fin', '>', record.hora_inicio),
                 ]
 
-                if len(dias_seleccionados) > 1:
-                    domain.extend(['|'] * (len(dias_seleccionados) - 1))
-                domain.extend(dias_seleccionados)
+                if record.es_plantilla:
+                    domain.append(('es_plantilla', '=', True))
+                    domain.append(('hora_inicio', '<', record.hora_fin))
+                    domain.append(('hora_fin', '>', record.hora_inicio))
+                    
+                    if len(dias_seleccionados) > 1:
+                        domain.extend(['|'] * (len(dias_seleccionados) - 1))
+                    domain.extend(dias_seleccionados)
+                else:
+                    domain.append(('es_plantilla', '=', False))
+                    if record.fecha and record.fecha_fin:
+                        domain.extend([
+                            ('fecha', '<', record.fecha_fin),
+                            ('fecha_fin', '>', record.fecha)
+                        ])
 
                 solapados = self.search(domain)
                 if solapados:
-                    raise ValidationError('El aula ya está ocupada en alguno de los días y horarios seleccionados')
+                    if record.es_plantilla:
+                        raise ValidationError('Ya existe una plantilla de horario que usa esta aula en alguno de los días y horarios seleccionados')
+                    else:
+                        raise ValidationError('El aula ya está ocupada en la fecha y horario seleccionados')
