@@ -85,32 +85,19 @@
                     <field name="hora_fin" widget="float_time"/>
                 </calendar>
             </field>
-        </record>
-
-        <record model="ir.actions.act_window" id="gestion_clases.action_window_horario">
+        </record>        <record model="ir.actions.act_window" id="gestion_clases.action_window_horario">
             <field name="name">Horarios</field>
             <field name="res_model">gestion_clases.horario</field>
-            <field name="view_mode">list,form,calendar</field>
-            <field name="domain">[('es_plantilla', '=', True)]</field>
-        </record>
-        
-        <record model="ir.actions.act_window" id="gestion_clases.action_window_horario_calendar">
-            <field name="name">Calendario de Horarios</field>
-            <field name="res_model">gestion_clases.horario</field>
-            <field name="view_mode">calendar</field>
-            <field name="domain">[('es_plantilla', '=', False)]</field>
+            <field name="view_mode">list,calendar,form</field>
+            <field name="context">{'calendar_view_ref': 'gestion_clases.horario_calendar', 'default_view_type': 'list', 'list_domain': [('es_plantilla', '=', True)], 'calendar_domain': [('es_plantilla', '=', False)]}</field>
+            <field name="domain">[(1, '=', 1)]</field>
         </record>
 
         <menuitem name="Gestión Aulas" id="gestion_clases.menu_root"/>
-        <menuitem name="Horarios" id="gestion_clases.menu_2" parent="gestion_clases.menu_root"/>
-        <menuitem name="Lista de Horarios" 
-                  id="gestion_clases.menu_2_list" 
-                  parent="gestion_clases.menu_2"
+        <menuitem name="Horarios" 
+                  id="gestion_clases.menu_2" 
+                  parent="gestion_clases.menu_root"
                   action="gestion_clases.action_window_horario"/>
-        <menuitem name="Calendario de Horarios" 
-                  id="gestion_clases.menu_2_calendar" 
-                  parent="gestion_clases.menu_2"
-                  action="gestion_clases.action_window_horario_calendar"/>
 
     </data>
 </odoo>
