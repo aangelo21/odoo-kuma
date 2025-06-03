@@ -1,45 +1,44 @@
-<?xml version="1.0" encoding="utf-8"?>
 <odoo>
-  <data>
-    <record model="ir.ui.view" id="gestion_cursos.familia_profesional_list">
-      <field name="name">gestion_cursos.familia_profesional.list</field>
-      <field name="model">gestion_cursos.familia_profesional</field>
-      <field name="arch" type="xml">
-        <list>
-          <field name="nombre" />
-          <field name="id_curso" />
-        </list>
-      </field>
-    </record>
+    <data>
+        <record model="ir.ui.view" id="gestion_cursos.familia_profesional_list">
+            <field name="name">gestion_cursos.familia_profesional.list</field>
+            <field name="model">gestion_cursos.familia_profesional</field>
+            <field name="arch" type="xml">
+                <list>
+                    <field name="nombre" />
+                    <field name="id_curso" />
+                </list>
+            </field>
+        </record>
 
-    <record model="ir.ui.view" id="gestion_cursos.familia_profesional_form">
-      <field name="name">gestion_cursos.familia_profesional.form</field>
-      <field name="model">gestion_cursos.familia_profesional</field>
-      <field name="arch" type="xml">
-        <form>
-          <sheet>
-            <separator string="Datos generales" />
-            <group>
-              <field name="nombre" />
-            </group>
-            <separator string="Cursos relacionados" />
-            <group>
-              <field name="id_curso" />
-            </group>
-          </sheet>
-        </form>
-      </field>
-    </record>
+        <record model="ir.ui.view" id="gestion_cursos.familia_profesional_form">
+            <field name="name">gestion_cursos.familia_profesional.form</field>
+            <field name="model">gestion_cursos.familia_profesional</field>
+            <field name="arch" type="xml">
+                <form>
+                    <sheet>
+                        <separator string="Datos generales" />
+                        <group>
+                            <field name="nombre" />
+                        </group>
+                        <separator string="Cursos relacionados" />
+                        <group>
+                            <field name="id_curso" />
+                        </group>
+                    </sheet>
+                </form>
+            </field>
+        </record>
 
-    <record model="ir.actions.act_window" id="gestion_cursos.action_window_familia_profesional">
-      <field name="name">Familias Profesionales</field>
-      <field name="res_model">gestion_cursos.familia_profesional</field>
-      <field name="view_mode">list,form</field>
-    </record>
+        <record model="ir.actions.act_window" id="gestion_cursos.action_window_familia_profesional">
+            <field name="name">Familias Profesionales</field>
+            <field name="res_model">gestion_cursos.familia_profesional</field>
+            <field name="view_mode">list,form</field>
+        </record>
 
-    <menuitem name="Familias Profesionales"
-      id="gestion_cursos.menu_familia_profesional"
-      parent="gestion_cursos.menu_root"
-      action="gestion_cursos.action_window_familia_profesional" />
-  </data>
+        <menuitem name="Familias Profesionales"
+            id="gestion_cursos.menu_familia_profesional"
+            parent="gestion_cursos.menu_root"
+            action="gestion_cursos.action_window_familia_profesional" />
+    </data>
 </odoo>

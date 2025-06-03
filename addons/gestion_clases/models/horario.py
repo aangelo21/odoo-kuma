@@ -1,5 +1,5 @@
-from odoo import models, fields, api
-from odoo.exceptions import ValidationError
+from odoo import models, fields, api # type: ignore
+from odoo.exceptions import ValidationError # type: ignore
 from datetime import datetime, timedelta
 import pytz # type: ignore
 
@@ -16,11 +16,9 @@ class Horario(models.Model):
     es_plantilla = fields.Boolean(string='Es plantilla', default=True)
     plantilla_id = fields.Many2one('gestion_clases.horario', string='Horario plantilla')
     
-    # Campos relacionados con el curso
-    fecha_inicio = fields.Datetime(string='Fecha y hora de inicio')  # Cambiar a Datetime
-    fecha_fin = fields.Datetime(string='Fecha y hora de fin del evento')        # Cambiar a Datetime
+    fecha_inicio = fields.Datetime(string='Fecha y hora de inicio')
+    fecha_fin = fields.Datetime(string='Fecha y hora de fin del evento')  
     
-    # Campos para los días de la semana
     lunes = fields.Boolean(string='Lunes')
     martes = fields.Boolean(string='Martes')
     miercoles = fields.Boolean(string='Miércoles')
@@ -29,7 +27,6 @@ class Horario(models.Model):
 
     @api.model
     def create(self, vals):
-        # Si estamos creando una plantilla (sin fecha)
         if vals.get('es_plantilla'):
             horario = super().create(vals)
             horario._generar_eventos()
@@ -41,45 +38,37 @@ class Horario(models.Model):
         if not self.es_plantilla:
             return
 
-        # Primero eliminamos eventos anteriores si existen
         self.env['gestion_clases.horario'].search([
             ('plantilla_id', '=', self.id),
             ('es_plantilla', '=', False)
         ]).unlink()
 
-        # Obtener zona horaria del usuario o del sistema
         tz = pytz.timezone(self.env.user.tz or 'UTC')
         
         fecha_actual = self.curso_id.fecha_inicio
         while fecha_actual <= self.curso_id.fecha_fin:
-            # Verificar si el día actual es uno de los seleccionados
             if ((fecha_actual.weekday() == 0 and self.lunes) or
                 (fecha_actual.weekday() == 1 and self.martes) or
                 (fecha_actual.weekday() == 2 and self.miercoles) or
                 (fecha_actual.weekday() == 3 and self.jueves) or
                 (fecha_actual.weekday() == 4 and self.viernes)):
                 
-                # Calcular fecha y hora de inicio
                 hora_i = int(self.hora_inicio)
                 min_i = int((self.hora_inicio - hora_i) * 60)
                 fecha_inicio = datetime.combine(fecha_actual, datetime.min.time())
                 fecha_inicio = fecha_inicio.replace(hour=hora_i, minute=min_i)
                 
-                # Ajustar a zona horaria del usuario y convertir a UTC
                 local_dt = tz.localize(fecha_inicio)
                 fecha_inicio_utc = local_dt.astimezone(pytz.UTC).replace(tzinfo=None)
                 
-                # Calcular fecha y hora de fin
                 hora_f = int(self.hora_fin)
                 min_f = int((self.hora_fin - hora_f) * 60)
                 fecha_fin = datetime.combine(fecha_actual, datetime.min.time())
                 fecha_fin = fecha_fin.replace(hour=hora_f, minute=min_f)
                 
-                # Ajustar a zona horaria del usuario y convertir a UTC
                 local_dt_fin = tz.localize(fecha_fin)
                 fecha_fin_utc = local_dt_fin.astimezone(pytz.UTC).replace(tzinfo=None)
 
-                # Solo crear un evento por día
                 self.env['gestion_clases.horario'].create({
                     'curso_id': self.curso_id.id,
                     'aula_id': self.aula_id.id,
@@ -101,7 +90,6 @@ class Horario(models.Model):
     def write(self, vals):
         res = super().write(vals)
         if self.es_plantilla:
-            # Regenerar eventos si se modifican campos relevantes
             if any(field in vals for field in ['hora_inicio', 'hora_fin', 'lunes', 'martes', 'miercoles', 'jueves', 'viernes']):
                 self._generar_eventos()
         return res
@@ -109,7 +97,6 @@ class Horario(models.Model):
     def unlink(self):
         for record in self:
             if record.es_plantilla:
-                # Eliminar todos los eventos generados por esta plantilla
                 self.env['gestion_clases.horario'].search([
                     ('plantilla_id', '=', record.id),
                     ('es_plantilla', '=', False)

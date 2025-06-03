@@ -1,4 +1,3 @@
-<?xml version="1.0" encoding="utf-8"?>
 <odoo>
     <data>
         <record model="ir.ui.view" id="gestion_clases.horario_form">
@@ -7,23 +6,23 @@
             <field name="arch" type="xml">
                 <form>
                     <sheet>
-                        <separator string="Datos generales"/>
+                        <separator string="Datos generales" />
                         <group>
-                            <field name="curso_id"/>
-                            <field name="aula_id"/>
-                            <field name="es_plantilla" invisible="1"/>
+                            <field name="curso_id" />
+                            <field name="aula_id" />
+                            <field name="es_plantilla" invisible="1" />
                         </group>
                         <group string="Días de la semana">
-                            <field name="lunes"/>
-                            <field name="martes"/>
-                            <field name="miercoles"/>
-                            <field name="jueves"/>
-                            <field name="viernes"/>
+                            <field name="lunes" />
+                            <field name="martes" />
+                            <field name="miercoles" />
+                            <field name="jueves" />
+                            <field name="viernes" />
                         </group>
-                        <separator string="Horario"/>
+                        <separator string="Horario" />
                         <group>
-                            <field name="hora_inicio" widget="float_time"/>
-                            <field name="hora_fin" widget="float_time"/>
+                            <field name="hora_inicio" widget="float_time" />
+                            <field name="hora_fin" widget="float_time" />
                         </group>
                     </sheet>
                 </form>
@@ -35,15 +34,15 @@
             <field name="model">gestion_clases.horario</field>
             <field name="arch" type="xml">
                 <list>
-                    <field name="curso_id"/>
-                    <field name="aula_id"/>
-                    <field name="hora_inicio" widget="float_time"/>
-                    <field name="hora_fin" widget="float_time"/>
-                    <field name="lunes"/>
-                    <field name="martes"/>
-                    <field name="miercoles"/>
-                    <field name="jueves"/>
-                    <field name="viernes"/>
+                    <field name="curso_id" />
+                    <field name="aula_id" />
+                    <field name="hora_inicio" widget="float_time" />
+                    <field name="hora_fin" widget="float_time" />
+                    <field name="lunes" />
+                    <field name="martes" />
+                    <field name="miercoles" />
+                    <field name="jueves" />
+                    <field name="viernes" />
                 </list>
             </field>
         </record>
@@ -53,16 +52,17 @@
             <field name="model">gestion_clases.horario</field>
             <field name="arch" type="xml">
                 <search>
-                    <field name="curso_id"/>
-                    <field name="aula_id"/>
-                    <filter string="Lunes" name="lunes" domain="[('lunes', '=', True)]"/>
-                    <filter string="Martes" name="martes" domain="[('martes', '=', True)]"/>
-                    <filter string="Miércoles" name="miercoles" domain="[('miercoles', '=', True)]"/>
-                    <filter string="Jueves" name="jueves" domain="[('jueves', '=', True)]"/>
-                    <filter string="Viernes" name="viernes" domain="[('viernes', '=', True)]"/>
+                    <field name="curso_id" />
+                    <field name="aula_id" />
+                    <filter string="Lunes" name="lunes" domain="[('lunes', '=', True)]" />
+                    <filter string="Martes" name="martes" domain="[('martes', '=', True)]" />
+                    <filter string="Miércoles" name="miercoles" domain="[('miercoles', '=', True)]" />
+                    <filter string="Jueves" name="jueves" domain="[('jueves', '=', True)]" />
+                    <filter string="Viernes" name="viernes" domain="[('viernes', '=', True)]" />
                     <group expand="0" string="Group By">
-                        <filter string="Curso" name="group_by_curso" context="{'group_by': 'curso_id'}"/>
-                        <filter string="Aula" name="group_by_aula" context="{'group_by': 'aula_id'}"/>
+                        <filter string="Curso" name="group_by_curso"
+                            context="{'group_by': 'curso_id'}" />
+                        <filter string="Aula" name="group_by_aula" context="{'group_by': 'aula_id'}" />
                     </group>
                 </search>
             </field>
@@ -72,11 +72,12 @@
             <field name="name">gestion_clases.horario.calendar</field>
             <field name="model">gestion_clases.horario</field>
             <field name="arch" type="xml">
-                <calendar date_start="fecha" date_stop="fecha_fin" string="Horario de Clases" mode="week" color="curso_id" event_open_popup="true">
-                    <field name="curso_id"/>
-                    <field name="aula_id"/>
-                    <field name="hora_inicio" widget="float_time"/>
-                    <field name="hora_fin" widget="float_time"/>
+                <calendar date_start="fecha" date_stop="fecha_fin" string="Horario de Clases"
+                    mode="week" color="curso_id" event_open_popup="true">
+                    <field name="curso_id" />
+                    <field name="aula_id" />
+                    <field name="hora_inicio" widget="float_time" />
+                    <field name="hora_fin" widget="float_time" />
                 </calendar>
             </field>
         </record>
@@ -97,8 +98,10 @@
             <field name="domain">[('es_plantilla', '=', False)]</field>
         </record>
 
-        <menuitem name="Gestión Aulas" id="gestion_clases.menu_root"/>
-        <menuitem name="Horarios" id="gestion_clases.menu_2" parent="gestion_clases.menu_root" action="gestion_clases.action_window_horario"/>
-        <menuitem name="Calendario" id="gestion_clases.menu_3" parent="gestion_clases.menu_root" action="gestion_clases.action_window_horario_calendar"/>
+        <menuitem name="Gestión Aulas" id="gestion_clases.menu_root" />
+        <menuitem name="Horarios" id="gestion_clases.menu_2" parent="gestion_clases.menu_root"
+            action="gestion_clases.action_window_horario" />
+        <menuitem name="Calendario" id="gestion_clases.menu_3" parent="gestion_clases.menu_root"
+            action="gestion_clases.action_window_horario_calendar" />
     </data>
 </odoo>

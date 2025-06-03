@@ -1,40 +1,40 @@
 <odoo>
-  <data>
-    <record model="ir.ui.view" id="gestion_clases.aula_list">
-      <field name="name">gestion_clases aula list</field>
-      <field name="model">gestion_clases.aula</field>
-      <field name="arch" type="xml">
-        <list>
-          <field name="nombre" />
-          <field name="centro" />
-        </list>
-      </field>
-    </record>
+    <data>
+        <record model="ir.ui.view" id="gestion_clases.aula_list">
+            <field name="name">gestion_clases aula list</field>
+            <field name="model">gestion_clases.aula</field>
+            <field name="arch" type="xml">
+                <list>
+                    <field name="nombre" />
+                    <field name="centro" />
+                </list>
+            </field>
+        </record>
 
-    <record model="ir.ui.view" id="gestion_clases.aula_form">
-      <field name="name">gestion_clases aula form</field>
-      <field name="model">gestion_clases.aula</field>
-      <field name="arch" type="xml">
-        <form>
-          <separator string="Datos generales" />
-          <group>
-            <field name="nombre" />
-            <field name="centro" />
-          </group>
-        </form>
-      </field>
-    </record>
+        <record model="ir.ui.view" id="gestion_clases.aula_form">
+            <field name="name">gestion_clases aula form</field>
+            <field name="model">gestion_clases.aula</field>
+            <field name="arch" type="xml">
+                <form>
+                    <separator string="Datos generales" />
+                    <group>
+                        <field name="nombre" />
+                        <field name="centro" />
+                    </group>
+                </form>
+            </field>
+        </record>
 
-    <record model="ir.actions.act_window" id="gestion_clases.action_window_aula">
-      <field name="name">Aulas</field>
-      <field name="res_model">gestion_clases.aula</field>
-      <field name="view_mode">list,form</field>
-    </record>
+        <record model="ir.actions.act_window" id="gestion_clases.action_window_aula">
+            <field name="name">Aulas</field>
+            <field name="res_model">gestion_clases.aula</field>
+            <field name="view_mode">list,form</field>
+        </record>
 
-    <menuitem name="Gestión Aulas" id="gestion_clases.menu_root" />
-    <menuitem name="Aulas" 
-      id="gestion_clases.menu_1_list" 
-      parent="gestion_clases.menu_root"
-      action="gestion_clases.action_window_aula" />
-  </data>
+        <menuitem name="Gestión Aulas" id="gestion_clases.menu_root" />
+        <menuitem name="Aulas"
+            id="gestion_clases.menu_1_list"
+            parent="gestion_clases.menu_root"
+            action="gestion_clases.action_window_aula" />
+    </data>
 </odoo>

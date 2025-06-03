@@ -1,94 +1,94 @@
 <odoo>
-  <data>
-    <record model="ir.ui.view" id="gestion_cursos.cursos_list">
-      <field name="name">gestion_cursos curso list</field>
-      <field name="model">gestion_cursos.curso</field>
-      <field name="arch" type="xml">
-        <list>
-          <field name="nombre" />
-          <field name="expediente" />
-          <field name="codigo" />
-          <field name="tutor" />
-          <field name="fecha_inicio" />
-          <field name="fecha_fin" />
-          <field name="fecha_consolidacion" />
-          <field name="numero_alumnos" />
-          <field name="numero_alumnos_consolidacion" />
-          <field name="numero_alumnos_finalizados" />
-          <field name="id_categoria" />
-          <field name="tipo_destinatario" />
-          <field name="duracion" />
-          <field name="modalidad" />
-          <field name="id_familia_profesional" />
-        </list>
-      </field>
-    </record>
+	<data>
+		<record model="ir.ui.view" id="gestion_cursos.cursos_list">
+			<field name="name">gestion_cursos curso list</field>
+			<field name="model">gestion_cursos.curso</field>
+			<field name="arch" type="xml">
+				<list>
+					<field name="nombre" />
+					<field name="expediente" />
+					<field name="codigo" />
+					<field name="tutor" />
+					<field name="fecha_inicio" />
+					<field name="fecha_fin" />
+					<field name="fecha_consolidacion" />
+					<field name="numero_alumnos" />
+					<field name="numero_alumnos_consolidacion" />
+					<field name="numero_alumnos_finalizados" />
+					<field name="id_categoria" />
+					<field name="tipo_destinatario" />
+					<field name="duracion" />
+					<field name="modalidad" />
+					<field name="id_familia_profesional" />
+				</list>
+			</field>
+		</record>
 
-    <record model="ir.ui.view" id="gestion_cursos.cursos_form">
-      <field name="name">gestion_cursos curso form</field>
-      <field name="model">gestion_cursos.curso</field>
-      <field name="arch" type="xml">
-        <form>
-          <separator string="Datos generales" />
-          <group>
-            <group>
-              <field name="nombre" />
-              <field name="expediente" />
-              <field name="codigo" />
-              <field name="tutor" />
-            </group>
-            <separator string="Fechas" />
-            <group>
-              <field name="fecha_inicio" />
-              <field name="fecha_fin" />
-              <field name="fecha_consolidacion" />
-            </group>
-          </group>
-          <separator string="Alumnos" />
-          <group>
-            <field name="numero_alumnos" />
-            <field name="numero_alumnos_consolidacion" />
-            <field name="numero_alumnos_finalizados" />
-          </group>
-          <separator string="Clasificación" />
-          <group>
-            <field name="id_categoria" />
-            <field name="id_familia_profesional" />
-            <field name="modalidad" />
-            <field name="tipo_destinatario" />
-            <field name="duracion" />
-          </group>
-        </form>
-      </field>
-    </record>
+		<record model="ir.ui.view" id="gestion_cursos.cursos_form">
+			<field name="name">gestion_cursos curso form</field>
+			<field name="model">gestion_cursos.curso</field>
+			<field name="arch" type="xml">
+				<form>
+					<separator string="Datos generales" />
+					<group>
+						<group>
+							<field name="nombre" />
+							<field name="expediente" />
+							<field name="codigo" />
+							<field name="tutor" />
+						</group>
+						<separator string="Fechas" />
+						<group>
+							<field name="fecha_inicio" />
+							<field name="fecha_fin" />
+							<field name="fecha_consolidacion" />
+						</group>
+					</group>
+					<separator string="Alumnos" />
+					<group>
+						<field name="numero_alumnos" />
+						<field name="numero_alumnos_consolidacion" />
+						<field name="numero_alumnos_finalizados" />
+					</group>
+					<separator string="Clasificación" />
+					<group>
+						<field name="id_categoria" />
+						<field name="id_familia_profesional" />
+						<field name="modalidad" />
+						<field name="tipo_destinatario" />
+						<field name="duracion" />
+					</group>
+				</form>
+			</field>
+		</record>
 
-    <record model="ir.ui.view" id="gestion_cursos.curso_calendar">
-      <field name="name">gestion_cursos.curso.calendar</field>
-      <field name="model">gestion_cursos.curso</field>
-      <field name="arch" type="xml">
-        <calendar string="Cursos"
-          date_start="fecha_inicio"
-          date_stop="fecha_fin"
-          mode="month"
-          color="color_calendar"
-          event_open_popup="true">
-          <field name="nombre" />
-          <field name="expediente" />
-          <field name="tutor" />
-          <field name="id_categoria" />
-        </calendar>
-      </field>
-    </record>
+		<record model="ir.ui.view" id="gestion_cursos.curso_calendar">
+			<field name="name">gestion_cursos.curso.calendar</field>
+			<field name="model">gestion_cursos.curso</field>
+			<field name="arch" type="xml">
+				<calendar string="Cursos"
+					date_start="fecha_inicio"
+					date_stop="fecha_fin"
+					mode="month"
+					color="color_calendar"
+					event_open_popup="true">
+					<field name="nombre" />
+					<field name="expediente" />
+					<field name="tutor" />
+					<field name="id_categoria" />
+				</calendar>
+			</field>
+		</record>
 
-    <record model="ir.actions.act_window" id="gestion_cursos.cursos_action_window_curso">
-      <field name="name">Cursos</field>
-      <field name="res_model">gestion_cursos.curso</field>
-      <field name="view_mode">list,form,calendar</field>
-    </record>
+		<record model="ir.actions.act_window" id="gestion_cursos.cursos_action_window_curso">
+			<field name="name">Cursos</field>
+			<field name="res_model">gestion_cursos.curso</field>
+			<field name="view_mode">list,form,calendar</field>
+		</record>
 
-    <menuitem name="Gestión Cursos" id="gestion_cursos.menu_root" />
-    <menuitem name="Cursos" id="gestion_cursos.cursos_menu_3_list"
-      parent="gestion_cursos.menu_root"
-      action="gestion_cursos.cursos_action_window_curso" />
-  </data>
+		<menuitem name="Gestión Cursos" id="gestion_cursos.menu_root" />
+		<menuitem name="Cursos" id="gestion_cursos.cursos_menu_3_list"
+			parent="gestion_cursos.menu_root"
+			action="gestion_cursos.cursos_action_window_curso" />
+	</data>
 </odoo>
