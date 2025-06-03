@@ -46,8 +46,9 @@
     </record>
 
     <menuitem name="Gestión Aulas" id="gestion_clases.menu_root" />
-    <menuitem name="Aulas" id="gestion_clases.menu_1" parent="gestion_clases.menu_root" />
-    <menuitem name="Lista de aulas" id="gestion_clases.menu_1_list" parent="gestion_clases.menu_1"
+    <menuitem name="Aulas" 
+      id="gestion_clases.menu_1_list" 
+      parent="gestion_clases.menu_root"
       action="gestion_clases.action_window_aula" />
   </data>
 </odoo>
