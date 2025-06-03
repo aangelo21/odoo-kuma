@@ -102,3 +102,38 @@ class Horario(models.Model):
                     ('es_plantilla', '=', False)
                 ]).unlink()
         return super().unlink()
+
+    @api.constrains('aula_id', 'fecha', 'fecha_fin', 'es_plantilla')
+    def _check_solapamiento(self):
+        for record in self:
+            if record.es_plantilla:
+                return
+
+            if not record.aula_id or not record.fecha or not record.fecha_fin:
+                return
+
+            # Buscar horarios que se solapen
+            horarios_solapados = self.env['gestion_clases.horario'].search([
+                ('id', '!=', record.id),
+                ('aula_id', '=', record.aula_id.id),
+                ('es_plantilla', '=', False),
+                '|',
+                '&',
+                ('fecha', '<=', record.fecha),
+                ('fecha_fin', '>', record.fecha),
+                '&',
+                ('fecha', '<', record.fecha_fin),
+                ('fecha_fin', '>=', record.fecha_fin)
+            ])
+
+            if horarios_solapados:
+                raise ValidationError(
+                    f'Hay un solapamiento de horarios en el aula {record.aula_id.nombre}:\n' +
+                    '\n'.join([
+                        f'- Curso: {h.curso_id.nombre}, ' +
+                        f'Fecha: {h.fecha.strftime("%d/%m/%Y")}, ' +
+                        f'Hora: {int(h.hora_inicio)}:{int((h.hora_inicio % 1) * 60):02d} - ' +
+                        f'{int(h.hora_fin)}:{int((h.hora_fin % 1) * 60):02d}'
+                        for h in horarios_solapados
+                    ])
+                )
