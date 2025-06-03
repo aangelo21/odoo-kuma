@@ -140,6 +140,15 @@ class Horario(models.Model):
                     if len(dias_seleccionados) > 1:
                         domain.extend(['|'] * (len(dias_seleccionados) - 1))
                     domain.extend(dias_seleccionados)
+
+                    solapados = self.search(domain)
+                    
+                    solapados_reales = solapados.filtered(lambda h: 
+                        (h.curso_id.fecha_inicio <= record.curso_id.fecha_fin and 
+                         h.curso_id.fecha_fin >= record.curso_id.fecha_inicio))
+
+                    if solapados_reales:
+                        raise ValidationError('Ya existe una plantilla de horario que usa esta aula en alguno de los días y horarios seleccionados durante las fechas del curso')
                 else:
                     domain.append(('es_plantilla', '=', False))
                     if record.fecha and record.fecha_fin:
@@ -148,9 +157,6 @@ class Horario(models.Model):
                             ('fecha_fin', '>', record.fecha)
                         ])
 
-                solapados = self.search(domain)
-                if solapados:
-                    if record.es_plantilla:
-                        raise ValidationError('Ya existe una plantilla de horario que usa esta aula en alguno de los días y horarios seleccionados')
-                    else:
+                    solapados = self.search(domain)
+                    if solapados:
                         raise ValidationError('El aula ya está ocupada en la fecha y horario seleccionados')
