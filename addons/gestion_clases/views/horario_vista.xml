@@ -12,17 +12,47 @@
                             <field name="aula_id" />
                             <field name="es_plantilla" invisible="1" />
                         </group>
-                        <group string="Días de la semana">
-                            <field name="lunes" />
-                            <field name="martes" />
-                            <field name="miercoles" />
-                            <field name="jueves" />
-                            <field name="viernes" />
-                        </group>
-                        <separator string="Horario" />
+                        <separator string="Temario" invisible="es_plantilla"/>
+                        <field name="temario" 
+                               placeholder="Escriba aquí el contenido impartido en la clase..." 
+                               invisible="es_plantilla"/>
+                        <separator string="Horarios por día" />
                         <group>
-                            <field name="hora_inicio" widget="float_time" />
-                            <field name="hora_fin" widget="float_time" />
+                            <group string="Lunes">
+                                <field name="lunes" />
+                                <group invisible="not lunes">
+                                    <field name="lunes_hora_inicio" widget="float_time" />
+                                    <field name="lunes_hora_fin" widget="float_time" />
+                                </group>
+                            </group>
+                            <group string="Martes">
+                                <field name="martes" />
+                                <group invisible="not martes">
+                                    <field name="martes_hora_inicio" widget="float_time" />
+                                    <field name="martes_hora_fin" widget="float_time" />
+                                </group>
+                            </group>
+                            <group string="Miércoles">
+                                <field name="miercoles" />
+                                <group invisible="not miercoles">
+                                    <field name="miercoles_hora_inicio" widget="float_time" />
+                                    <field name="miercoles_hora_fin" widget="float_time" />
+                                </group>
+                            </group>
+                            <group string="Jueves">
+                                <field name="jueves" />
+                                <group invisible="not jueves">
+                                    <field name="jueves_hora_inicio" widget="float_time" />
+                                    <field name="jueves_hora_fin" widget="float_time" />
+                                </group>
+                            </group>
+                            <group string="Viernes">
+                                <field name="viernes" />
+                                <group invisible="not viernes">
+                                    <field name="viernes_hora_inicio" widget="float_time" />
+                                    <field name="viernes_hora_fin" widget="float_time" />
+                                </group>
+                            </group>
                         </group>
                     </sheet>
                 </form>
@@ -34,15 +64,13 @@
             <field name="model">gestion_clases.horario</field>
             <field name="arch" type="xml">
                 <list>
-                    <field name="curso_id" />
-                    <field name="aula_id" />
-                    <field name="hora_inicio" widget="float_time" />
-                    <field name="hora_fin" widget="float_time" />
-                    <field name="lunes" />
-                    <field name="martes" />
-                    <field name="miercoles" />
-                    <field name="jueves" />
-                    <field name="viernes" />
+                    <field name="curso_id"/>
+                    <field name="aula_id"/>
+                    <field name="lunes"/>
+                    <field name="martes"/>
+                    <field name="miercoles"/>
+                    <field name="jueves"/>
+                    <field name="viernes"/>
                 </list>
             </field>
         </record>
@@ -72,12 +100,14 @@
             <field name="name">gestion_clases.horario.calendar</field>
             <field name="model">gestion_clases.horario</field>
             <field name="arch" type="xml">
-                <calendar date_start="fecha" date_stop="fecha_fin" string="Horario de Clases"
-                    mode="week" color="curso_id" event_open_popup="true">
+                <calendar date_start="fecha" 
+                 date_stop="fecha_fin" 
+                 string="Horario de Clases"
+                 mode="week" 
+                 color="curso_id" 
+                 event_open_popup="true">
                     <field name="curso_id" />
                     <field name="aula_id" />
-                    <field name="hora_inicio" widget="float_time" />
-                    <field name="hora_fin" widget="float_time" />
                 </calendar>
             </field>
         </record>
