@@ -96,12 +96,12 @@
             <field name="view_mode">calendar</field>
             <field name="context">{'default_es_plantilla': False}</field>
             <field name="domain">[('es_plantilla', '=', False)]</field>
-        </record>
-
-        <menuitem name="Gestión Aulas" id="gestion_clases.menu_root" />
-        <menuitem name="Horarios" id="gestion_clases.menu_2" parent="gestion_clases.menu_root"
-            action="gestion_clases.action_window_horario" />
+        </record>        <menuitem name="Gestión Aulas" id="gestion_clases.menu_root" />
         <menuitem name="Calendario" id="gestion_clases.menu_3" parent="gestion_clases.menu_root"
-            action="gestion_clases.action_window_horario_calendar" />
+            action="gestion_clases.action_window_horario_calendar"
+            sequence="1"/>
+        <menuitem name="Horarios" id="gestion_clases.menu_2" parent="gestion_clases.menu_root"
+            action="gestion_clases.action_window_horario"
+            sequence="2"/>
     </data>
 </odoo>

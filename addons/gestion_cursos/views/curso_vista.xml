@@ -1,5 +1,23 @@
 <odoo>
 	<data>
+		<record model="ir.ui.view" id="gestion_cursos.curso_calendar">
+			<field name="name">gestion_cursos.curso.calendar</field>
+			<field name="model">gestion_cursos.curso</field>
+			<field name="arch" type="xml">
+				<calendar string="Cursos"
+					date_start="fecha_inicio"
+					date_stop="fecha_fin"
+					mode="month"
+					color="color_calendar"
+					event_open_popup="true">
+					<field name="nombre" />
+					<field name="expediente" />
+					<field name="tutor" />
+					<field name="id_categoria" />
+				</calendar>
+			</field>
+		</record>
+
 		<record model="ir.ui.view" id="gestion_cursos.cursos_list">
 			<field name="name">gestion_cursos curso list</field>
 			<field name="model">gestion_cursos.curso</field>
@@ -62,33 +80,25 @@
 			</field>
 		</record>
 
-		<record model="ir.ui.view" id="gestion_cursos.curso_calendar">
-			<field name="name">gestion_cursos.curso.calendar</field>
-			<field name="model">gestion_cursos.curso</field>
-			<field name="arch" type="xml">
-				<calendar string="Cursos"
-					date_start="fecha_inicio"
-					date_stop="fecha_fin"
-					mode="month"
-					color="color_calendar"
-					event_open_popup="true">
-					<field name="nombre" />
-					<field name="expediente" />
-					<field name="tutor" />
-					<field name="id_categoria" />
-				</calendar>
-			</field>
-		</record>
-
 		<record model="ir.actions.act_window" id="gestion_cursos.cursos_action_window_curso">
 			<field name="name">Cursos</field>
 			<field name="res_model">gestion_cursos.curso</field>
-			<field name="view_mode">list,form,calendar</field>
+			<field name="view_mode">list,form</field>
 		</record>
 
+		<record model="ir.actions.act_window" id="gestion_cursos.cursos_action_window_calendario">
+			<field name="name">Calendario de Cursos</field>
+			<field name="res_model">gestion_cursos.curso</field>
+			<field name="view_mode">calendar</field>
+		</record>
 		<menuitem name="Gestión Cursos" id="gestion_cursos.menu_root" />
+		<menuitem name="Calendario" id="gestion_cursos.cursos_menu_calendar"
+			parent="gestion_cursos.menu_root"
+			action="gestion_cursos.cursos_action_window_calendario"
+			sequence="1"/>
 		<menuitem name="Cursos" id="gestion_cursos.cursos_menu_3_list"
 			parent="gestion_cursos.menu_root"
-			action="gestion_cursos.cursos_action_window_curso" />
+			action="gestion_cursos.cursos_action_window_curso"
+			sequence="2"/>
 	</data>
 </odoo>
