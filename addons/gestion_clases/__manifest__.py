@@ -1,7 +1,7 @@
 {
-    'name': "Gestion de Aulas",
+    'name': "Gestión Aulas",
 
-    'summary': "Short (1 phrase/line) summary of the module's purpose",
+    'summary': "Módulo para la gestión de las aulas",
 
     'description': """
 Long description of module's purpose

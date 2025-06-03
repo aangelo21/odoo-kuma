@@ -1,7 +1,7 @@
 from odoo import models, fields, api # type: ignore
 from odoo.exceptions import ValidationError # type: ignore
 from datetime import datetime, timedelta
-import pytz
+import pytz # type: ignore
 
 class Horario(models.Model):
     _name = 'gestion_clases.horario'
