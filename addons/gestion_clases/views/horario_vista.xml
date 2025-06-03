@@ -8,10 +8,12 @@
             <field name="arch" type="xml">
                 <form>
                     <sheet>
-                        <separator string="Datos generales"/>
                         <group>
                             <field name="curso_id"/>
                             <field name="aula_id"/>
+                            <field name="hora_inicio" widget="float_time"/>
+                            <field name="hora_fin" widget="float_time"/>
+                            <field name="es_plantilla" invisible="1"/>
                         </group>
                         <group string="Días de la semana">
                             <field name="lunes"/>
@@ -19,10 +21,6 @@
                             <field name="miercoles"/>
                             <field name="jueves"/>
                             <field name="viernes"/>
-                        </group>
-                        <group string="Horario">
-                            <field name="hora_inicio" widget="float_time"/>
-                            <field name="hora_fin" widget="float_time"/>
                         </group>
                     </sheet>
                 </form>
@@ -71,18 +69,16 @@
             <field name="name">gestion_clases.horario.calendar</field>
             <field name="model">gestion_clases.horario</field>
             <field name="arch" type="xml">
-                <calendar date_start="fecha_inicio"
+                <calendar date_start="fecha" 
                           date_stop="fecha_fin"
                           string="Horario de Clases"
                           mode="week"
+                          color="curso_id"
                           event_open_popup="true">
                     <field name="curso_id"/>
                     <field name="aula_id"/>
-                    <field name="lunes" invisible="1"/>
-                    <field name="martes" invisible="1"/>
-                    <field name="miercoles" invisible="1"/>
-                    <field name="jueves" invisible="1"/>
-                    <field name="viernes" invisible="1"/>
+                    <field name="hora_inicio" widget="float_time"/>
+                    <field name="hora_fin" widget="float_time"/>
                 </calendar>
             </field>
         </record>
@@ -91,14 +87,26 @@
             <field name="name">Horarios</field>
             <field name="res_model">gestion_clases.horario</field>
             <field name="view_mode">list,form,calendar</field>
+            <field name="domain">[('es_plantilla', '=', True)]</field>
         </record>
         
+        <record model="ir.actions.act_window" id="gestion_clases.action_window_horario_calendar">
+            <field name="name">Calendario de Horarios</field>
+            <field name="res_model">gestion_clases.horario</field>
+            <field name="view_mode">calendar</field>
+            <field name="domain">[('es_plantilla', '=', False)]</field>
+        </record>
+
         <menuitem name="Gestión aulas" id="gestion_clases.menu_root"/>
         <menuitem name="Horarios" id="gestion_clases.menu_2" parent="gestion_clases.menu_root"/>
         <menuitem name="Lista de Horarios" 
                   id="gestion_clases.menu_2_list" 
                   parent="gestion_clases.menu_2"
                   action="gestion_clases.action_window_horario"/>
+        <menuitem name="Calendario de Horarios" 
+                  id="gestion_clases.menu_2_calendar" 
+                  parent="gestion_clases.menu_2"
+                  action="gestion_clases.action_window_horario_calendar"/>
 
     </data>
 </odoo>
