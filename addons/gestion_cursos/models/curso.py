@@ -32,6 +32,8 @@ class Curso(models.Model):
         store=False
     )
 
+    color_calendar = fields.Char(string='Color calendario', compute='_compute_color_calendar', store=True)
+
     consolidados_display = fields.Char(
         string="Consolidados",
         compute="_compute_consolidados_display"
@@ -318,3 +320,8 @@ class Curso(models.Model):
             'email_to': ','.join(employees.mapped('work_email')),
         }
         self.env['mail.mail'].create(mail_template).send()
+    
+    @api.depends('id_categoria.color')
+    def _compute_color_calendar(self):
+        for record in self:
+            record.color_calendar = record.id_categoria.color if record.id_categoria else False

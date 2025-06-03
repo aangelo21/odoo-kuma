@@ -70,7 +70,7 @@
           date_start="fecha_inicio"
           date_stop="fecha_fin"
           mode="month"
-          color="id_categoria"
+          color="color_calendar"
           event_open_popup="true">
           <field name="nombre" />
           <field name="expediente" />
