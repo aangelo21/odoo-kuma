@@ -126,12 +126,84 @@
             <field name="view_mode">calendar</field>
             <field name="context">{'default_es_plantilla': False}</field>
             <field name="domain">[('es_plantilla', '=', False)]</field>
-        </record>        <menuitem name="Gestión Aulas" id="gestion_clases.menu_root" />
-        <menuitem name="Calendario" id="gestion_clases.menu_3" parent="gestion_clases.menu_root"
+        </record>
+
+        <record model="ir.ui.view" id="gestion_clases.horario_kanban">
+            <field name="name">gestion_clases.horario.kanban</field>
+            <field name="model">gestion_clases.horario</field>
+            <field name="arch" type="xml">
+                <kanban default_group_by="aula_id" class="o_kanban_small_column" on_create="quick_create" records_draggable="1">
+                    <field name="curso_id"/>
+                    <field name="aula_id"/>
+                    <field name="hora_inicio"/>
+                    <field name="hora_fin"/>
+                    <field name="fecha"/>
+                    <field name="fecha_fin"/>
+                    <field name="es_plantilla"/>
+                    <field name="lunes"/>
+                    <field name="martes"/>
+                    <field name="miercoles"/>
+                    <field name="jueves"/>
+                    <field name="viernes"/>
+                    <templates>
+                        <t t-name="kanban-box">
+                            <div class="oe_kanban_global_click oe_kanban_card">
+                                <div class="oe_kanban_content">
+                                    <div class="o_kanban_record_title mb8">
+                                        <field name="curso_id"/>
+                                    </div>
+                                    <div t-if="!record.es_plantilla.raw_value">
+                                        <div class="o_kanban_record_subtitle">
+                                            <span class="o_primary">
+                                                <field name="hora_inicio" widget="float_time"/> - <field name="hora_fin" widget="float_time"/>
+                                            </span>
+                                        </div>
+                                        <div class="o_kanban_record_bottom mt8">
+                                            <div class="oe_kanban_bottom_left">
+                                                <field name="fecha" widget="date"/>
+                                            </div>
+                                        </div>
+                                    </div>
+                                    <div t-if="record.es_plantilla.raw_value" class="o_kanban_record_subtitle">
+                                        <div>
+                                            <field name="hora_inicio" widget="float_time"/> - <field name="hora_fin" widget="float_time"/>
+                                        </div>
+                                        <div class="mt8">
+                                            <span t-if="record.lunes.raw_value" class="badge bg-primary me-1">L</span>
+                                            <span t-if="record.martes.raw_value" class="badge bg-success me-1">M</span>
+                                            <span t-if="record.miercoles.raw_value" class="badge bg-info me-1">X</span>
+                                            <span t-if="record.jueves.raw_value" class="badge bg-warning me-1">J</span>
+                                            <span t-if="record.viernes.raw_value" class="badge bg-danger me-1">V</span>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                        </t>
+                    </templates>
+                </kanban>
+            </field>
+        </record>
+
+        <record model="ir.actions.act_window" id="gestion_clases.action_window_horario_panel">
+            <field name="name">Panel de Aulas</field>
+            <field name="res_model">gestion_clases.horario</field>
+            <field name="view_mode">kanban</field>
+            <field name="context">{'default_es_plantilla': False}</field>
+            <field name="domain">[('es_plantilla', '=', False)]</field>
+        </record>
+
+        <menuitem name="Gestión Aulas" id="gestion_clases.menu_root" />
+        <menuitem name="Calendario" id="gestion_clases.menu_3" 
+            parent="gestion_clases.menu_root"
             action="gestion_clases.action_window_horario_calendar"
             sequence="1"/>
-        <menuitem name="Horarios" id="gestion_clases.menu_2" parent="gestion_clases.menu_root"
-            action="gestion_clases.action_window_horario"
+        <menuitem name="Panel de Aulas" id="gestion_clases.menu_4" 
+            parent="gestion_clases.menu_root"
+            action="gestion_clases.action_window_horario_panel"
             sequence="2"/>
+        <menuitem name="Horarios" id="gestion_clases.menu_2" 
+            parent="gestion_clases.menu_root"
+            action="gestion_clases.action_window_horario"
+            sequence="3"/>
     </data>
 </odoo>
