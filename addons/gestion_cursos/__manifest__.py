@@ -1,6 +1,6 @@
 {
     'name': "Gestión Cursos",
-    'summary': "Short (1 phrase/line) summary of the module's purpose",
+    'summary': "Módulo para la gestión de los cursos",
     'description': """
 Long description of module's purpose
     """,
@@ -10,7 +10,7 @@ Long description of module's purpose
     'version': '0.1',    'depends': ['base'],
     'data': [
         'security/ir.model.access.csv',
-        'views/calendario_vista.xml',
+        # 'views/calendario_vista.xml',
         'views/curso_vista.xml',
         'views/categoria_vista.xml',
         'views/familia_profesional_vista.xml',

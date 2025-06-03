@@ -1,13 +1,12 @@
 <odoo>
   <data>
-
     <record model="ir.ui.view" id="gestion_clases.aula_list">
       <field name="name">gestion_clases aula list</field>
       <field name="model">gestion_clases.aula</field>
       <field name="arch" type="xml">
         <list>
-          <field name="nombre"/>
-          <field name="centro"/>
+          <field name="nombre" />
+          <field name="centro" />
         </list>
       </field>
     </record>
@@ -17,27 +16,38 @@
       <field name="model">gestion_clases.aula</field>
       <field name="arch" type="xml">
         <form>
-          <separator string="Datos generales"/>
+          <separator string="Datos generales" />
           <group>
-            <field name="nombre"/>
-            <field name="centro"/>
+            <field name="nombre" />
+            <field name="centro" />
           </group>
         </form>
+      </field>
+    </record>
+
+    <record model="ir.ui.view" id="gestion_clases.aula_calendar">
+      <field name="name">gestion_clases.aula.calendar</field>
+      <field name="model">gestion_clases.aula</field>
+      <field name="arch" type="xml">
+        <calendar string="Aulas"
+          date_start="create_date"
+          mode="month"
+          event_open_popup="true">
+          <field name="nombre" />
+          <field name="centro" />
+        </calendar>
       </field>
     </record>
 
     <record model="ir.actions.act_window" id="gestion_clases.action_window_aula">
       <field name="name">Aulas</field>
       <field name="res_model">gestion_clases.aula</field>
-      <field name="view_mode">list,form</field>
+      <field name="view_mode">list,form,calendar</field>
     </record>
 
-    <menuitem name="Gestión aulas" id="gestion_clases.menu_root"/>
-
-    <menuitem name="Aulas" id="gestion_clases.menu_1" parent="gestion_clases.menu_root"/>
-
+    <menuitem name="Gestión Aulas" id="gestion_clases.menu_root" />
+    <menuitem name="Aulas" id="gestion_clases.menu_1" parent="gestion_clases.menu_root" />
     <menuitem name="Lista de aulas" id="gestion_clases.menu_1_list" parent="gestion_clases.menu_1"
-              action="gestion_clases.action_window_aula"/>
-
+      action="gestion_clases.action_window_aula" />
   </data>
 </odoo>
