@@ -27,6 +27,19 @@ body {
     }
 }
 
+.o_popover {
+    background-color: $o-brand-primary;
+}
+
+.modal-title, .oe_kanban {
+    color: white;
+}
+
+.oe_kanban:hover {
+    color: white;
+    background-color: $o-brand-secondary;
+}
+
 .o-dropdown-item {
     background-color: $o-brand-primary !important;
     color: #fff !important;
