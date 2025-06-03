@@ -25,24 +25,10 @@
       </field>
     </record>
 
-    <record model="ir.ui.view" id="gestion_clases.aula_calendar">
-      <field name="name">gestion_clases.aula.calendar</field>
-      <field name="model">gestion_clases.aula</field>
-      <field name="arch" type="xml">
-        <calendar string="Aulas"
-          date_start="create_date"
-          mode="month"
-          event_open_popup="true">
-          <field name="nombre" />
-          <field name="centro" />
-        </calendar>
-      </field>
-    </record>
-
     <record model="ir.actions.act_window" id="gestion_clases.action_window_aula">
       <field name="name">Aulas</field>
       <field name="res_model">gestion_clases.aula</field>
-      <field name="view_mode">list,form,calendar</field>
+      <field name="view_mode">list,form</field>
     </record>
 
     <menuitem name="Gestión Aulas" id="gestion_clases.menu_root" />
