@@ -27,6 +27,45 @@ body {
     }
 }
 
+.o_popover {
+    background-color: $o-brand-primary;
+    color: white;
+}
+
+.form-check-input {
+    border: 2px solid $o-brand-secondary !important;
+    border-radius: 4px !important;
+    background-color: #fff !important;
+
+    &:checked {
+        background-color: $o-brand-primary !important;
+        border-color: $o-brand-primary !important;
+    }
+
+    &:checked[type="checkbox"] {
+        background-image:
+            url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 16 16'%3E%3Cpath fill='none' stroke='white' stroke-width='3' d='M3 8l3 3 7-7'/%3E%3C/svg%3E") !important;
+    }
+}
+
+.modal-title, .oe_kanban, .o_dropdown_title {
+    color: white;
+}
+
+.dropdown-item {
+    color: white;
+}
+
+.dropdown-item:hover {
+    color: white;
+    background-color: $o-brand-secondary;
+}
+
+.oe_kanban:hover {
+    color: white;
+    background-color: $o-brand-secondary;
+}
+
 .o-dropdown-item {
     background-color: $o-brand-primary !important;
     color: #fff !important;
