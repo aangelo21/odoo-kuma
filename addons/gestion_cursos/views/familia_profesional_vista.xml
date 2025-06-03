@@ -21,6 +21,9 @@
             <separator string="Datos generales" />
             <group>
               <field name="nombre" />
+            </group>
+            <separator string="Cursos relacionados" />
+            <group>
               <field name="id_curso" />
             </group>
           </sheet>
