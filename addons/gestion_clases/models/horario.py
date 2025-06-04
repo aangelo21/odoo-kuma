@@ -15,6 +15,7 @@ class Horario(models.Model):
     es_plantilla = fields.Boolean(string='Es plantilla', default=True)
     plantilla_id = fields.Many2one('gestion_clases.horario', string='Horario plantilla')
     temario = fields.Text(string='Temario', help='Contenido impartido en la clase')
+    color_event = fields.Char(string='Color del evento', compute='_compute_color_event', store=True)
 
     lunes = fields.Boolean(string='Lunes')
     lunes_hora_inicio = fields.Float(string='Hora inicio lunes')
@@ -35,6 +36,11 @@ class Horario(models.Model):
     viernes = fields.Boolean(string='Viernes')
     viernes_hora_inicio = fields.Float(string='Hora inicio viernes')
     viernes_hora_fin = fields.Float(string='Hora fin viernes')
+
+    @api.depends('temario')
+    def _compute_color_event(self):
+        for record in self:
+            record.color_event = '#55eb18' if record.temario else '#f91212'
 
     @api.constrains('lunes', 'lunes_hora_inicio', 'lunes_hora_fin',
                     'martes', 'martes_hora_inicio', 'martes_hora_fin',
