@@ -131,6 +131,29 @@ class Horario(models.Model):
         result = super().write(vals)
         if self.es_plantilla:
             self._generar_eventos()
+    
+        if 'temario' in vals and not self.es_plantilla:
+            employees = self.env['hr.employee'].search([])
+            fecha_local = fields.Datetime.context_timestamp(self, self.fecha)
+            fecha_fin_local = fields.Datetime.context_timestamp(self, self.fecha_fin)
+            
+            mail_template = {
+                'subject': f'Clase lista para subir a plataforma - {self.curso_id.nombre}',
+                'body_html': f'''
+                    <p>Se ha completado el temario de una clase y está lista para subirse a la plataforma:</p>
+                    <ul>
+                        <li><strong>Curso:</strong> {self.curso_id.nombre}</li>
+                        <li><strong>Aula:</strong> {self.aula_id.display_name}</li>
+                        <li><strong>Hora inicio:</strong> {fecha_local.strftime('%H:%M')}</li>
+                        <li><strong>Hora fin:</strong> {fecha_fin_local.strftime('%H:%M')}</li>
+                        <li><strong>Contenido impartido:</strong> {self.temario}</li>
+                    </ul>
+                ''',
+                'email_from': self.env.user.email,
+                'email_to': ','.join(employees.mapped('work_email')),
+            }
+            self.env['mail.mail'].create(mail_template).send()
+            
         return result
 
     @api.constrains('aula_id', 'lunes', 'martes', 'miercoles', 'jueves', 'viernes',
