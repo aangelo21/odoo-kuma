@@ -235,3 +235,41 @@ class Horario(models.Model):
                     ('es_plantilla', '=', False)
                 ]).unlink()
         return super().unlink()
+
+    @api.model
+    def _read_group_aula_id(self, aulas, domain, order):
+        # Obtener todas las aulas activas
+        all_aulas = self.env['gestion_clases.aula'].search([])
+        return all_aulas
+
+    _group_by_full = {
+        'aula_id': lambda self, *args, **kwargs: self._read_group_aula_id(*args, **kwargs),
+    }
+
+    @api.model
+    def read_group(self, domain, fields, groupby, offset=0, limit=None, orderby=False, lazy=True):
+        if 'aula_id' in groupby:
+            # Obtener todas las aulas existentes
+            Aula = self.env['gestion_clases.aula']
+            aulas = Aula.search([])
+            
+            # Obtener los resultados normales del agrupamiento
+            res = super(Horario, self).read_group(domain, fields, groupby, offset=offset, limit=limit, orderby=orderby, lazy=lazy)
+            
+            # Crear un diccionario con las aulas que ya tienen eventos
+            aulas_con_eventos = {r['aula_id'][0]: r for r in res if r.get('aula_id')}
+            
+            # Asegurarnos de que todas las aulas aparezcan
+            result = []
+            for aula in aulas:
+                if aula.id in aulas_con_eventos:
+                    result.append(aulas_con_eventos[aula.id])
+                else:
+                    # Crear una línea vacía para aulas sin eventos
+                    result.append({
+                        'aula_id': (aula.id, aula.display_name),
+                        'aula_id_count': 0,
+                        '__domain': [(u'aula_id', '=', aula.id)] + domain
+                    })
+            return result
+        return super(Horario, self).read_group(domain, fields, groupby, offset=offset, limit=limit, orderby=orderby, lazy=lazy)
