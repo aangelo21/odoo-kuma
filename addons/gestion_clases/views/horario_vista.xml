@@ -16,8 +16,8 @@
                         <field name="temario" 
                                placeholder="Escriba aquí el contenido impartido en la clase..." 
                                invisible="es_plantilla"/>
-                        <separator string="Horarios por día" />
-                        <group>
+                        <separator string="Horarios por día" invisible="not es_plantilla"/>
+                        <group invisible="not es_plantilla">
                             <group string="Lunes">
                                 <field name="lunes" />
                                 <group invisible="not lunes">
