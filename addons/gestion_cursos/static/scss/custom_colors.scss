@@ -27,6 +27,45 @@ body {
     }
 }
 
+.o_popover {
+    background-color: $o-brand-primary;
+    color: white;
+}
+
+.form-check-input {
+    border: 2px solid $o-brand-secondary !important;
+    border-radius: 4px !important;
+    background-color: #fff !important;
+
+    &:checked {
+        background-color: $o-brand-primary !important;
+        border-color: $o-brand-primary !important;
+    }
+
+    &:checked[type="checkbox"] {
+        background-image:
+            url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 16 16'%3E%3Cpath fill='none' stroke='white' stroke-width='3' d='M3 8l3 3 7-7'/%3E%3C/svg%3E") !important;
+    }
+}
+
+.modal-title, .oe_kanban, .o_dropdown_title {
+    color: white;
+}
+
+.dropdown-item {
+    color: white;
+}
+
+.dropdown-item:hover {
+    color: white;
+    background-color: $o-brand-secondary;
+}
+
+.oe_kanban:hover {
+    color: white;
+    background-color: $o-brand-secondary;
+}
+
 .o-dropdown-item {
     background-color: $o-brand-primary !important;
     color: #fff !important;
@@ -55,4 +94,163 @@ body {
 .o_event_title {
     color: #fff !important;
     font-weight: bolder;
+}
+
+.modal-header {
+    background-color: $o-brand-primary !important;
+    color: #fff !important;
+}
+
+.o_login_container, .o_user_switch_btn, .oe_login_form, body.bg-100 {
+    .oe_login_buttons, .o_database_login, .justify-content-between {
+        .btn-primary, 
+        .btn.btn-primary,
+        .btn-secondary,
+        .btn.btn-secondary,
+        .btn-link,
+        a {
+            background-color: $o-brand-secondary !important;
+            border-color: $o-brand-secondary !important;
+            color: #fff !important;
+            text-decoration: none !important;
+
+            &:hover,
+            &:focus,
+            &:active {
+                background-color: $o-brand-primary !important;
+                border-color: $o-brand-primary !important;
+                color: #fff !important;
+            }
+        }
+
+                a.btn, a[role="button"] {
+            display: inline-block;
+            padding: 0.375rem 0.75rem;
+            text-align: center;
+            vertical-align: middle;
+            cursor: pointer;
+            user-select: none;
+            background-color: $o-brand-secondary !important;
+            border: 1px solid $o-brand-secondary !important;
+            border-radius: 0.25rem;
+            transition: all 0.15s ease-in-out;
+            
+            &:hover,
+            &:focus {
+                background-color: $o-brand-primary !important;
+                border-color: $o-brand-primary !important;
+            }
+        }
+    }
+}
+
+.database-expiration, 
+.database_block, 
+.database-selector,
+.o_database_list {
+    .btn-primary, 
+    .btn.btn-primary, 
+    .o_user_switch_btn,
+    .btn-secondary,
+    .btn-link,
+    a[role="button"] {
+        background-color: $o-brand-secondary !important;
+        border-color: $o-brand-secondary !important;
+        color: #fff !important;
+        text-decoration: none !important;
+
+        &:hover,
+        &:focus,
+        &:active {
+            background-color: $o-brand-primary !important;
+            border-color: $o-brand-primary !important;
+            color: #fff !important;
+        }
+    }
+}
+
+.o_web_client.o_home_menu_background,
+.container.o_database_list,
+.o_login_container,
+.oe_login_form,
+.kuma_login_container {
+        .oe_login_buttons .btn-primary:first-child {
+        background-color: $o-brand-secondary !important;
+        border-color: $o-brand-secondary !important;
+        color: #fff !important;
+        
+        &:hover,
+        &:focus {
+            background-color: $o-brand-primary !important;
+            border-color: $o-brand-primary !important;
+        }
+    }
+
+        .btn-link,
+    a:not(.oe_login_buttons .btn-primary:first-child),
+    .reset-password-link,
+    .o_user_switch_btn,
+    button:not(.oe_login_buttons .btn-primary:first-child),
+    .oe_login_buttons .btn-primary:not(:first-child) {
+        color: $o-brand-primary !important;
+        text-decoration: none !important;
+        background: none !important;
+        border: none !important;
+        padding: 0 !important;
+        box-shadow: none !important;
+        font-weight: normal !important;
+        
+        &:hover,
+        &:focus {
+            color: $o-brand-secondary !important;
+            text-decoration: underline !important;
+            background: none !important;
+        }
+    }
+}
+
+.o_database_list {
+    a, .btn-link {
+        color: $o-brand-primary !important;
+        text-decoration: none !important;
+        background: none !important;
+        border: none !important;
+        padding: 0 !important;
+        
+        &:hover,
+        &:focus {
+            color: $o-brand-secondary !important;
+            text-decoration: underline !important;
+        }
+    }
+}
+
+.o_database_list,
+.o_login_container {
+    .o_database_list {
+        display: none !important;
+    }
+    
+    .oe_signup_form,
+    .oe_login_buttons .btn-link,
+    .o_database_select,
+    .o_database_management,
+    [href*="manage"],
+    [href*="signup"] {
+        display: none !important;
+    }
+}
+
+input.o_input, textarea.o_input, select.o_input {
+    border: 1.5px solid #003466 !important;
+    border-radius: 6px !important;
+    background: #fff !important;
+    color: #003466 !important;
+    min-height: 32px;
+}
+
+input.o_input:focus, textarea.o_input:focus, select.o_input:focus {
+    border-color: #de0000 !important;
+    box-shadow: 0 0 0 2px #de000033 !important;
+    background: #f9f9f9 !important;
 }

@@ -1,0 +1,57 @@
+body.o_web_client.o_login_background {
+    background: #f5f6fa !important;
+}
+.o_login_container {
+    min-height: 100vh !important;
+    display: flex !important;
+    align-items: center !important;
+    justify-content: center !important;
+}
+.o_login_form {
+    background: #fff !important;
+    border-radius: 16px !important;
+    box-shadow: 0 2px 16px rgba(0,0,0,0.08) !important;
+    padding: 32px 24px !important;
+    border: 2px solid #003466 !important;
+}
+.o_login_form input {
+    border: 1.5px solid #003466 !important;
+    border-radius: 8px !important;
+    background: #f9f9f9 !important;
+    color: #003466 !important;
+}
+.o_login_form label,
+.o_login_form .form-label {
+    color: #003466 !important;
+    font-weight: bold !important;
+}
+.o_login_form a,
+.o_login_form .btn-link,
+.o_login_form .text-primary,
+.o_login_form .text-info,
+.o_login_form .text-secondary,
+.o_login_form .o_login_right,
+.o_login_form .o_login_footer {
+    color: #003466 !important;
+    font-weight: bold !important;
+}
+.o_login_form a:hover {
+    color: #de0000 !important;
+}
+.o_login_form .btn-primary {
+    background-color: #de0000 !important;
+    border-color: #de0000 !important;
+    color: #fff !important;
+}
+.o_login_form .btn-primary:hover,
+.o_login_form .btn-primary:focus {
+    background-color: #003466 !important;
+    border-color: #003466 !important;
+    color: #fff !important;
+}
+
+.btn btn-primary {
+    background-color: #003466 !important;
+    border-color: #003466 !important;
+    color: #fff !important;
+}
