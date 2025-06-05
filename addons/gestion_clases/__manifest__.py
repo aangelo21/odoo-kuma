@@ -15,7 +15,10 @@ Long description of module's purpose
     'depends': ['base', 'gestion_cursos'],
     'data': [
         'security/ir.model.access.csv',
-        'views/aula_vista.xml',
+        'views/aula_list_view.xml',
+        'views/aula_form_view.xml',
+        'views/aula_actions.xml',
+        'views/aula_menu.xml'
         'views/horario_form_view.xml',
         'views/horario_list_view.xml',
         'views/horario_search_view.xml',

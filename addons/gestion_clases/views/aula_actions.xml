@@ -1,0 +1,10 @@
+<?xml version="1.0" encoding="utf-8"?>
+<odoo>
+  <data>
+    <record model="ir.actions.act_window" id="gestion_clases.action_window_aula">
+      <field name="name">Aulas</field>
+      <field name="res_model">gestion_clases.aula</field>
+      <field name="view_mode">list,form</field>
+    </record>
+  </data>
+</odoo>
