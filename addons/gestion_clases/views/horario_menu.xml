@@ -1,0 +1,18 @@
+<?xml version="1.0" encoding="utf-8"?>
+<odoo>
+  <data>
+    <menuitem name="Gestión Aulas" id="gestion_clases.menu_root" />
+    <menuitem name="Calendario" id="gestion_clases.menu_3"
+      parent="gestion_clases.menu_root"
+      action="gestion_clases.action_window_horario_calendar"
+      sequence="1" />
+    <menuitem name="Panel de Aulas" id="gestion_clases.menu_4"
+      parent="gestion_clases.menu_root"
+      action="gestion_clases.action_window_horario_panel"
+      sequence="2" />
+    <menuitem name="Horarios" id="gestion_clases.menu_2"
+      parent="gestion_clases.menu_root"
+      action="gestion_clases.action_window_horario"
+      sequence="3" />
+  </data>
+</odoo>

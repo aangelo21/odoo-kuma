@@ -1,0 +1,25 @@
+<?xml version="1.0" encoding="utf-8"?>
+<odoo>
+  <data>
+    <record model="ir.ui.view" id="gestion_clases.horario_search">
+      <field name="name">gestion_clases.horario.search</field>
+      <field name="model">gestion_clases.horario</field>
+      <field name="arch" type="xml">
+        <search>
+          <field name="curso_id" />
+          <field name="aula_id" />
+          <filter string="Lunes" name="lunes" domain="[('lunes', '=', True)]" />
+          <filter string="Martes" name="martes" domain="[('martes', '=', True)]" />
+          <filter string="Miércoles" name="miercoles" domain="[('miercoles', '=', True)]" />
+          <filter string="Jueves" name="jueves" domain="[('jueves', '=', True)]" />
+          <filter string="Viernes" name="viernes" domain="[('viernes', '=', True)]" />
+          <group expand="0" string="Group By">
+            <filter string="Curso" name="group_by_curso"
+              context="{'group_by': 'curso_id'}" />
+            <filter string="Aula" name="group_by_aula" context="{'group_by': 'aula_id'}" />
+          </group>
+        </search>
+      </field>
+    </record>
+  </data>
+</odoo>

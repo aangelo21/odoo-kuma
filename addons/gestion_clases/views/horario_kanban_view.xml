@@ -1,0 +1,42 @@
+<?xml version="1.0" encoding="utf-8"?>
+<odoo>
+  <data>
+    <record model="ir.ui.view" id="gestion_clases.horario_kanban">
+      <field name="name">gestion_clases.horario.kanban</field>
+      <field name="model">gestion_clases.horario</field>
+      <field name="arch" type="xml">
+        <kanban default_group_by="aula_id" class="o_kanban_small_column"
+          on_create="false" records_draggable="1"
+          group_create="false" group_delete="false" quick_create="false">
+          <field name="curso_id" />
+          <field name="aula_id" />
+          <field name="fecha" />
+          <field name="fecha_fin" />
+          <field name="temario" />
+          <templates>
+            <t t-name="kanban-box">
+              <div class="oe_kanban_card">
+                <div class="oe_kanban_content p-2">
+                  <strong class="d-block mb-1">
+                    <field name="curso_id" />
+                  </strong>
+                  <div class="text-muted mb-1">
+                    <i class="fa fa-clock-o" /> 
+                                        <field name="fecha" widget="datetime" /> - <field
+                      name="fecha_fin" widget="datetime" />
+                  </div>
+                  <div class="mt-2">
+                    <strong>Temario:</strong>
+                    <p class="text-muted">
+                      <field name="temario" />
+                    </p>
+                  </div>
+                </div>
+              </div>
+            </t>
+          </templates>
+        </kanban>
+      </field>
+    </record>
+  </data>
+</odoo>

@@ -16,7 +16,13 @@ Long description of module's purpose
     'data': [
         'security/ir.model.access.csv',
         'views/aula_vista.xml',
-        'views/horario_vista.xml',
+        'views/horario_form_view.xml',
+        'views/horario_list_view.xml',
+        'views/horario_search_view.xml',
+        'views/horario_calendar_view.xml',
+        'views/horario_kanban_view.xml',
+        'views/horario_actions.xml',
+        'views/horario_menu.xml',
     ],
     'demo': [
         'demo/demo.xml',

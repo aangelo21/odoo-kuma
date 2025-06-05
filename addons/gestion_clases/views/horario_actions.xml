@@ -1,0 +1,30 @@
+<?xml version="1.0" encoding="utf-8"?>
+<odoo>
+  <data>
+    <record model="ir.actions.act_window" id="gestion_clases.action_window_horario">
+      <field name="name">Horarios</field>
+      <field name="res_model">gestion_clases.horario</field>
+      <field name="view_mode">list,form</field>
+      <field name="context">{'default_es_plantilla': True}</field>
+      <field name="domain">[('es_plantilla', '=', True)]</field>
+    </record>
+
+    <record model="ir.actions.act_window" id="gestion_clases.action_window_horario_calendar">
+      <field name="name">Calendario de Horarios</field>
+      <field name="res_model">gestion_clases.horario</field>
+      <field name="view_mode">calendar</field>
+      <field name="context">{'default_es_plantilla': False}</field>
+      <field name="domain">[('es_plantilla', '=', False)]</field>
+    </record>
+
+    <record model="ir.actions.act_window" id="gestion_clases.action_window_horario_panel">
+      <field name="name">Panel de Aulas</field>
+      <field name="res_model">gestion_clases.horario</field>
+      <field name="view_mode">kanban</field>
+      <field name="context">{'default_es_plantilla': False, 'group_by': 'aula_id', 'group_create':
+        False, 'group_delete': False}</field>
+      <field name="domain">[('es_plantilla', '=', False), ('temario', '!=', False), ('temario',
+        '!=', '')]</field>
+    </record>
+  </data>
+</odoo>
