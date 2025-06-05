@@ -1,7 +1,0 @@
-<odoo>
-    <template id="gestion_cursos_favicon" inherit_id="web.layout">
-        <xpath expr="//link[@rel='shortcut icon']" position="replace">
-            <link rel="icon" type="image/png" href="/gestion_cursos/static/img/favicon.png"/>
-        </xpath>
-    </template>
-</odoo>

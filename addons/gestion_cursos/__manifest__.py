@@ -24,7 +24,6 @@ Long description of module's purpose
         'views/familia_profesional_form_view.xml',
         'views/familia_profesional_actions.xml',
         'views/familia_profesional_menu.xml',
-        'views/favicon.xml',
     ]
 }
 

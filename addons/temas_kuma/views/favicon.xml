@@ -1,0 +1,7 @@
+<odoo>
+    <template id="temas_kuma_favicon" inherit_id="web.layout">
+        <xpath expr="//head" position="inside">
+            <link rel="icon" type="image/png" href="/temas_kuma/static/img/favicon.png"/>
+        </xpath>
+    </template>
+</odoo>
