@@ -5,11 +5,11 @@
       <field name="name">gestion_clases.horario.kanban.diario</field>
       <field name="model">gestion_clases.horario</field>
       <field name="arch" type="xml">
-        <kanban default_group_by="aula_id" class="o_kanban_small_column"
-          on_create="false" records_draggable="1"
+        <kanban default_group_by="aula_display" class="o_kanban_small_column"
+          on_create="false" records_draggable="0"
           group_create="false" group_delete="false" quick_create="false">
           <field name="curso_id" />
-          <field name="aula_id" />
+          <field name="aula_display" />
           <field name="fecha" />
           <field name="fecha_fin" />
           <field name="temario" />
