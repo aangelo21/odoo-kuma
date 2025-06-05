@@ -9,13 +9,6 @@
       <field name="domain">[('es_plantilla', '=', True)]</field>
     </record>
 
-    <record model="ir.actions.act_window" id="gestion_clases.action_window_horario_calendar">
-      <field name="name">Calendario de Horarios</field>
-      <field name="res_model">gestion_clases.horario</field>
-      <field name="view_mode">calendar</field>
-      <field name="context">{'default_es_plantilla': False}</field>
-      <field name="domain">[('es_plantilla', '=', False)]</field>
-    </record>
     <record model="ir.actions.act_window" id="gestion_clases.action_window_horario_panel">
       <field name="name">Panel de Aulas</field>
       <field name="res_model">gestion_clases.horario</field>
@@ -25,14 +18,53 @@
       <field name="domain">[('es_plantilla', '=', False), ('temario', '!=', False), ('temario',
         '!=', '')]</field>
     </record>
+
     <record model="ir.actions.act_window" id="gestion_clases.action_window_horario_diario">
       <field name="name">Horarios del Día</field>
       <field name="res_model">gestion_clases.horario</field>
       <field name="view_mode">kanban</field>
       <field name="view_id" ref="gestion_clases.horario_kanban_diario" />
       <field name="context">{'default_es_plantilla': False, 'group_by': 'aula_display',
-        'group_create': False, 'group_delete': False, 'search_default_today': 1}</field>
+      'group_create': False, 'group_delete': False, 'search_default_today': 1}</field>
       <field name="domain">[('es_plantilla', '=', False)]</field>
+      <field name="search_view_id" ref="gestion_clases.horario_search"/>
+    </record>
+
+    <record id="gestion_clases.horario_search" model="ir.ui.view">
+      <field name="name">gestion_clases.horario.search</field>
+      <field name="model">gestion_clases.horario</field>
+      <field name="arch" type="xml">
+        <search>
+          <filter string="Hoy" name="today"
+                  domain="[('fecha', '&gt;=', datetime.datetime.now().strftime('%Y-%m-%d')),
+                          ('fecha', '&lt;', (datetime.datetime.now() + datetime.timedelta(days=1)).strftime('%Y-%m-%d'))]"
+                  help="Horarios de hoy"/>
+          <filter string="Mañana" name="tomorrow"
+                  domain="[('fecha', '&gt;=', (datetime.datetime.now() + datetime.timedelta(days=1)).strftime('%Y-%m-%d')),
+                          ('fecha', '&lt;', (datetime.datetime.now() + datetime.timedelta(days=2)).strftime('%Y-%m-%d'))]"
+                  help="Horarios de mañana"/>
+          <filter string="Ayer" name="yesterday"
+                  domain="[('fecha', '&gt;=', (datetime.datetime.now() - datetime.timedelta(days=1)).strftime('%Y-%m-%d')),
+                          ('fecha', '&lt;', datetime.datetime.now().strftime('%Y-%m-%d'))]"
+                  help="Horarios de ayer"/>
+          <filter string="Esta Semana" name="this_week"
+                  domain="[('fecha', '&gt;=', (datetime.datetime.now() - datetime.timedelta(days=datetime.datetime.now().weekday())).strftime('%Y-%m-%d')),
+                          ('fecha', '&lt;', (datetime.datetime.now() + datetime.timedelta(days=7-datetime.datetime.now().weekday())).strftime('%Y-%m-%d'))]"
+                  help="Horarios de esta semana"/>
+          <filter string="Este Mes" name="this_month"
+                  domain="[('fecha', '&gt;=', datetime.datetime.now().replace(day=1).strftime('%Y-%m-%d')),
+                          ('fecha', '&lt;', (datetime.datetime.now().replace(day=1) + datetime.timedelta(days=32)).replace(day=1).strftime('%Y-%m-%d'))]"
+                  help="Horarios de este mes"/>
+          <separator/>
+          <field name="fecha"/>
+          <field name="aula_id"/>
+          <field name="temario"/>
+          <group expand="1" string="Agrupar por">
+            <filter string="Aula" name="group_aula" context="{'group_by':'aula_id'}"/>
+            <filter string="Fecha" name="group_fecha" context="{'group_by':'fecha'}"/>
+          </group>
+        </search>
+      </field>
     </record>
   </data>
 </odoo>

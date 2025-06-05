@@ -1,21 +1,18 @@
 <?xml version="1.0" encoding="utf-8"?>
 <odoo>
   <data>
-    <menuitem name="Gestión Aulas" id="gestion_clases.menu_root" />    <menuitem name="Calendario" id="gestion_clases.menu_3"
-      parent="gestion_clases.menu_root"
-      action="gestion_clases.action_window_horario_calendar"
-      sequence="1" />
+    <menuitem name="Gestión Aulas" id="gestion_clases.menu_root" />
     <menuitem name="Horarios del Día" id="gestion_clases.menu_horario_diario"
       parent="gestion_clases.menu_root"
       action="gestion_clases.action_window_horario_diario"
-      sequence="2" />
+      sequence="1" />
     <menuitem name="Panel de Aulas" id="gestion_clases.menu_4"
       parent="gestion_clases.menu_root"
       action="gestion_clases.action_window_horario_panel"
-      sequence="3" />
+      sequence="2" />
     <menuitem name="Horarios" id="gestion_clases.menu_2"
       parent="gestion_clases.menu_root"
       action="gestion_clases.action_window_horario"
-      sequence="4" />
+      sequence="3" />
   </data>
 </odoo>
