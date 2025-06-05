@@ -47,14 +47,6 @@
                   domain="[('fecha', '&gt;=', (datetime.datetime.now() - datetime.timedelta(days=1)).strftime('%Y-%m-%d')),
                           ('fecha', '&lt;', datetime.datetime.now().strftime('%Y-%m-%d'))]"
                   help="Horarios de ayer"/>
-          <filter string="Esta Semana" name="this_week"
-                  domain="[('fecha', '&gt;=', (datetime.datetime.now() - datetime.timedelta(days=datetime.datetime.now().weekday())).strftime('%Y-%m-%d')),
-                          ('fecha', '&lt;', (datetime.datetime.now() + datetime.timedelta(days=7-datetime.datetime.now().weekday())).strftime('%Y-%m-%d'))]"
-                  help="Horarios de esta semana"/>
-          <filter string="Este Mes" name="this_month"
-                  domain="[('fecha', '&gt;=', datetime.datetime.now().replace(day=1).strftime('%Y-%m-%d')),
-                          ('fecha', '&lt;', (datetime.datetime.now().replace(day=1) + datetime.timedelta(days=32)).replace(day=1).strftime('%Y-%m-%d'))]"
-                  help="Horarios de este mes"/>
           <separator/>
           <field name="fecha"/>
           <field name="aula_id"/>

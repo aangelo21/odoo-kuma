@@ -31,9 +31,6 @@
                       <field name="temario" />
                     </p>
                   </div>
-                  <div class="mt-2">
-                    <span class="badge badge-info">Hoy</span>
-                  </div>
                 </div>
               </div>
             </t>
