@@ -10,6 +10,7 @@ Long description of module's purpose
     'version': '0.1',    'depends': ['base'],
     'data': [
         'security/ir.model.access.csv',
+        'views/root_menu.xml',
         'views/curso_calendar_view.xml',
         'views/curso_list_view.xml',
         'views/curso_form_view.xml',
