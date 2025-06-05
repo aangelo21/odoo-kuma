@@ -10,6 +10,7 @@ class Horario(models.Model):
 
     curso_id = fields.Many2one('gestion_cursos.curso', string='Curso', required=True)
     aula_id = fields.Many2one('gestion_clases.aula', string='Aula')
+    aula_display = fields.Many2one('gestion_clases.aula', string='Aula', readonly=True)
     fecha = fields.Datetime(string='Fecha del evento')
     fecha_fin = fields.Datetime(string='Fecha y hora de fin del evento')
     es_plantilla = fields.Boolean(string='Es plantilla', default=True)
@@ -122,39 +123,38 @@ class Horario(models.Model):
 
     @api.model
     def create(self, vals):
+        if 'aula_id' in vals:
+            vals['aula_display'] = vals['aula_id']
         record = super().create(vals)
         if record.es_plantilla:
             record._generar_eventos()
         return record
 
     def write(self, vals):
-        result = super().write(vals)
-        if self.es_plantilla:
-            self._generar_eventos()
-    
-        if 'temario' in vals and not self.es_plantilla:
-            employees = self.env['hr.employee'].search([])
-            fecha_local = fields.Datetime.context_timestamp(self, self.fecha)
-            fecha_fin_local = fields.Datetime.context_timestamp(self, self.fecha_fin)
-            
-            mail_template = {
-                'subject': f'Clase lista para subir a plataforma - {self.curso_id.nombre}',
-                'body_html': f'''
-                    <p>Se ha completado el temario de una clase y está lista para subirse a la plataforma:</p>
-                    <ul>
-                        <li><strong>Curso:</strong> {self.curso_id.nombre}</li>
-                        <li><strong>Aula:</strong> {self.aula_id.display_name}</li>
-                        <li><strong>Hora inicio:</strong> {fecha_local.strftime('%H:%M')}</li>
-                        <li><strong>Hora fin:</strong> {fecha_fin_local.strftime('%H:%M')}</li>
-                        <li><strong>Contenido impartido:</strong> {self.temario}</li>
-                    </ul>
-                ''',
-                'email_from': self.env.user.email,
-                'email_to': ','.join(employees.mapped('work_email')),
-            }
-            self.env['mail.mail'].create(mail_template).send()
-            
-        return result
+        # No actualizamos aula_display aunque cambie aula_id
+        return super().write(vals)
+
+    def _send_email_notificacion(self):
+        employees = self.env['hr.employee'].search([])
+        fecha_local = fields.Datetime.context_timestamp(self, self.fecha)
+        fecha_fin_local = fields.Datetime.context_timestamp(self, self.fecha_fin)
+        
+        mail_template = {
+            'subject': f'Clase lista para subir a plataforma - {self.curso_id.nombre}',
+            'body_html': f'''
+                <p>Se ha completado el temario de una clase y está lista para subirse a la plataforma:</p>
+                <ul>
+                    <li><strong>Curso:</strong> {self.curso_id.nombre}</li>
+                    <li><strong>Aula:</strong> {self.aula_id.display_name}</li>
+                    <li><strong>Hora inicio:</strong> {fecha_local.strftime('%H:%M')}</li>
+                    <li><strong>Hora fin:</strong> {fecha_fin_local.strftime('%H:%M')}</li>
+                    <li><strong>Contenido impartido:</strong> {self.temario}</li>
+                </ul>
+            ''',
+            'email_from': self.env.user.email,
+            'email_to': ','.join(employees.mapped('work_email')),
+        }
+        self.env['mail.mail'].create(mail_template).send()
 
     @api.constrains('aula_id', 'lunes', 'martes', 'miercoles', 'jueves', 'viernes',
                     'lunes_hora_inicio', 'lunes_hora_fin',
