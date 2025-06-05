@@ -101,13 +101,13 @@
             <field name="model">gestion_clases.horario</field>
             <field name="arch" type="xml">
                 <calendar date_start="fecha" 
-                 date_stop="fecha_fin" 
-                 string="Horario de Clases"
-                 mode="week" 
-                 color="color_event" 
-                 event_open_popup="true">
+                        date_stop="fecha_fin" 
+                        string="Horario de Clases"
+                        mode="week" 
+                        color="color_event" 
+                        event_open_popup="true">
                     <field name="curso_id" />
-                    <field name="aula_id" />
+                    <field name="aula_display" />
                 </calendar>
             </field>
         </record>
