@@ -4,10 +4,10 @@
     <record model="ir.ui.view" id="gestion_clases.horario_search">
       <field name="name">gestion_clases.horario.search</field>
       <field name="model">gestion_clases.horario</field>
-      <field name="arch" type="xml">
-        <search>
+      <field name="arch" type="xml">        <search>
           <field name="curso_id" />
           <field name="aula_id" />
+          <filter string="Hoy" name="today" domain="[('fecha', '&gt;=', (context_today()).strftime('%Y-%m-%d 00:00:00')), ('fecha', '&lt;=', (context_today()).strftime('%Y-%m-%d 23:59:59'))]" />
           <filter string="Lunes" name="lunes" domain="[('lunes', '=', True)]" />
           <filter string="Martes" name="martes" domain="[('martes', '=', True)]" />
           <filter string="Miércoles" name="miercoles" domain="[('miercoles', '=', True)]" />

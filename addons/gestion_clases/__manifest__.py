@@ -12,8 +12,7 @@ Long description of module's purpose
     'category': 'Uncategorized',
     'version': '0.1',
 
-    'depends': ['base', 'gestion_cursos'],
-    'data': [
+    'depends': ['base', 'gestion_cursos'],    'data': [
         'security/ir.model.access.csv',
         'views/root_menu.xml',
         'views/aula_list_view.xml',
@@ -25,6 +24,7 @@ Long description of module's purpose
         'views/horario_search_view.xml',
         'views/horario_calendar_view.xml',
         'views/horario_kanban_view.xml',
+        'views/horario_kanban_diario_view.xml',
         'views/horario_actions.xml',
         'views/horario_menu.xml',
     ],
