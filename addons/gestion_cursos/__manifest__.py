@@ -25,17 +25,6 @@ Long description of module's purpose
         'views/familia_profesional_actions.xml',
         'views/familia_profesional_menu.xml',
         'views/favicon.xml',
-    ],
-    'assets': {
-        'web.assets_backend': [
-            'gestion_cursos/static/scss/custom_colors.scss',
-            'gestion_cursos/static/scss/iconos-actuales.scss',
-            'gestion_cursos/static/scss/font-size.scss',
-        ],
-        'web.assets_frontend': [
-            'gestion_cursos/static/scss/custom_colors.scss',
-            'gestion_cursos/static/css/login.css',
-        ],
-    },
+    ]
 }
 
