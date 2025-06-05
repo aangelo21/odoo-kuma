@@ -1,0 +1,22 @@
+<?xml version="1.0" encoding="utf-8"?>
+<odoo>
+  <data>
+    <record model="ir.ui.view" id="gestion_cursos.curso_calendar">
+      <field name="name">gestion_cursos.curso.calendar</field>
+      <field name="model">gestion_cursos.curso</field>
+      <field name="arch" type="xml">
+        <calendar string="Cursos"
+          date_start="fecha_inicio"
+          date_stop="fecha_fin"
+          mode="month"
+          color="color_calendar"
+          event_open_popup="true">
+          <field name="nombre" />
+          <field name="expediente" />
+          <field name="tutor" />
+          <field name="id_categoria" />
+        </calendar>
+      </field>
+    </record>
+  </data>
+</odoo>

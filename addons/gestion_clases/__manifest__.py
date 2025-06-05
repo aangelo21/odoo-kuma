@@ -18,7 +18,7 @@ Long description of module's purpose
         'views/aula_list_view.xml',
         'views/aula_form_view.xml',
         'views/aula_actions.xml',
-        'views/aula_menu.xml'
+        'views/aula_menu.xml',
         'views/horario_form_view.xml',
         'views/horario_list_view.xml',
         'views/horario_search_view.xml',

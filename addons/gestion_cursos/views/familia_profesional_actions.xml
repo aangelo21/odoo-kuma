@@ -1,0 +1,10 @@
+<?xml version="1.0" encoding="utf-8"?>
+<odoo>
+  <data>
+    <record model="ir.actions.act_window" id="gestion_cursos.action_window_familia_profesional">
+      <field name="name">Familias Profesionales</field>
+      <field name="res_model">gestion_cursos.familia_profesional</field>
+      <field name="view_mode">list,form</field>
+    </record>
+  </data>
+</odoo>

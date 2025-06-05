@@ -1,0 +1,16 @@
+<?xml version="1.0" encoding="utf-8"?>
+<odoo>
+  <data>
+    <record model="ir.ui.view" id="gestion_cursos.categoria_list">
+      <field name="name">gestion_cursos.categoria.list</field>
+      <field name="model">gestion_cursos.categoria</field>
+      <field name="arch" type="xml">
+        <list>
+          <field name="nombre" />
+          <field name="color" />
+          <field name="id_curso" />
+        </list>
+      </field>
+    </record>
+  </data>
+</odoo>
