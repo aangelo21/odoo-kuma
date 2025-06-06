@@ -24,7 +24,7 @@ Long description of module's purpose
         'views/horario_list_view.xml',
         'views/horario_search_view.xml',
         'views/horario_kanban_view.xml',
-        'views/horario_kanban_diario_view.xml',
+        'views/horario_calendar_view.xml',
         'views/horario_actions.xml',
         'views/horario_menu.xml',
     ],

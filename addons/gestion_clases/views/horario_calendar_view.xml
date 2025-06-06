@@ -1,0 +1,20 @@
+<?xml version="1.0" encoding="utf-8"?>
+<odoo>
+  <data>
+    <record model="ir.ui.view" id="horario_calendar_view">
+      <field name="name">gestion_clases.horario.calendar</field>
+      <field name="model">gestion_clases.horario</field>
+      <field name="arch" type="xml">
+        <calendar date_start="fecha" 
+         date_stop="fecha_fin" 
+         string="Horario de Clases"
+         mode="week" 
+         color="color_event" 
+         event_open_popup="true">
+          <field name="curso_id" />
+          <field name="aula_id" />
+        </calendar>
+      </field>
+    </record>
+  </data>
+</odoo>

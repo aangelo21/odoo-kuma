@@ -42,6 +42,17 @@ class Horario(models.Model):
     hora_inicio_evento = fields.Float(string='Hora de inicio', compute='_compute_hora_evento', inverse='_inverse_hora_inicio')
     hora_fin_evento = fields.Float(string='Hora de fin', compute='_compute_hora_evento', inverse='_inverse_hora_fin')
 
+    def name_get(self):
+        result = []
+        for record in self:
+            if record.es_plantilla:
+                name = f"{record.curso_id.name} - Plantilla"
+            else:
+                aula_text = f" - {record.aula_id.name}" if record.aula_id else ""
+                name = f"{record.curso_id.name}{aula_text}"
+            result.append((record.id, name))
+        return result
+
     @api.depends('temario')
     def _compute_color_event(self):
         for record in self:

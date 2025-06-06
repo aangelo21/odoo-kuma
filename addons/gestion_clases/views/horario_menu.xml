@@ -2,10 +2,12 @@
 <odoo>
   <data>
     <menuitem name="Gestión Aulas" id="gestion_clases.menu_root" />
-    <menuitem name="Calendario" id="gestion_clases.menu_horario_diario"
+
+    <menuitem name="Calendario" id="gestion_clases.menu_calendar"
       parent="gestion_clases.menu_root"
-      action="gestion_clases.action_window_horario_diario"
+      action="gestion_clases.action_window_horario_calendar_eventos"
       sequence="1" />
+
     <menuitem name="Grabación de clases" id="gestion_clases.menu_4"
       parent="gestion_clases.menu_root"
       action="gestion_clases.action_window_horario_panel"
@@ -14,5 +16,7 @@
       parent="gestion_clases.menu_root"
       action="gestion_clases.action_window_horario"
       sequence="3" />
+
+
   </data>
 </odoo>
