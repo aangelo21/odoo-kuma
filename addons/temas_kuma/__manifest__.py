@@ -1,6 +1,6 @@
 # -*- coding: utf-8 -*-
 {
-    'name': "Temas Kuma",
+    'name': "Tema Kuma",
     'summary': "Módulo para los estilos de la aplicación",
     'description': """
 Long description of module's purpose
