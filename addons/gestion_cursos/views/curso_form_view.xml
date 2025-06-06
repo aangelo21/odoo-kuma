@@ -12,7 +12,7 @@
               <field name="nombre" />
               <field name="expediente" />
               <field name="codigo" />
-              <field name="tutor" />
+              <field name="id_tutor" />
             </group>
             <separator string="Fechas" />
             <group>
@@ -30,7 +30,6 @@
           <separator string="Clasificación" />
           <group>
             <field name="id_categoria" />
-            <field name="id_familia_profesional" />
             <field name="modalidad" />
             <field name="tipo_destinatario" />
             <field name="duracion" />

@@ -12,7 +12,7 @@
           event_open_popup="true">
           <field name="nombre" />
           <field name="expediente" />
-          <field name="tutor" />
+          <field name="id_tutor" />
           <field name="id_categoria" />
         </calendar>
       </field>

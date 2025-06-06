@@ -1,9 +1,9 @@
 <?xml version="1.0" encoding="utf-8"?>
 <odoo>
   <data>
-    <record model="ir.ui.view" id="gestion_cursos.familia_profesional_form">
-      <field name="name">gestion_cursos.familia_profesional.form</field>
-      <field name="model">gestion_cursos.familia_profesional</field>
+    <record model="ir.ui.view" id="gestion_cursos.tutor_form">
+      <field name="name">gestion_cursos.tutor.form</field>
+      <field name="model">gestion_cursos.tutor</field>
       <field name="arch" type="xml">
         <form>
           <sheet>
