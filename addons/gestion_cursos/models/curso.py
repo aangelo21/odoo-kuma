@@ -9,7 +9,7 @@ class Curso(models.Model):
     nombre = fields.Char(string = 'Nombre')
     expediente = fields.Char(string = 'Expediente')
     codigo = fields.Char(string = 'Código')
-    tutor = fields.Char(string = 'Tutor')
+    id_tutor = fields.Many2one('gestion_cursos.tutor', string='Tutor')
     duracion = fields.Integer(string = 'Duración')
     modalidad = fields.Selection([
         ('presencial', 'Presencial'),
@@ -25,7 +25,7 @@ class Curso(models.Model):
     fecha_fin = fields.Date(string='Fecha Fin')
     fecha_consolidacion = fields.Date(string='Fecha de consolidación')
     id_categoria = fields.Many2one('gestion_cursos.categoria', string='Categoría')
-    id_familia_profesional = fields.Many2one('gestion_cursos.familia_profesional', string='Familia profesional')
+    
     color_categoria = fields.Selection(
         related='id_categoria.color',
         string='Color de categoría',
@@ -33,7 +33,6 @@ class Curso(models.Model):
     )
 
     color_calendar = fields.Char(string='Color calendario', compute='_compute_color_calendar', store=True)
-
     consolidados_display = fields.Char(
         string="Consolidados",
         compute="_compute_consolidados_display"

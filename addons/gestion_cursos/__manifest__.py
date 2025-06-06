@@ -20,10 +20,10 @@ Long description of module's purpose
         'views/categoria_form_view.xml',
         'views/categoria_actions.xml',
         'views/categoria_menu.xml',
-        'views/familia_profesional_list_view.xml',
-        'views/familia_profesional_form_view.xml',
-        'views/familia_profesional_actions.xml',
-        'views/familia_profesional_menu.xml',
+        'views/tutor_list_view.xml',
+        'views/tutor_form_view.xml',
+        'views/tutor_actions.xml',
+        'views/tutor_menu.xml',
     ]
 }
 
