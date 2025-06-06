@@ -4,12 +4,12 @@ from odoo import models, fields, api # type: ignore
 class Curso(models.Model):
     _name = 'gestion_cursos.curso'
     _description = 'gestion_cursos.curso'
-    _rec_name = 'nombre'
-
+    _rec_name = 'nombre'    
     nombre = fields.Char(string = 'Nombre')
     expediente = fields.Char(string = 'Expediente')
-    codigo = fields.Char(string = 'Código')
-    id_tutor = fields.Many2one('gestion_cursos.tutor', string='Tutor')
+    codigo = fields.Char(string = 'Código')    
+    id_tutor = fields.Many2many('gestion_cursos.tutor', string='Tutores')
+    tutor = fields.Char(string='Tutores (texto)', compute='_compute_tutor_display', store=False)
     duracion = fields.Integer(string = 'Duración')
     modalidad = fields.Selection([
         ('presencial', 'Presencial'),
@@ -27,8 +27,7 @@ class Curso(models.Model):
     id_categoria = fields.Many2one('gestion_cursos.categoria', string='Categoría')
     
     color_categoria = fields.Selection(
-        related='id_categoria.color',
-        string='Color de categoría',
+        related='id_categoria.color',        string='Color de categoría',
         store=False
     )
 
@@ -48,14 +47,20 @@ class Curso(models.Model):
         for record in self:
             consolidados = record.numero_alumnos_consolidacion or 0
             total = record.numero_alumnos or 0
-            record.consolidados_display = f"{consolidados}/{total}"
+            if total > 0:
+                record.consolidados_display = f"{consolidados}/{total}"
+            else:
+                record.consolidados_display = "0/0"
     
     @api.depends('numero_alumnos_finalizados', 'numero_alumnos_consolidacion')
     def _compute_finalizados_display(self):
         for record in self:
             finalizados = record.numero_alumnos_finalizados or 0
             consolidados = record.numero_alumnos_consolidacion or 0
-            record.finalizados_display = f"{finalizados}/{consolidados}"
+            if consolidados > 0:
+                record.finalizados_display = f"{finalizados}/{consolidados}"
+            else:
+                record.finalizados_display = "0/0"
 
     @api.model_create_multi
     def create(self, vals_list):
