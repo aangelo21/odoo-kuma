@@ -1,0 +1,16 @@
+<?xml version="1.0" encoding="utf-8"?>
+<odoo>
+  <data>
+    <record model="ir.actions.act_window" id="gestion_cursos.cursos_action_window_curso">
+      <field name="name">Cursos</field>
+      <field name="res_model">gestion_cursos.curso</field>
+      <field name="view_mode">list,form</field>
+    </record>
+
+    <record model="ir.actions.act_window" id="gestion_cursos.cursos_action_window_calendario">
+      <field name="name">Calendario de Cursos</field>
+      <field name="res_model">gestion_cursos.curso</field>
+      <field name="view_mode">calendar</field>
+    </record>
+  </data>
+</odoo>

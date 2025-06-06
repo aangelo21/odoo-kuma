@@ -1,0 +1,8 @@
+<?xml version="1.0" encoding="utf-8"?>
+<odoo>
+    <data>
+        <menuitem name="Gestión Aulas" 
+                  id="gestion_clases.menu_root" 
+                  web_icon="gestion_clases,static/description/icon.png"/>
+    </data>
+</odoo>

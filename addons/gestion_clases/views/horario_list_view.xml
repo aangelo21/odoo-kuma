@@ -1,0 +1,20 @@
+<?xml version="1.0" encoding="utf-8"?>
+<odoo>
+  <data>
+    <record model="ir.ui.view" id="gestion_clases.horario_list">
+      <field name="name">gestion_clases.horario.list</field>
+      <field name="model">gestion_clases.horario</field>
+      <field name="arch" type="xml">
+        <list>
+          <field name="curso_id" />
+          <field name="aula_id" />
+          <field name="lunes" />
+          <field name="martes" />
+          <field name="miercoles" />
+          <field name="jueves" />
+          <field name="viernes" />
+        </list>
+      </field>
+    </record>
+  </data>
+</odoo>

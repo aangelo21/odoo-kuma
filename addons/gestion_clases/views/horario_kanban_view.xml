@@ -1,0 +1,66 @@
+<?xml version="1.0" encoding="utf-8"?>
+<odoo>
+  <data>
+    <record model="ir.ui.view" id="gestion_clases.horario_kanban">
+      <field name="name">gestion_clases.horario.kanban</field>
+      <field name="model">gestion_clases.horario</field>
+      <field name="arch" type="xml">
+        <kanban default_group_by="aula_id" class="o_kanban_small_column"
+          on_create="false" records_draggable="1"
+          group_create="false" group_delete="false" quick_create="false">
+          <field name="curso_id" />
+          <field name="aula_id" />
+          <field name="fecha" />
+          <field name="fecha_fin" />
+          <field name="temario" />          <templates>            
+            <t t-name="kanban-box">
+              <div class="oe_kanban_card" style="border-radius: 10px; border: 1px solid #dee2e6; box-shadow: 0 2px 4px rgba(0,0,0,0.1);">
+                <div class="oe_kanban_content p-3">
+                  <!-- Curso -->
+                  <div class="d-flex align-items-center mb-3">
+                    <i class="fa fa-graduation-cap text-primary me-2" style="font-size: 1.2em;"/>
+                    <strong class="fs-5 text-primary">
+                      <field name="curso_id" />
+                    </strong>
+                  </div>
+                  
+                  <!-- Horarios -->
+                  <div class="mb-3">
+                    <div class="d-flex align-items-center mb-2 bg-light p-2 rounded">
+                      <i class="fa fa-play-circle text-success me-2"/>
+                      <div>
+                        <small class="text-muted d-block">Inicio</small>
+                        <strong>
+                          <field name="fecha" widget="datetime" options="{'format': 'EEEE d MMM, HH:mm'}" />
+                        </strong>
+                      </div>
+                    </div>
+                    <div class="d-flex align-items-center bg-light p-2 rounded">
+                      <i class="fa fa-stop-circle text-danger me-2"/>
+                      <div>
+                        <small class="text-muted d-block">Fin</small>
+                        <strong>
+                          <field name="fecha_fin" widget="datetime" options="{'format': 'EEEE d MMM, HH:mm'}" />
+                        </strong>
+                      </div>
+                    </div>
+                  </div>
+                    <!-- Temario -->
+                  <div class="border-top pt-2">
+                    <div class="d-flex align-items-center mb-2">
+                      <i class="fa fa-book text-info me-2"/>
+                      <strong class="text-info">Temario</strong>
+                    </div>
+                    <div class="text-dark" style="max-height: 80px; overflow: hidden; font-size: 0.9rem; line-height: 1.4;">
+                      <field name="temario" />
+                    </div>
+                  </div>
+                </div>
+              </div>
+            </t>
+          </templates>
+        </kanban>
+      </field>
+    </record>
+  </data>
+</odoo>

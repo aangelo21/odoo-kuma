@@ -1,0 +1,14 @@
+<?xml version="1.0" encoding="utf-8"?>
+<odoo>
+  <data>
+    <menuitem name="Gestión Cursos" id="gestion_cursos.menu_root" />
+    <menuitem name="Calendario" id="gestion_cursos.cursos_menu_calendar"
+      parent="gestion_cursos.menu_root"
+      action="gestion_cursos.cursos_action_window_calendario"
+      sequence="1" />
+    <menuitem name="Cursos" id="gestion_cursos.cursos_menu_3_list"
+      parent="gestion_cursos.menu_root"
+      action="gestion_cursos.cursos_action_window_curso"
+      sequence="2" />
+  </data>
+</odoo>

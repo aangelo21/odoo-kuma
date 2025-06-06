@@ -1,0 +1,92 @@
+<?xml version="1.0" encoding="utf-8"?>
+<odoo>
+  <data>
+    <record model="ir.ui.view" id="gestion_clases.horario_kanban_diario">
+      <field name="name">gestion_clases.horario.kanban.diario</field>
+      <field name="model">gestion_clases.horario</field>
+      <field name="priority" eval="1"/>
+      <field name="arch" type="xml">
+        <kanban default_group_by="aula_display" class="o_kanban_small_column"
+          on_create="false" records_draggable="0"
+          group_create="false" group_delete="false" quick_create="false"
+          open_form_view_id="horario_form_kanban_edit">
+          <field name="curso_id" />
+          <field name="aula_display" />
+          <field name="fecha" />
+          <field name="fecha_fin" />
+          <field name="temario" />          <templates>            
+            <t t-name="kanban-box">
+              <div
+                t-attf-class="oe_kanban_card #{record.temario.raw_value ? 'bg-success' : 'bg-danger'}"
+                style="border-radius: 10px; box-shadow: 0 2px 4px rgba(0,0,0,0.2); cursor: pointer;">
+                <div class="oe_kanban_content p-3">
+                  <!-- Curso -->
+                  <div class="d-flex align-items-center mb-3">
+                    <i class="fa fa-graduation-cap text-white me-2" style="font-size: 1.2em;"/>
+                    <strong class="fs-5 text-white">
+                      <field name="curso_id" />
+                    </strong>
+                  </div>
+                  
+                  <!-- Horarios -->
+                  <div class="mb-3">
+                    <div class="d-flex align-items-center mb-2 bg-white bg-opacity-25 p-2 rounded">
+                      <i class="fa fa-play-circle text-white me-2"/>
+                      <div>
+                        <small class="text-white-50 d-block">Inicio</small>
+                        <strong class="text-white">
+                          <field name="fecha" widget="datetime" options="{'format': 'EEEE d MMM, HH:mm'}" />
+                        </strong>
+                      </div>
+                    </div>
+                    <div class="d-flex align-items-center bg-white bg-opacity-25 p-2 rounded">
+                      <i class="fa fa-stop-circle text-white me-2"/>
+                      <div>
+                        <small class="text-white-50 d-block">Fin</small>
+                        <strong class="text-white">
+                          <field name="fecha_fin" widget="datetime" options="{'format': 'EEEE d MMM, HH:mm'}" />
+                        </strong>
+                      </div>
+                    </div>
+                  </div>
+                    <!-- Temario -->
+                  <div class="border-top border-white border-opacity-25 pt-2">
+                    <div class="d-flex align-items-center mb-2">
+                      <i class="fa fa-book text-white me-2"/>
+                      <strong class="text-white">Temario</strong>
+                    </div>
+                    <div class="text-white" style="max-height: 80px; overflow: hidden; font-size: 0.9rem; line-height: 1.4;">
+                      <field name="temario" />
+                    </div>
+                  </div>
+                </div>
+              </div>
+            </t>
+          </templates>
+        </kanban>
+      </field>
+    </record>    <!-- Vista formulario simplificada para edición desde kanban -->
+    <record id="horario_form_kanban_edit" model="ir.ui.view">
+      <field name="name">gestion_clases.horario.form.kanban.edit</field>
+      <field name="model">gestion_clases.horario</field>
+      <field name="priority" eval="16"/>
+      <field name="arch" type="xml">
+        <form string="Editar Horario">
+          <sheet>
+            <group>
+              <group>
+                <field name="curso_id" readonly="1" options="{'no_create': True, 'no_open': True}"/>
+                <field name="aula_display" readonly="1" options="{'no_create': True, 'no_open': True}"/>
+              </group>              <group>
+                <field name="hora_inicio_evento" widget="float_time" string="Hora de inicio"/>
+                <field name="hora_fin_evento" widget="float_time" string="Hora de fin"/>
+              </group>
+            </group>
+            <separator string="Temario"/>
+            <field name="temario" placeholder="Escriba aquí el contenido impartido en la clase..."/>
+          </sheet>
+        </form>
+      </field>
+    </record>
+  </data>
+</odoo>

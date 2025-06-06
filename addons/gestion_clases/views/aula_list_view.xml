@@ -1,0 +1,15 @@
+<?xml version="1.0" encoding="utf-8"?>
+<odoo>
+  <data>
+    <record model="ir.ui.view" id="gestion_clases.aula_list">
+      <field name="name">gestion_clases aula list</field>
+      <field name="model">gestion_clases.aula</field>
+      <field name="arch" type="xml">
+        <list>
+          <field name="nombre" />
+          <field name="centro" />
+        </list>
+      </field>
+    </record>
+  </data>
+</odoo>

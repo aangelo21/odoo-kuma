@@ -1,0 +1,9 @@
+<?xml version="1.0" encoding="utf-8"?>
+<odoo>
+  <data>
+    <menuitem name="Categorías"
+      id="gestion_cursos.menu_categoria"
+      parent="gestion_cursos.menu_root"
+      action="gestion_cursos.action_window_categoria" />
+  </data>
+</odoo>

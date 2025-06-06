@@ -10,6 +10,7 @@ class Horario(models.Model):
 
     curso_id = fields.Many2one('gestion_cursos.curso', string='Curso', required=True)
     aula_id = fields.Many2one('gestion_clases.aula', string='Aula')
+    aula_display = fields.Many2one('gestion_clases.aula', string='Aula', readonly=True)
     fecha = fields.Datetime(string='Fecha del evento')
     fecha_fin = fields.Datetime(string='Fecha y hora de fin del evento')
     es_plantilla = fields.Boolean(string='Es plantilla', default=True)
@@ -36,6 +37,10 @@ class Horario(models.Model):
     viernes = fields.Boolean(string='Viernes')
     viernes_hora_inicio = fields.Float(string='Hora inicio viernes')
     viernes_hora_fin = fields.Float(string='Hora fin viernes')
+
+    # Campos auxiliares para mostrar solo la hora en formularios
+    hora_inicio_evento = fields.Float(string='Hora de inicio', compute='_compute_hora_evento', inverse='_inverse_hora_inicio')
+    hora_fin_evento = fields.Float(string='Hora de fin', compute='_compute_hora_evento', inverse='_inverse_hora_fin')
 
     @api.depends('temario')
     def _compute_color_event(self):
@@ -106,7 +111,6 @@ class Horario(models.Model):
                 min_f = int((hora_fin - hora_f) * 60)
                 fecha_fin = datetime.combine(fecha_actual, datetime.min.time())
                 fecha_fin = fecha_fin.replace(hour=hora_f, minute=min_f)
-                
                 local_dt_fin = tz.localize(fecha_fin)
                 fecha_fin_utc = local_dt_fin.astimezone(pytz.UTC).replace(tzinfo=None)
 
@@ -118,43 +122,77 @@ class Horario(models.Model):
                     'es_plantilla': False,
                     'plantilla_id': self.id,
                 })
-            fecha_actual += timedelta(days=1)
-
-    @api.model
+            fecha_actual += timedelta(days=1)    @api.model
     def create(self, vals):
+        if 'aula_id' in vals:
+            vals['aula_display'] = vals['aula_id']
         record = super().create(vals)
         if record.es_plantilla:
             record._generar_eventos()
         return record
-
-    def write(self, vals):
-        result = super().write(vals)
-        if self.es_plantilla:
-            self._generar_eventos()
     
-        if 'temario' in vals and not self.es_plantilla:
-            employees = self.env['hr.employee'].search([])
-            fecha_local = fields.Datetime.context_timestamp(self, self.fecha)
-            fecha_fin_local = fields.Datetime.context_timestamp(self, self.fecha_fin)
-            
-            mail_template = {
-                'subject': f'Clase lista para subir a plataforma - {self.curso_id.nombre}',
-                'body_html': f'''
-                    <p>Se ha completado el temario de una clase y está lista para subirse a la plataforma:</p>
-                    <ul>
-                        <li><strong>Curso:</strong> {self.curso_id.nombre}</li>
-                        <li><strong>Aula:</strong> {self.aula_id.display_name}</li>
-                        <li><strong>Hora inicio:</strong> {fecha_local.strftime('%H:%M')}</li>
-                        <li><strong>Hora fin:</strong> {fecha_fin_local.strftime('%H:%M')}</li>
-                        <li><strong>Contenido impartido:</strong> {self.temario}</li>
-                    </ul>
-                ''',
-                'email_from': self.env.user.email,
-                'email_to': ','.join(employees.mapped('work_email')),
-            }
-            self.env['mail.mail'].create(mail_template).send()
-            
+    def write(self, vals):
+        # No actualizamos aula_display aunque cambie aula_id
+        result = super().write(vals)
+        
+        # Regenerar eventos si es una plantilla y se han modificado campos relevantes
+        campos_relevantes = [
+            'curso_id', 'aula_id', 'lunes', 'martes', 'miercoles', 'jueves', 'viernes',
+            'lunes_hora_inicio', 'lunes_hora_fin', 'martes_hora_inicio', 'martes_hora_fin',
+            'miercoles_hora_inicio', 'miercoles_hora_fin', 'jueves_hora_inicio', 'jueves_hora_fin',
+            'viernes_hora_inicio', 'viernes_hora_fin'
+        ]
+        
+        if any(campo in vals for campo in campos_relevantes):
+            for record in self:
+                if record.es_plantilla:
+                    record._generar_eventos()
+        
         return result
+
+    @api.constrains('aula_id', 'fecha', 'fecha_fin')
+    def _check_solapamiento_eventos(self):
+        """Validation for non-template events (panel de aulas)"""
+        for record in self:
+            # Skip validation for templates or if skip flag is set
+            if record.es_plantilla or self.env.context.get('skip_overlap_validation', False):
+                continue
+                
+            if not record.aula_id or not record.fecha or not record.fecha_fin:
+                continue
+
+            domain = [
+                ('id', '!=', record.id),
+                ('aula_id', '=', record.aula_id.id),
+                ('es_plantilla', '=', False),
+                ('fecha', '<', record.fecha_fin),
+                ('fecha_fin', '>', record.fecha)
+            ]
+
+            if self.search_count(domain) > 0:
+                raise ValidationError('El aula ya está ocupada en la fecha y horario seleccionados')
+
+    def _send_email_notificacion(self):
+        employees = self.env['hr.employee'].search([])
+        fecha_local = fields.Datetime.context_timestamp(self, self.fecha)
+        fecha_fin_local = fields.Datetime.context_timestamp(self, self.fecha_fin)
+        
+        mail_template = {
+            'subject': f'Clase lista para subir a plataforma - {self.curso_id.nombre}',
+            'body_html': f'''
+                <p>Se ha completado el temario de una clase y está lista para subirse a la plataforma:</p>
+                <ul>
+                    <li><strong>Curso:</strong> {self.curso_id.nombre}</li>
+                    <li><strong>Aula:</strong> {self.aula_id.display_name}</li>
+                    <li><strong>Hora inicio:</strong> {fecha_local.strftime('%H:%M')}</li>
+                    <li><strong>Hora fin:</strong> {fecha_fin_local.strftime('%H:%M')}</li>
+                    <li><strong>Contenido impartido:</strong> {self.temario}</li>
+                </ul>
+            ''',
+            'email_from': self.env.user.email,
+            'email_to': ','.join(employees.mapped('work_email')),
+        }
+        self.env['mail.mail'].create(mail_template).send()
 
     @api.constrains('aula_id', 'lunes', 'martes', 'miercoles', 'jueves', 'viernes',
                     'lunes_hora_inicio', 'lunes_hora_fin',
@@ -210,22 +248,11 @@ class Horario(models.Model):
                             otro_hora_fin = getattr(otro, f'{dia}_hora_fin')
                             
                             if getattr(otro, dia) and (
-                                (hora_inicio < otro_hora_fin and hora_fin > otro_hora_inicio)
-                            ):
+                                (hora_inicio < otro_hora_fin and hora_fin > otro_hora_inicio)                            ):
                                 raise ValidationError(
                                     f'Ya existe una plantilla de horario que usa esta aula el {dia} '
                                     f'en el horario seleccionado durante las fechas del curso'
                                 )
-            else:
-                domain.append(('es_plantilla', '=', False))
-                if record.fecha and record.fecha_fin:
-                    domain.extend([
-                        ('fecha', '<', record.fecha_fin),
-                        ('fecha_fin', '>', record.fecha)
-                    ])
-
-                if self.search_count(domain) > 0:
-                    raise ValidationError('El aula ya está ocupada en la fecha y horario seleccionados')
 
     def unlink(self):
         for record in self:
@@ -249,23 +276,18 @@ class Horario(models.Model):
     @api.model
     def read_group(self, domain, fields, groupby, offset=0, limit=None, orderby=False, lazy=True):
         if 'aula_id' in groupby:
-            # Obtener todas las aulas existentes
             Aula = self.env['gestion_clases.aula']
             aulas = Aula.search([])
-            
-            # Obtener los resultados normales del agrupamiento
+  
             res = super(Horario, self).read_group(domain, fields, groupby, offset=offset, limit=limit, orderby=orderby, lazy=lazy)
             
-            # Crear un diccionario con las aulas que ya tienen eventos
             aulas_con_eventos = {r['aula_id'][0]: r for r in res if r.get('aula_id')}
             
-            # Asegurarnos de que todas las aulas aparezcan
             result = []
             for aula in aulas:
                 if aula.id in aulas_con_eventos:
                     result.append(aulas_con_eventos[aula.id])
                 else:
-                    # Crear una línea vacía para aulas sin eventos
                     result.append({
                         'aula_id': (aula.id, aula.display_name),
                         'aula_id_count': 0,
@@ -273,3 +295,38 @@ class Horario(models.Model):
                     })
             return result
         return super(Horario, self).read_group(domain, fields, groupby, offset=offset, limit=limit, orderby=orderby, lazy=lazy)
+
+    @api.depends('fecha', 'fecha_fin')
+    def _compute_hora_evento(self):
+        for record in self:
+            if record.fecha:
+                fecha_local = fields.Datetime.context_timestamp(record, record.fecha)
+                record.hora_inicio_evento = fecha_local.hour + fecha_local.minute / 60.0
+            else:
+                record.hora_inicio_evento = 0.0
+                
+            if record.fecha_fin:
+                fecha_fin_local = fields.Datetime.context_timestamp(record, record.fecha_fin)
+                record.hora_fin_evento = fecha_fin_local.hour + fecha_fin_local.minute / 60.0
+            else:                record.hora_fin_evento = 0.0
+    
+    def _inverse_hora_inicio(self):
+        for record in self:
+            if record.fecha and record.hora_inicio_evento:
+                fecha_local = fields.Datetime.context_timestamp(record, record.fecha)
+                hora = int(record.hora_inicio_evento)
+                minuto = int((record.hora_inicio_evento - hora) * 60)
+                nueva_fecha = fecha_local.replace(hour=hora, minute=minuto, second=0, microsecond=0)
+                nueva_fecha_utc = nueva_fecha.astimezone(pytz.UTC).replace(tzinfo=None)
+                record.fecha = nueva_fecha_utc
+
+    def _inverse_hora_fin(self):
+        for record in self:
+            if record.fecha_fin and record.hora_fin_evento:
+                fecha_fin_local = fields.Datetime.context_timestamp(record, record.fecha_fin)
+                hora = int(record.hora_fin_evento)
+                minuto = int((record.hora_fin_evento - hora) * 60)
+                nueva_fecha_fin = fecha_fin_local.replace(hour=hora, minute=minuto, second=0, microsecond=0)
+
+                nueva_fecha_fin_utc = nueva_fecha_fin.astimezone(pytz.UTC).replace(tzinfo=None)
+                record.fecha_fin = nueva_fecha_fin_utc
