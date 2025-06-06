@@ -273,8 +273,7 @@ class Horario(models.Model):
             if record.es_plantilla:
                 self.env['gestion_clases.horario'].search([
                     ('plantilla_id', '=', record.id),
-                    ('es_plantilla', '=', False)
-                ]).unlink()
+                    ('es_plantilla', '=', False)                ]).unlink()
         return super().unlink()
 
     @api.model
