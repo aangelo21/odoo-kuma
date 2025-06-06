@@ -14,33 +14,50 @@
           <field name="aula_display" />
           <field name="fecha" />
           <field name="fecha_fin" />
-          <field name="temario" />
-          <templates>            <t t-name="kanban-box">
+          <field name="temario" />          <templates>            
+            <t t-name="kanban-box">
               <div
                 t-attf-class="oe_kanban_card #{record.temario.raw_value ? 'bg-success' : 'bg-danger'}"
-                style="border-radius: 8px;">
+                style="border-radius: 10px; box-shadow: 0 2px 4px rgba(0,0,0,0.2); cursor: pointer;">
                 <div class="oe_kanban_content p-3">
-                  <strong class="d-block mb-2 text-white fs-5">
-                    <field name="curso_id" />
-                  </strong>                  <div class="text-light mb-2">
-                    <div class="mb-1">
-                      <i class="fa fa-calendar" /> 
-                      <field name="fecha" widget="date" options="{'format': 'EEEE d'}" />
+                  <!-- Curso -->
+                  <div class="d-flex align-items-center mb-3">
+                    <i class="fa fa-graduation-cap text-white me-2" style="font-size: 1.2em;"/>
+                    <strong class="fs-5 text-white">
+                      <field name="curso_id" />
+                    </strong>
+                  </div>
+                  
+                  <!-- Horarios -->
+                  <div class="mb-3">
+                    <div class="d-flex align-items-center mb-2 bg-white bg-opacity-25 p-2 rounded">
+                      <i class="fa fa-play-circle text-white me-2"/>
+                      <div>
+                        <small class="text-white-50 d-block">Inicio</small>
+                        <strong class="text-white">
+                          <field name="fecha" widget="datetime" options="{'format': 'EEEE d MMM, HH:mm'}" />
+                        </strong>
+                      </div>
                     </div>
-                    <div class="mb-1">
-                      <i class="fa fa-clock-o" /> 
-                      Hora de inicio: <field name="fecha" widget="datetime" options="{'format': 'HH:mm'}" />
-                    </div>
-                    <div class="mb-1">
-                      <i class="fa fa-clock-o" /> 
-                      Hora de fin: <field name="fecha_fin" widget="datetime" options="{'format': 'HH:mm'}" />
+                    <div class="d-flex align-items-center bg-white bg-opacity-25 p-2 rounded">
+                      <i class="fa fa-stop-circle text-white me-2"/>
+                      <div>
+                        <small class="text-white-50 d-block">Fin</small>
+                        <strong class="text-white">
+                          <field name="fecha_fin" widget="datetime" options="{'format': 'EEEE d MMM, HH:mm'}" />
+                        </strong>
+                      </div>
                     </div>
                   </div>
-                  <div class="mt-2">
-                    <strong class="text-white">Temario</strong>
-                    <p class="text-light mb-0">
+                    <!-- Temario -->
+                  <div class="border-top border-white border-opacity-25 pt-2">
+                    <div class="d-flex align-items-center mb-2">
+                      <i class="fa fa-book text-white me-2"/>
+                      <strong class="text-white">Temario</strong>
+                    </div>
+                    <div class="text-white" style="max-height: 80px; overflow: hidden; font-size: 0.9rem; line-height: 1.4;">
                       <field name="temario" />
-                    </p>
+                    </div>
                   </div>
                 </div>
               </div>
