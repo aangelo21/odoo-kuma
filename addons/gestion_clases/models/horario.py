@@ -122,7 +122,8 @@ class Horario(models.Model):
                     'es_plantilla': False,
                     'plantilla_id': self.id,
                 })
-            fecha_actual += timedelta(days=1)    @api.model
+            fecha_actual += timedelta(days=1)
+    @api.model
     def create(self, vals):
         if 'aula_id' in vals:
             vals['aula_display'] = vals['aula_id']
@@ -132,8 +133,21 @@ class Horario(models.Model):
         return record
     
     def write(self, vals):
+        # Detectar si se está añadiendo temario por primera vez
+        enviar_correo = False
+        for record in self:
+            if 'temario' in vals and vals['temario'] and not record.temario:
+                enviar_correo = True
+                break
+        
         # No actualizamos aula_display aunque cambie aula_id
         result = super().write(vals)
+        
+        # Enviar correo si se añadió temario por primera vez
+        if enviar_correo:
+            for record in self:
+                if not record.es_plantilla and record.temario:
+                    record._send_email_notificacion()
         
         # Regenerar eventos si es una plantilla y se han modificado campos relevantes
         campos_relevantes = [
