@@ -254,3 +254,19 @@ input.o_input:focus, textarea.o_input:focus, select.o_input:focus {
     box-shadow: 0 0 0 2px #de000033 !important;
     background: #f9f9f9 !important;
 }
+
+.o_form_button_create {
+    background-color: $o-brand-primary;
+    color: white;
+    font-weight: bolder;
+    border: none;
+}
+
+.o_form_button_create:hover {
+    background-color: $o-brand-secondary;
+}
+
+.fw-bold {
+    color: $o-brand-primary;
+    font-weight: bolder;
+}
