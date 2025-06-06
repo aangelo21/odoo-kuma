@@ -38,6 +38,10 @@ class Horario(models.Model):
     viernes_hora_inicio = fields.Float(string='Hora inicio viernes')
     viernes_hora_fin = fields.Float(string='Hora fin viernes')
 
+    # Campos auxiliares para mostrar solo la hora en formularios
+    hora_inicio_evento = fields.Float(string='Hora de inicio', compute='_compute_hora_evento', inverse='_inverse_hora_inicio')
+    hora_fin_evento = fields.Float(string='Hora de fin', compute='_compute_hora_evento', inverse='_inverse_hora_fin')
+
     @api.depends('temario')
     def _compute_color_event(self):
         for record in self:
@@ -249,23 +253,18 @@ class Horario(models.Model):
     @api.model
     def read_group(self, domain, fields, groupby, offset=0, limit=None, orderby=False, lazy=True):
         if 'aula_id' in groupby:
-            # Obtener todas las aulas existentes
             Aula = self.env['gestion_clases.aula']
             aulas = Aula.search([])
-            
-            # Obtener los resultados normales del agrupamiento
+  
             res = super(Horario, self).read_group(domain, fields, groupby, offset=offset, limit=limit, orderby=orderby, lazy=lazy)
             
-            # Crear un diccionario con las aulas que ya tienen eventos
             aulas_con_eventos = {r['aula_id'][0]: r for r in res if r.get('aula_id')}
             
-            # Asegurarnos de que todas las aulas aparezcan
             result = []
             for aula in aulas:
                 if aula.id in aulas_con_eventos:
                     result.append(aulas_con_eventos[aula.id])
                 else:
-                    # Crear una línea vacía para aulas sin eventos
                     result.append({
                         'aula_id': (aula.id, aula.display_name),
                         'aula_id_count': 0,
@@ -273,3 +272,38 @@ class Horario(models.Model):
                     })
             return result
         return super(Horario, self).read_group(domain, fields, groupby, offset=offset, limit=limit, orderby=orderby, lazy=lazy)
+
+    @api.depends('fecha', 'fecha_fin')
+    def _compute_hora_evento(self):
+        for record in self:
+            if record.fecha:
+                fecha_local = fields.Datetime.context_timestamp(record, record.fecha)
+                record.hora_inicio_evento = fecha_local.hour + fecha_local.minute / 60.0
+            else:
+                record.hora_inicio_evento = 0.0
+                
+            if record.fecha_fin:
+                fecha_fin_local = fields.Datetime.context_timestamp(record, record.fecha_fin)
+                record.hora_fin_evento = fecha_fin_local.hour + fecha_fin_local.minute / 60.0
+            else:                record.hora_fin_evento = 0.0
+    
+    def _inverse_hora_inicio(self):
+        for record in self:
+            if record.fecha and record.hora_inicio_evento:
+                fecha_local = fields.Datetime.context_timestamp(record, record.fecha)
+                hora = int(record.hora_inicio_evento)
+                minuto = int((record.hora_inicio_evento - hora) * 60)
+                nueva_fecha = fecha_local.replace(hour=hora, minute=minuto, second=0, microsecond=0)
+                nueva_fecha_utc = nueva_fecha.astimezone(pytz.UTC).replace(tzinfo=None)
+                record.fecha = nueva_fecha_utc
+
+    def _inverse_hora_fin(self):
+        for record in self:
+            if record.fecha_fin and record.hora_fin_evento:
+                fecha_fin_local = fields.Datetime.context_timestamp(record, record.fecha_fin)
+                hora = int(record.hora_fin_evento)
+                minuto = int((record.hora_fin_evento - hora) * 60)
+                nueva_fecha_fin = fecha_fin_local.replace(hour=hora, minute=minuto, second=0, microsecond=0)
+
+                nueva_fecha_fin_utc = nueva_fecha_fin.astimezone(pytz.UTC).replace(tzinfo=None)
+                record.fecha_fin = nueva_fecha_fin_utc

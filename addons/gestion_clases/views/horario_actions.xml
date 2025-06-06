@@ -22,12 +22,27 @@
     <record model="ir.actions.act_window" id="gestion_clases.action_window_horario_diario">
       <field name="name">Horarios del Día</field>
       <field name="res_model">gestion_clases.horario</field>
-      <field name="view_mode">kanban</field>
+      <field name="view_mode">kanban,form</field>
       <field name="view_id" ref="gestion_clases.horario_kanban_diario" />
       <field name="context">{'default_es_plantilla': False, 'group_by': 'aula_display',
       'group_create': False, 'group_delete': False, 'search_default_today': 1}</field>
       <field name="domain">[('es_plantilla', '=', False)]</field>
       <field name="search_view_id" ref="gestion_clases.horario_search"/>
+    </record>
+
+    <!-- Definir la vista específica para el formulario desde kanban -->
+    <record model="ir.actions.act_window.view" id="action_horario_diario_kanban_view">
+      <field name="sequence" eval="1"/>
+      <field name="view_mode">kanban</field>
+      <field name="view_id" ref="gestion_clases.horario_kanban_diario"/>
+      <field name="act_window_id" ref="gestion_clases.action_window_horario_diario"/>
+    </record>
+
+    <record model="ir.actions.act_window.view" id="action_horario_diario_form_view">
+      <field name="sequence" eval="2"/>
+      <field name="view_mode">form</field>
+      <field name="view_id" ref="horario_form_kanban_edit"/>
+      <field name="act_window_id" ref="gestion_clases.action_window_horario_diario"/>
     </record>
 
     <record id="gestion_clases.horario_search" model="ir.ui.view">

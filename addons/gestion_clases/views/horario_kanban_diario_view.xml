@@ -4,10 +4,12 @@
     <record model="ir.ui.view" id="gestion_clases.horario_kanban_diario">
       <field name="name">gestion_clases.horario.kanban.diario</field>
       <field name="model">gestion_clases.horario</field>
+      <field name="priority" eval="1"/>
       <field name="arch" type="xml">
         <kanban default_group_by="aula_display" class="o_kanban_small_column"
           on_create="false" records_draggable="0"
-          group_create="false" group_delete="false" quick_create="false">
+          group_create="false" group_delete="false" quick_create="false"
+          open_form_view_id="horario_form_kanban_edit">
           <field name="curso_id" />
           <field name="aula_display" />
           <field name="fecha" />
@@ -18,7 +20,7 @@
               <div class="oe_kanban_card">
                 <div class="oe_kanban_content p-2">
                   <strong class="d-block mb-1">
-                    <field name="curso_id" />
+                    <field name="curso_id" options="{'no_open': True}" />
                   </strong>
                   <div class="text-muted mb-1">
                     <i class="fa fa-clock-o" /> 
@@ -36,6 +38,28 @@
             </t>
           </templates>
         </kanban>
+      </field>
+    </record>    <!-- Vista formulario simplificada para edición desde kanban -->
+    <record id="horario_form_kanban_edit" model="ir.ui.view">
+      <field name="name">gestion_clases.horario.form.kanban.edit</field>
+      <field name="model">gestion_clases.horario</field>
+      <field name="priority" eval="16"/>
+      <field name="arch" type="xml">
+        <form string="Editar Horario">
+          <sheet>
+            <group>
+              <group>
+                <field name="curso_id" readonly="1" options="{'no_create': True, 'no_open': True}"/>
+                <field name="aula_display" readonly="1" options="{'no_create': True, 'no_open': True}"/>
+              </group>              <group>
+                <field name="hora_inicio_evento" widget="float_time" string="Hora de inicio"/>
+                <field name="hora_fin_evento" widget="float_time" string="Hora de fin"/>
+              </group>
+            </group>
+            <separator string="Temario"/>
+            <field name="temario" placeholder="Escriba aquí el contenido impartido en la clase..."/>
+          </sheet>
+        </form>
       </field>
     </record>
   </data>
