@@ -13,7 +13,7 @@
       <field name="view_mode">kanban</field>
       <field name="view_id" ref="gestion_clases.horario_kanban" />
       <field name="context">{'default_es_plantilla': False, 'group_by': 'aula_id', 'group_create':
-        False, 'group_delete': False}</field>
+        False, 'group_delete': False, 'skip_overlap_validation': True}</field>
       <field name="domain">[('es_plantilla', '=', False), ('temario', '!=', False), ('temario',
         '!=', '')]</field>
     </record>

@@ -122,16 +122,14 @@ class Horario(models.Model):
                     'es_plantilla': False,
                     'plantilla_id': self.id,
                 })
-            fecha_actual += timedelta(days=1)
-
-    @api.model
+            fecha_actual += timedelta(days=1)    @api.model
     def create(self, vals):
         if 'aula_id' in vals:
             vals['aula_display'] = vals['aula_id']
         record = super().create(vals)
         if record.es_plantilla:
             record._generar_eventos()
-        return record    
+        return record
     
     def write(self, vals):
         # No actualizamos aula_display aunque cambie aula_id
@@ -151,6 +149,28 @@ class Horario(models.Model):
                     record._generar_eventos()
         
         return result
+
+    @api.constrains('aula_id', 'fecha', 'fecha_fin')
+    def _check_solapamiento_eventos(self):
+        """Validation for non-template events (panel de aulas)"""
+        for record in self:
+            # Skip validation for templates or if skip flag is set
+            if record.es_plantilla or self.env.context.get('skip_overlap_validation', False):
+                continue
+                
+            if not record.aula_id or not record.fecha or not record.fecha_fin:
+                continue
+
+            domain = [
+                ('id', '!=', record.id),
+                ('aula_id', '=', record.aula_id.id),
+                ('es_plantilla', '=', False),
+                ('fecha', '<', record.fecha_fin),
+                ('fecha_fin', '>', record.fecha)
+            ]
+
+            if self.search_count(domain) > 0:
+                raise ValidationError('El aula ya está ocupada en la fecha y horario seleccionados')
 
     def _send_email_notificacion(self):
         employees = self.env['hr.employee'].search([])
@@ -228,22 +248,11 @@ class Horario(models.Model):
                             otro_hora_fin = getattr(otro, f'{dia}_hora_fin')
                             
                             if getattr(otro, dia) and (
-                                (hora_inicio < otro_hora_fin and hora_fin > otro_hora_inicio)
-                            ):
+                                (hora_inicio < otro_hora_fin and hora_fin > otro_hora_inicio)                            ):
                                 raise ValidationError(
                                     f'Ya existe una plantilla de horario que usa esta aula el {dia} '
                                     f'en el horario seleccionado durante las fechas del curso'
                                 )
-            else:
-                domain.append(('es_plantilla', '=', False))
-                if record.fecha and record.fecha_fin:
-                    domain.extend([
-                        ('fecha', '<', record.fecha_fin),
-                        ('fecha_fin', '>', record.fecha)
-                    ])
-
-                if self.search_count(domain) > 0:
-                    raise ValidationError('El aula ya está ocupada en la fecha y horario seleccionados')
 
     def unlink(self):
         for record in self:
