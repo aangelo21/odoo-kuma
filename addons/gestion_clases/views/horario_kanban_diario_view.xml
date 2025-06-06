@@ -15,21 +15,30 @@
           <field name="fecha" />
           <field name="fecha_fin" />
           <field name="temario" />
-          <templates>
-            <t t-name="kanban-box">
-              <div class="oe_kanban_card">
-                <div class="oe_kanban_content p-2">
-                  <strong class="d-block mb-1">
-                    <field name="curso_id" options="{'no_open': True}" />
-                  </strong>
-                  <div class="text-muted mb-1">
-                    <i class="fa fa-clock-o" /> 
-                    <field name="fecha" widget="datetime" /> - <field
-                      name="fecha_fin" widget="datetime" />
+          <templates>            <t t-name="kanban-box">
+              <div
+                t-attf-class="oe_kanban_card #{record.temario.raw_value ? 'bg-success' : 'bg-danger'}"
+                style="border-radius: 8px;">
+                <div class="oe_kanban_content p-3">
+                  <strong class="d-block mb-2 text-white fs-5">
+                    <field name="curso_id" />
+                  </strong>                  <div class="text-light mb-2">
+                    <div class="mb-1">
+                      <i class="fa fa-calendar" /> 
+                      <field name="fecha" widget="date" options="{'format': 'EEEE d'}" />
+                    </div>
+                    <div class="mb-1">
+                      <i class="fa fa-clock-o" /> 
+                      Hora de inicio: <field name="fecha" widget="datetime" options="{'format': 'HH:mm'}" />
+                    </div>
+                    <div class="mb-1">
+                      <i class="fa fa-clock-o" /> 
+                      Hora de fin: <field name="fecha_fin" widget="datetime" options="{'format': 'HH:mm'}" />
+                    </div>
                   </div>
                   <div class="mt-2">
-                    <strong>Temario:</strong>
-                    <p class="text-muted">
+                    <strong class="text-white">Temario</strong>
+                    <p class="text-light mb-0">
                       <field name="temario" />
                     </p>
                   </div>

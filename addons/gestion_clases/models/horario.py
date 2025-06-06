@@ -111,7 +111,6 @@ class Horario(models.Model):
                 min_f = int((hora_fin - hora_f) * 60)
                 fecha_fin = datetime.combine(fecha_actual, datetime.min.time())
                 fecha_fin = fecha_fin.replace(hour=hora_f, minute=min_f)
-                
                 local_dt_fin = tz.localize(fecha_fin)
                 fecha_fin_utc = local_dt_fin.astimezone(pytz.UTC).replace(tzinfo=None)
 
@@ -132,11 +131,26 @@ class Horario(models.Model):
         record = super().create(vals)
         if record.es_plantilla:
             record._generar_eventos()
-        return record
-
+        return record    
+    
     def write(self, vals):
         # No actualizamos aula_display aunque cambie aula_id
-        return super().write(vals)
+        result = super().write(vals)
+        
+        # Regenerar eventos si es una plantilla y se han modificado campos relevantes
+        campos_relevantes = [
+            'curso_id', 'aula_id', 'lunes', 'martes', 'miercoles', 'jueves', 'viernes',
+            'lunes_hora_inicio', 'lunes_hora_fin', 'martes_hora_inicio', 'martes_hora_fin',
+            'miercoles_hora_inicio', 'miercoles_hora_fin', 'jueves_hora_inicio', 'jueves_hora_fin',
+            'viernes_hora_inicio', 'viernes_hora_fin'
+        ]
+        
+        if any(campo in vals for campo in campos_relevantes):
+            for record in self:
+                if record.es_plantilla:
+                    record._generar_eventos()
+        
+        return result
 
     def _send_email_notificacion(self):
         employees = self.env['hr.employee'].search([])
