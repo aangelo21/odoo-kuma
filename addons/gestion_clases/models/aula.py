@@ -7,6 +7,7 @@ class Aula(models.Model):
 
     nombre = fields.Char(string='Nombre')
     centro = fields.Char(string='Centro')
+    visible_en_lista = fields.Boolean(string='Visible en lista', default=True)
     
     display_name = fields.Char(string='Nombre a mostrar', compute='_compute_display_name', store=True)
     
