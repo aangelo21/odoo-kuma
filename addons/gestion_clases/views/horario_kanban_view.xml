@@ -3,18 +3,19 @@
   <data>
     <record model="ir.ui.view" id="gestion_clases.horario_kanban">
       <field name="name">gestion_clases.horario.kanban</field>
-      <field name="model">gestion_clases.horario</field>      <field name="arch" type="xml">
+      <field name="model">gestion_clases.horario</field>
+      <field name="arch" type="xml">
         <kanban default_group_by="aula_id" class="o_kanban_small_column"
           on_create="false" records_draggable="1"
           group_create="false" group_delete="false" quick_create="false">
-            <field name="curso_id" />
+          <field name="curso_id" />
           <field name="aula_id" />
           <field name="aula_display" />
           <field name="fecha" />
           <field name="fecha_fin" />
           <field name="temario" />
           <field name="tutor_id" />
-          
+
           <templates>
             <t t-name="kanban-box">
               <div class="oe_kanban_card"
@@ -47,31 +48,37 @@
                         </strong>
                       </div>
                     </div>
-                  </div>                  <div class="border-top pt-2">
+                  </div>
+                  <div class="border-top pt-2">
                     <div class="d-flex align-items-center mb-2">
                       <i class="fa fa-book text-info me-2" />
                       <strong class="text-info">Temario</strong>
-                    </div>                    <div class="text-dark"
+                    </div>
+                    <div class="text-dark"
                       style="max-height: 80px; overflow: hidden; font-size: 0.9rem; line-height: 1.4;">
                       <field name="temario" />
-                    </div>                    <div class="d-flex align-items-center mb-2 mt-3" t-if="record.tutor_id.raw_value">
+                    </div>
+                    <div class="d-flex align-items-center mb-2 mt-3"
+                      t-if="record.tutor_id.raw_value">
                       <i class="fa fa-user text-warning me-2" />
                       <strong class="text-warning">Tutor</strong>
-                    </div>                    <div class="text-dark" t-if="record.tutor_id.raw_value"
+                    </div>
+                    <div class="text-dark" t-if="record.tutor_id.raw_value"
                       style="font-size: 0.9rem; line-height: 1.4;">
                       <field name="tutor_id" />
                     </div>
-                  </div>                  <!-- Botón para copiar información -->
-                  <div class="position-absolute" style="bottom: 10px; right: 10px;">                    <div class="btn btn-sm btn-outline-secondary copy-btn" 
-                         style="border-radius: 50%; width: 35px; height: 35px; padding: 0; cursor: pointer; display: flex; align-items: center; justify-content: center;"
-                         t-att-data-curso="record.curso_id.value or ''"
-                         t-att-data-fecha="record.fecha.raw_value"
-                         t-att-data-fecha-fin="record.fecha_fin.raw_value"
-                         t-att-data-temario="record.temario.raw_value or ''"
-                         t-att-data-tutor="record.tutor_id.value or ''"
-                         t-att-data-aula="record.aula_display.value or record.aula_id.value or ''"
-                         onclick="copyCardInfo(this)"
-                         title="Copiar información de la clase">
+                  </div>
+                  <div class="position-absolute" style="bottom: 10px; right: 10px;">
+                    <div class="btn btn-sm btn-outline-secondary copy-btn"
+                      style="border-radius: 50%; width: 35px; height: 35px; padding: 0; cursor: pointer; display: flex; align-items: center; justify-content: center;"
+                      t-att-data-curso="record.curso_id.value or ''"
+                      t-att-data-fecha="record.fecha.raw_value"
+                      t-att-data-fecha-fin="record.fecha_fin.raw_value"
+                      t-att-data-temario="record.temario.raw_value or ''"
+                      t-att-data-tutor="record.tutor_id.value or ''"
+                      t-att-data-aula="record.aula_display.value or record.aula_id.value or ''"
+                      onclick="copyCardInfo(this)"
+                      title="Copiar información de la clase">
                       <i class="fa fa-copy"></i>
                     </div>
                   </div>

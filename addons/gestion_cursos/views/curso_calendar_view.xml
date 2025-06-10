@@ -32,22 +32,22 @@
           <sheet>
             <group>
               <group>
-                <field name="nombre" readonly="1"/>
-                <field name="expediente" readonly="1"/>
-                <field name="id_categoria" readonly="1"/>
-                <field name="id_tutor" readonly="1"/>
+                <field name="nombre" readonly="1" />
+                <field name="expediente" readonly="1" />
+                <field name="id_categoria" readonly="1" />
+                <field name="id_tutor" readonly="1" />
               </group>
               <group>
-                <field name="fecha_inicio" readonly="1"/>
-                <field name="fecha_consolidacion" readonly="1"/>
-                <field name="fecha_fin" readonly="1"/>
+                <field name="fecha_inicio" readonly="1" />
+                <field name="fecha_consolidacion" readonly="1" />
+                <field name="fecha_fin" readonly="1" />
               </group>
             </group>
             <group string="Información de Alumnos">
               <group>
-                <field name="numero_alumnos" string="Total alumnos" readonly="1"/>
-                <field name="consolidados_display" string="Alumnos consolidados" readonly="1"/>
-                <field name="finalizados_display" string="Alumnos finalizados" readonly="1"/>
+                <field name="numero_alumnos" string="Total alumnos" readonly="1" />
+                <field name="consolidados_display" string="Alumnos consolidados" readonly="1" />
+                <field name="finalizados_display" string="Alumnos finalizados" readonly="1" />
               </group>
             </group>
           </sheet>

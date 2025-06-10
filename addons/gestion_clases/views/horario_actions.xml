@@ -1,5 +1,7 @@
 <?xml version="1.0" encoding="utf-8"?>
-<odoo>  <data>    <record model="ir.actions.act_window" id="gestion_clases.action_window_horario">
+<odoo>
+  <data>
+    <record model="ir.actions.act_window" id="gestion_clases.action_window_horario">
       <field name="name">Horarios</field>
       <field name="res_model">gestion_clases.horario</field>
       <field name="view_mode">list,form</field>
@@ -7,7 +9,6 @@
       <field name="domain">[('es_plantilla', '=', True)]</field>
     </record>
 
-    <!-- Vista específica para la acción de Grupos presenciales -->
     <record model="ir.actions.act_window.view" id="action_horario_list_view">
       <field name="sequence" eval="1" />
       <field name="view_mode">list</field>
@@ -20,12 +21,15 @@
       <field name="view_mode">form</field>
       <field name="view_id" ref="gestion_clases.horario_form" />
       <field name="act_window_id" ref="gestion_clases.action_window_horario" />
-    </record><record model="ir.actions.act_window" id="gestion_clases.action_window_horario_panel">
+    </record>
+    <record model="ir.actions.act_window" id="gestion_clases.action_window_horario_panel">
       <field name="name">Panel de Aulas</field>
       <field name="res_model">gestion_clases.horario</field>
       <field name="view_mode">kanban</field>
-      <field name="context">{'default_es_plantilla': False, 'group_by': 'aula_id', 'group_create': False, 'group_delete': False}</field>
-      <field name="domain">[('es_plantilla', '=', False), ('temario', '!=', False), ('temario', '!=', '')]</field>
+      <field name="context">{'default_es_plantilla': False, 'group_by': 'aula_id', 'group_create':
+        False, 'group_delete': False}</field>
+      <field name="domain">[('es_plantilla', '=', False), ('temario', '!=', False), ('temario',
+        '!=', '')]</field>
     </record>
 
     <record model="ir.actions.act_window" id="gestion_clases.action_window_horario_diario">
@@ -41,12 +45,14 @@
       <field name="view_mode">kanban</field>
       <field name="view_id" ref="gestion_clases.horario_kanban" />
       <field name="act_window_id" ref="gestion_clases.action_window_horario_panel" />
-    </record>    <record model="ir.actions.act_window.view" id="action_horario_diario_kanban_view">
+    </record>
+    <record model="ir.actions.act_window.view" id="action_horario_diario_kanban_view">
       <field name="sequence" eval="1" />
       <field name="view_mode">kanban</field>
       <field name="view_id" ref="gestion_clases.horario_kanban" />
       <field name="act_window_id" ref="gestion_clases.action_window_horario_diario" />
-    </record>    <record model="ir.actions.act_window.view" id="action_horario_diario_form_view">
+    </record>
+    <record model="ir.actions.act_window.view" id="action_horario_diario_form_view">
       <field name="sequence" eval="2" />
       <field name="view_mode">form</field>
       <field name="view_id" ref="gestion_clases.horario_form" />
@@ -60,8 +66,7 @@
       <field name="context">{'default_es_plantilla': False}</field>
       <field name="domain">[('es_plantilla', '=', False)]</field>
     </record>
-    
-    <!-- Vistas específicas para la acción del Calendario -->
+
     <record model="ir.actions.act_window.view" id="action_horario_eventos_calendar_view">
       <field name="sequence" eval="1" />
       <field name="view_mode">calendar</field>
