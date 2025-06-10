@@ -10,6 +10,7 @@ class Categoria(models.Model):
         ("#FF0000", 'Rojo'),
         ("#0062FF", 'Azul'),
         ("#7C7C7C", 'Gris'),
-        ("#4B0082", 'Índigo')
+        ("#28A745", 'Verde'),
+        ("#FFC107", 'Amarillo')
     ], string='Color para el evento del calendario')
     id_curso = fields.One2many('gestion_cursos.curso', 'id_categoria', string='Cursos')

@@ -10,6 +10,31 @@
           <field name="aula_id" />
           <filter string="Hoy" name="today"
             domain="[('fecha', '&gt;=', (context_today()).strftime('%Y-%m-%d 00:00:00')), ('fecha', '&lt;=', (context_today()).strftime('%Y-%m-%d 23:59:59'))]" />
+          <filter string="Mañana" name="tomorrow"
+            domain="[('fecha', '&gt;=', (datetime.datetime.now() + datetime.timedelta(days=1)).strftime('%Y-%m-%d')),
+                          ('fecha', '&lt;', (datetime.datetime.now() + datetime.timedelta(days=2)).strftime('%Y-%m-%d'))]"
+            help="Horarios de mañana" />
+          <filter string="Ayer" name="yesterday"
+            domain="[('fecha', '&gt;=', (datetime.datetime.now() - datetime.timedelta(days=1)).strftime('%Y-%m-%d')),
+                          ('fecha', '&lt;', datetime.datetime.now().strftime('%Y-%m-%d'))]"
+            help="Horarios de ayer" />
+          <separator />
+          <filter string="Aula 1" name="aula_1"
+            domain="[('aula_id.nombre', '=', 'Aula 1')]"
+            help="Horarios del Aula 1" />
+          <filter string="Aula 2" name="aula_2"
+            domain="[('aula_id.nombre', '=', 'Aula 2')]"
+            help="Horarios del Aula 2" />
+          <filter string="Aula A" name="aula_a"
+            domain="[('aula_id.nombre', '=', 'Aula A')]"
+            help="Horarios del Aula A" />
+          <filter string="Aula B" name="aula_b"
+            domain="[('aula_id.nombre', '=', 'Aula B')]"
+            help="Horarios del Aula B" />
+          <filter string="Aula C" name="aula_c"
+            domain="[('aula_id.nombre', '=', 'Aula C')]"
+            help="Horarios del Aula C" />
+          <separator />
           <filter string="Lunes" name="lunes" domain="[('lunes', '=', True)]" />
           <filter string="Martes" name="martes" domain="[('martes', '=', True)]" />
           <filter string="Miércoles" name="miercoles" domain="[('miercoles', '=', True)]" />
