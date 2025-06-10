@@ -7,12 +7,12 @@
       <field name="arch" type="xml">
         <kanban default_group_by="aula_id" class="o_kanban_small_column"
           on_create="false" records_draggable="1"
-          group_create="false" group_delete="false" quick_create="false">
-          <field name="curso_id" />
+          group_create="false" group_delete="false" quick_create="false">          <field name="curso_id" />
           <field name="aula_id" />
           <field name="fecha" />
           <field name="fecha_fin" />
           <field name="temario" />
+          <field name="tutor_id" />
           <templates>
             <t t-name="kanban-box">
               <div class="oe_kanban_card"
@@ -45,15 +45,20 @@
                         </strong>
                       </div>
                     </div>
-                  </div>
-                  <div class="border-top pt-2">
+                  </div>                  <div class="border-top pt-2">
                     <div class="d-flex align-items-center mb-2">
                       <i class="fa fa-book text-info me-2" />
                       <strong class="text-info">Temario</strong>
-                    </div>
-                    <div class="text-dark"
+                    </div>                    <div class="text-dark"
                       style="max-height: 80px; overflow: hidden; font-size: 0.9rem; line-height: 1.4;">
                       <field name="temario" />
+                    </div>                    <div class="d-flex align-items-center mb-2 mt-3" t-if="record.tutor_id.raw_value">
+                      <i class="fa fa-user text-warning me-2" />
+                      <strong class="text-warning">Tutor</strong>
+                    </div>
+                    <div class="text-dark" t-if="record.tutor_id.raw_value"
+                      style="font-size: 0.9rem; line-height: 1.4;">
+                      <field name="tutor_id" />
                     </div>
                   </div>
                 </div>

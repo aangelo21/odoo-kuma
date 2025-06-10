@@ -1,7 +1,7 @@
-from odoo import models, fields, api # type: ignore
-from odoo.exceptions import ValidationError # type: ignore
+from odoo import models, fields, api  # type: ignore
+from odoo.exceptions import ValidationError  # type: ignore
 from datetime import datetime, timedelta
-import pytz # type: ignore
+import pytz  # type: ignore
 
 class Horario(models.Model):
     _name = 'gestion_clases.horario'
@@ -16,6 +16,8 @@ class Horario(models.Model):
     es_plantilla = fields.Boolean(string='Es plantilla', default=True)
     plantilla_id = fields.Many2one('gestion_clases.horario', string='Horario plantilla')
     temario = fields.Text(string='Temario', help='Contenido impartido en la clase')
+    tutor_id = fields.Many2one('gestion_cursos.tutor', string='Tutor', help='Tutor que da esta clase específica', domain="[('id_curso', 'in', [curso_id])]")
+
     color_event = fields.Char(string='Color del evento', compute='_compute_color_event', store=True)
 
     lunes = fields.Boolean(string='Lunes')
@@ -38,11 +40,9 @@ class Horario(models.Model):
     viernes_hora_inicio = fields.Float(string='Hora inicio viernes')
     viernes_hora_fin = fields.Float(string='Hora fin viernes')
 
-    # Campos auxiliares para mostrar solo la hora en formularios
     hora_inicio_evento = fields.Float(string='Hora de inicio', compute='_compute_hora_evento', inverse='_inverse_hora_inicio')
     hora_fin_evento = fields.Float(string='Hora de fin', compute='_compute_hora_evento', inverse='_inverse_hora_fin')
-    
-    # Campo para mostrar información completa en el calendario
+
     display_name_calendar = fields.Char(string='Nombre para calendario', compute='_compute_display_name_calendar')
 
     def name_get(self):
@@ -91,11 +91,11 @@ class Horario(models.Model):
 
         tz = pytz.timezone(self.env.user.tz or 'UTC')
         fecha_actual = self.curso_id.fecha_inicio
-        
+
         while fecha_actual <= self.curso_id.fecha_fin:
             dia_semana = fecha_actual.weekday()
             hora_inicio = hora_fin = False
-            
+
             if dia_semana == 0 and self.lunes:
                 hora_inicio = self.lunes_hora_inicio
                 hora_fin = self.lunes_hora_fin
@@ -117,10 +117,9 @@ class Horario(models.Model):
                 min_i = int((hora_inicio - hora_i) * 60)
                 fecha_inicio = datetime.combine(fecha_actual, datetime.min.time())
                 fecha_inicio = fecha_inicio.replace(hour=hora_i, minute=min_i)
-                
                 local_dt = tz.localize(fecha_inicio)
                 fecha_inicio_utc = local_dt.astimezone(pytz.UTC).replace(tzinfo=None)
-                
+
                 hora_f = int(hora_fin)
                 min_f = int((hora_fin - hora_f) * 60)
                 fecha_fin = datetime.combine(fecha_actual, datetime.min.time())
@@ -136,6 +135,7 @@ class Horario(models.Model):
                     'es_plantilla': False,
                     'plantilla_id': self.id,
                 })
+
             fecha_actual += timedelta(days=1)
     @api.model
     def create(self, vals):
@@ -185,20 +185,21 @@ class Horario(models.Model):
             # Skip validation for templates or if skip flag is set
             if record.es_plantilla or self.env.context.get('skip_overlap_validation', False):
                 continue
-                
+
             if not record.aula_id or not record.fecha or not record.fecha_fin:
                 continue
 
             domain = [
-                ('id', '!=', record.id),
-                ('aula_id', '=', record.aula_id.id),
-                ('es_plantilla', '=', False),
-                ('fecha', '<', record.fecha_fin),
-                ('fecha_fin', '>', record.fecha)
+            ('id', '!=', record.id),
+            ('aula_id', '=', record.aula_id.id),
+            ('es_plantilla', '=', False),
+            ('fecha', '<', record.fecha_fin),
+            ('fecha_fin', '>', record.fecha)
             ]
 
             if self.search_count(domain) > 0:
                 raise ValidationError('El aula ya está ocupada en la fecha y horario seleccionados')
+
 
     def _send_email_notificacion(self):
         employees = self.env['hr.employee'].search([])
@@ -212,6 +213,7 @@ class Horario(models.Model):
                 <ul>
                     <li><strong>Curso:</strong> {self.curso_id.nombre}</li>
                     <li><strong>Aula:</strong> {self.aula_id.display_name}</li>
+                    <li><strong>Tutor:</strong> {self.tutor_id.nombre if self.tutor_id else 'No asignado'}</li>
                     <li><strong>Hora inicio:</strong> {fecha_local.strftime('%H:%M')}</li>
                     <li><strong>Hora fin:</strong> {fecha_fin_local.strftime('%H:%M')}</li>
                     <li><strong>Contenido impartido:</strong> {self.temario}</li>
@@ -335,7 +337,8 @@ class Horario(models.Model):
             if record.fecha_fin:
                 fecha_fin_local = fields.Datetime.context_timestamp(record, record.fecha_fin)
                 record.hora_fin_evento = fecha_fin_local.hour + fecha_fin_local.minute / 60.0
-            else:                record.hora_fin_evento = 0.0
+            else:
+                record.hora_fin_evento = 0.0
     
     def _inverse_hora_inicio(self):
         for record in self:
@@ -354,9 +357,10 @@ class Horario(models.Model):
                 hora = int(record.hora_fin_evento)
                 minuto = int((record.hora_fin_evento - hora) * 60)
                 nueva_fecha_fin = fecha_fin_local.replace(hour=hora, minute=minuto, second=0, microsecond=0)
-
                 nueva_fecha_fin_utc = nueva_fecha_fin.astimezone(pytz.UTC).replace(tzinfo=None)
-                record.fecha_fin = nueva_fecha_fin_utc    @api.depends('curso_id', 'aula_display')
+                record.fecha_fin = nueva_fecha_fin_utc
+
+    @api.depends('curso_id', 'aula_display')
     def _compute_display_name_calendar(self):
         for record in self:
             curso_name = record.curso_id.nombre if record.curso_id else ""
