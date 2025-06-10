@@ -17,6 +17,5 @@
       action="gestion_clases.action_window_horario"
       sequence="3" />
 
-
   </data>
 </odoo>

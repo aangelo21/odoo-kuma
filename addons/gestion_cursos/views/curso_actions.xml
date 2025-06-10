@@ -7,10 +7,43 @@
       <field name="view_mode">list,form</field>
     </record>
 
+    <record id="gestion_cursos.curso_search" model="ir.ui.view">
+      <field name="name">gestion_cursos.curso.search</field>
+      <field name="model">gestion_cursos.curso</field>
+      <field name="arch" type="xml">
+        <search>
+          <filter string="SEPE" name="categoria_sepe"
+            domain="[('id_categoria.nombre', '=', 'SEPE')]"
+            help="Cursos de SEPE" />
+          <filter string="SCE" name="categoria_sce"
+            domain="[('id_categoria.nombre', '=', 'SCE')]"
+            help="Cursos de SCE" />
+          <filter string="EOI" name="categoria_eoi"
+            domain="[('id_categoria.nombre', '=', 'EOI')]"
+            help="Cursos de EOI" />
+          <filter string="Reskilling" name="categoria_reskilling"
+            domain="[('id_categoria.nombre', '=', 'Reskilling')]"
+            help="Cursos de Reskilling" />
+          <filter string="Oposiciones" name="categoria_oposiciones"
+            domain="[('id_categoria.nombre', '=', 'Oposiciones')]"
+            help="Cursos de Oposiciones" />
+          <separator />
+          <field name="nombre" />
+          <field name="id_categoria" />
+          <field name="id_tutor" />
+          <group expand="1" string="Agrupar por">
+            <filter string="Categoría" name="group_categoria" context="{'group_by':'id_categoria'}" />
+            <filter string="Tutor" name="group_tutor" context="{'group_by':'id_tutor'}" />
+          </group>
+        </search>
+      </field>
+    </record>
+
     <record model="ir.actions.act_window" id="gestion_cursos.cursos_action_window_calendario">
       <field name="name">Calendario de Cursos</field>
       <field name="res_model">gestion_cursos.curso</field>
       <field name="view_mode">calendar</field>
+      <field name="search_view_id" ref="gestion_cursos.curso_search" />
     </record>
   </data>
 </odoo>

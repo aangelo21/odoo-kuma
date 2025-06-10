@@ -6,7 +6,8 @@
       <field name="model">gestion_clases.aula</field>
       <field name="arch" type="xml">
         <form>
-          <separator string="Datos generales" />          <group>
+          <separator string="Datos generales" />
+          <group>
             <field name="nombre" />
             <field name="centro" />
           </group>
