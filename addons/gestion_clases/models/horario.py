@@ -6,7 +6,7 @@ import pytz # type: ignore
 class Horario(models.Model):
     _name = 'gestion_clases.horario'
     _description = 'Horario de Clases'
-    _rec_name = 'curso_id'
+    _rec_name = 'display_name_calendar'
 
     curso_id = fields.Many2one('gestion_cursos.curso', string='Curso', required=True)
     aula_id = fields.Many2one('gestion_clases.aula', string='Aula')
@@ -41,6 +41,9 @@ class Horario(models.Model):
     # Campos auxiliares para mostrar solo la hora en formularios
     hora_inicio_evento = fields.Float(string='Hora de inicio', compute='_compute_hora_evento', inverse='_inverse_hora_inicio')
     hora_fin_evento = fields.Float(string='Hora de fin', compute='_compute_hora_evento', inverse='_inverse_hora_fin')
+    
+    # Campo para mostrar información completa en el calendario
+    display_name_calendar = fields.Char(string='Nombre para calendario', compute='_compute_display_name_calendar')
 
     def name_get(self):
         result = []
@@ -353,4 +356,16 @@ class Horario(models.Model):
                 nueva_fecha_fin = fecha_fin_local.replace(hour=hora, minute=minuto, second=0, microsecond=0)
 
                 nueva_fecha_fin_utc = nueva_fecha_fin.astimezone(pytz.UTC).replace(tzinfo=None)
-                record.fecha_fin = nueva_fecha_fin_utc
+                record.fecha_fin = nueva_fecha_fin_utc    @api.depends('curso_id', 'aula_display')
+    def _compute_display_name_calendar(self):
+        for record in self:
+            curso_name = record.curso_id.nombre if record.curso_id else ""
+            aula_name = record.aula_display.nombre if record.aula_display else ""
+            
+            # Crear el nombre para el calendario (solo curso y aula)
+            if curso_name and aula_name:
+                record.display_name_calendar = f"{curso_name}\n{aula_name}"
+            elif curso_name:
+                record.display_name_calendar = curso_name
+            else:
+                record.display_name_calendar = ""

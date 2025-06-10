@@ -9,10 +9,9 @@
          string="Horario de Clases"
          mode="week" 
          color="color_event" 
-         event_open_popup="true"
-         delete="false">
+         event_open_popup="true"         delete="false">
           <field name="curso_id" />
-          <field name="aula_id" />
+          <field name="aula_display" />
         </calendar>
       </field>
     </record>
