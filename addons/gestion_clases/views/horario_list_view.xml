@@ -3,9 +3,11 @@
   <data>
     <record model="ir.ui.view" id="gestion_clases.horario_list">
       <field name="name">gestion_clases.horario.list</field>
-      <field name="model">gestion_clases.horario</field>
-      <field name="arch" type="xml">
+      <field name="model">gestion_clases.horario</field>      <field name="arch" type="xml">
         <list>
+          <header>
+            <button name="recalcular_colores_eventos" string="Recalcular Colores Eventos" type="object" class="btn-primary"/>
+          </header>
           <field name="curso_id" />
           <field name="aula_id" />
           <field name="lunes" />

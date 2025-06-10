@@ -71,10 +71,18 @@ class Horario(models.Model):
                 aula_text = f" - {record.aula_id.name}" if record.aula_id else ""
                 name = f"{record.curso_id.name}{aula_text}"
             result.append((record.id, name))
-        return result    @api.depends('temario')
+        return result
+
+    @api.depends('temario')
     def _compute_color_event(self):
         for record in self:
             record.color_event = '#55eb18' if record.temario else '#f91212'
+    
+    def recalcular_colores_eventos(self):
+        """Método para recalcular los colores de todos los eventos existentes"""
+        todos_los_eventos = self.env['gestion_clases.horario'].search([('es_plantilla', '=', False)])
+        for evento in todos_los_eventos:
+            evento.color_event = '#55eb18' if evento.temario else '#f91212'
     
     @api.depends('incidencia', 'temario')
     def _compute_kanban_state(self):
