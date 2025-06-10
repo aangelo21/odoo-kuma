@@ -17,6 +17,23 @@ class Horario(models.Model):
     plantilla_id = fields.Many2one('gestion_clases.horario', string='Horario plantilla')
     temario = fields.Text(string='Temario', help='Contenido impartido en la clase')
     tutor_id = fields.Many2one('gestion_cursos.tutor', string='Tutor', help='Tutor que da esta clase específica', domain="[('id_curso', 'in', [curso_id])]")
+    incidencia = fields.Selection([
+        ('', 'Sin incidencia'),
+        ('camara_en_negro', 'Cámara en Negro'),
+        ('imagen_congelada', 'Imagen Congelada'),
+        ('pte_grabacion_otra_clase', 'PTE Grabación otra clase'),
+        ('sin_sonido', 'Sin Sonido'),
+        ('no_grabado', 'No Grabado'),
+        ('no_subido_a_vimeo', 'No Subido a Vimeo'),
+        ('pte_de_edicion', 'PTE de Edición'),
+        ('problemas_microfono', 'Problemas Micrófono'),
+    ], string='Incidencia', help='Tipo de incidencia de la clase')
+    
+    kanban_state = fields.Selection([
+        ('normal', 'Sin incidencias'),
+        ('blocked', 'Con incidencias'),
+        ('done', 'Completado')
+    ], string='Estado Kanban', compute='_compute_kanban_state', store=True, help='Estado de la clase para vista Kanban')
 
     color_event = fields.Char(string='Color del evento', compute='_compute_color_event', store=True)
 
@@ -54,12 +71,20 @@ class Horario(models.Model):
                 aula_text = f" - {record.aula_id.name}" if record.aula_id else ""
                 name = f"{record.curso_id.name}{aula_text}"
             result.append((record.id, name))
-        return result
-
-    @api.depends('temario')
+        return result    @api.depends('temario')
     def _compute_color_event(self):
         for record in self:
             record.color_event = '#55eb18' if record.temario else '#f91212'
+    
+    @api.depends('incidencia', 'temario')
+    def _compute_kanban_state(self):
+        for record in self:
+            if record.incidencia and record.incidencia != '':
+                record.kanban_state = 'blocked'
+            elif record.temario:
+                record.kanban_state = 'done'
+            else:
+                record.kanban_state = 'normal'
 
     @api.constrains('lunes', 'lunes_hora_inicio', 'lunes_hora_fin',
                     'martes', 'martes_hora_inicio', 'martes_hora_fin',
@@ -230,6 +255,7 @@ class Horario(models.Model):
                     'miercoles_hora_inicio', 'miercoles_hora_fin',
                     'jueves_hora_inicio', 'jueves_hora_fin',
                     'viernes_hora_inicio', 'viernes_hora_fin')
+    
     def _check_solapamiento(self):
         for record in self:
             if not record.aula_id:
@@ -242,10 +268,10 @@ class Horario(models.Model):
 
             if record.es_plantilla:
                 domain.append(('es_plantilla', '=', True))
-                
+            
                 dias = []
                 horas = {}
-                
+            
                 if record.lunes:
                     dias.append(('lunes', '=', True))
                     horas['lunes'] = (record.lunes_hora_inicio, record.lunes_hora_fin)
@@ -268,17 +294,18 @@ class Horario(models.Model):
                     domain.extend(dias)
 
                 otros_horarios = self.search(domain)
-                
+            
                 for otro in otros_horarios:
                     if (otro.curso_id.fecha_fin >= record.curso_id.fecha_inicio and 
                         otro.curso_id.fecha_inicio <= record.curso_id.fecha_fin):
-                        
+                    
                         for dia, (hora_inicio, hora_fin) in horas.items():
                             otro_hora_inicio = getattr(otro, f'{dia}_hora_inicio')
                             otro_hora_fin = getattr(otro, f'{dia}_hora_fin')
-                            
+                        
                             if getattr(otro, dia) and (
-                                (hora_inicio < otro_hora_fin and hora_fin > otro_hora_inicio)                            ):
+                                (hora_inicio < otro_hora_fin and hora_fin > otro_hora_inicio)
+                            ):
                                 raise ValidationError(
                                     f'Ya existe una plantilla de horario que usa esta aula el {dia} '
                                     f'en el horario seleccionado durante las fechas del curso'
@@ -289,13 +316,21 @@ class Horario(models.Model):
             if record.es_plantilla:
                 self.env['gestion_clases.horario'].search([
                     ('plantilla_id', '=', record.id),
-                    ('es_plantilla', '=', False)                ]).unlink()
+                    ('es_plantilla', '=', False)
+                ]).unlink()
         return super().unlink()
 
     @api.model
     def _read_group_aula_id(self, aulas, domain, order):
         # Obtener todas las aulas activas
         all_aulas = self.env['gestion_clases.aula'].search([])
+        
+        # Configurar columnas plegadas por defecto (aulas sin registros)
+        aula_data = []
+        for aula in all_aulas:
+            aula_count = self.search_count([('aula_id', '=', aula.id)] + domain)
+            aula_data.append((aula.id, aula.display_name, aula_count == 0))  # True = plegada si no hay registros
+        
         return all_aulas
 
     _group_by_full = {
@@ -315,12 +350,17 @@ class Horario(models.Model):
             result = []
             for aula in aulas:
                 if aula.id in aulas_con_eventos:
-                    result.append(aulas_con_eventos[aula.id])
+                    group_data = aulas_con_eventos[aula.id]
+                    # No plegar si tiene registros
+                    group_data['__fold'] = False
+                    result.append(group_data)
                 else:
+                    # Plegar columnas vacías por defecto
                     result.append({
                         'aula_id': (aula.id, aula.display_name),
                         'aula_id_count': 0,
-                        '__domain': [(u'aula_id', '=', aula.id)] + domain
+                        '__domain': [(u'aula_id', '=', aula.id)] + domain,
+                        '__fold': True  # Plegar columnas vacías
                     })
             return result
         return super(Horario, self).read_group(domain, fields, groupby, offset=offset, limit=limit, orderby=orderby, lazy=lazy)
