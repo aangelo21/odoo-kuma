@@ -17,17 +17,6 @@ class Horario(models.Model):
     plantilla_id = fields.Many2one('gestion_clases.horario', string='Horario plantilla')
     temario = fields.Text(string='Temario', help='Contenido impartido en la clase')
     tutor_id = fields.Many2one('gestion_cursos.tutor', string='Tutor', help='Tutor que da esta clase específica', domain="[('id_curso', 'in', [curso_id])]")
-    incidencia = fields.Selection([
-        ('', 'Sin incidencia'),
-        ('camara_en_negro', 'Cámara en Negro'),
-        ('imagen_congelada', 'Imagen Congelada'),
-        ('pte_grabacion_otra_clase', 'PTE Grabación otra clase'),
-        ('sin_sonido', 'Sin Sonido'),
-        ('no_grabado', 'No Grabado'),
-        ('no_subido_a_vimeo', 'No Subido a Vimeo'),
-        ('pte_de_edicion', 'PTE de Edición'),
-        ('problemas_microfono', 'Problemas Micrófono'),
-    ], string='Incidencia', help='Tipo de incidencia de la clase')
     
     kanban_state = fields.Selection([
         ('normal', 'Sin incidencias'),
@@ -83,13 +72,11 @@ class Horario(models.Model):
         todos_los_eventos = self.env['gestion_clases.horario'].search([('es_plantilla', '=', False)])
         for evento in todos_los_eventos:
             evento.color_event = '#55eb18' if evento.temario else '#f91212'
-    
-    @api.depends('incidencia', 'temario')
+      
+    @api.depends('temario')
     def _compute_kanban_state(self):
         for record in self:
-            if record.incidencia and record.incidencia != '':
-                record.kanban_state = 'blocked'
-            elif record.temario:
+            if record.temario:
                 record.kanban_state = 'done'
             else:
                 record.kanban_state = 'normal'
@@ -406,18 +393,18 @@ class Horario(models.Model):
                 minuto = int((record.hora_fin_evento - hora) * 60)
                 nueva_fecha_fin = fecha_fin_local.replace(hour=hora, minute=minuto, second=0, microsecond=0)
                 nueva_fecha_fin_utc = nueva_fecha_fin.astimezone(pytz.UTC).replace(tzinfo=None)
-                record.fecha_fin = nueva_fecha_fin_utc
-
-    @api.depends('curso_id', 'aula_display')
+                record.fecha_fin = nueva_fecha_fin_utc    @api.depends('curso_id', 'aula_display')
     def _compute_display_name_calendar(self):
         for record in self:
             curso_name = record.curso_id.nombre if record.curso_id else ""
             aula_name = record.aula_display.nombre if record.aula_display else ""
             
-            # Crear el nombre para el calendario (solo curso y aula)
+            # Crear el nombre para el calendario (aula arriba, curso abajo)
             if curso_name and aula_name:
-                record.display_name_calendar = f"{curso_name}\n{aula_name}"
+                record.display_name_calendar = f"{aula_name}\n{curso_name}"
             elif curso_name:
                 record.display_name_calendar = curso_name
+            elif aula_name:
+                record.display_name_calendar = aula_name
             else:
                 record.display_name_calendar = ""
