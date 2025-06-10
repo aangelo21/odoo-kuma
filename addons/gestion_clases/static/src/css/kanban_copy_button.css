@@ -1,0 +1,43 @@
+/* Estilos para el botón de copiar en las tarjetas kanban */
+.oe_kanban_card {
+  position: relative !important;
+}
+
+.copy-btn {
+  transition: all 0.3s ease;
+  z-index: 10;
+  cursor: pointer !important;
+  user-select: none;
+  border: 1px solid #6c757d !important;
+}
+
+.copy-btn:hover {
+  background-color: #f8f9fa !important;
+  border-color: #6c757d !important;
+  transform: scale(1.1);
+}
+
+.copy-btn:active {
+  transform: scale(0.95);
+}
+
+/* Animación para el feedback visual */
+.copy-btn.copied {
+  background-color: #d4edda !important;
+  border-color: #c3e6cb !important;
+  animation: pulse 0.5s ease-in-out;
+}
+
+@keyframes pulse {
+  0% { transform: scale(1); }
+  50% { transform: scale(1.1); }
+  100% { transform: scale(1); }
+}
+
+/* Responsividad para dispositivos móviles */
+@media (max-width: 768px) {
+  .copy-btn {
+    width: 40px !important;
+    height: 40px !important;
+  }
+}

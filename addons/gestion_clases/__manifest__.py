@@ -26,8 +26,13 @@ Long description of module's purpose
         'views/horario_kanban_view.xml',
         'views/horario_calendar_view.xml',
         'views/horario_actions.xml',
-        'views/horario_menu.xml',
-    ],
+        'views/horario_menu.xml',    ],
+    'assets': {
+        'web.assets_backend': [
+            'gestion_clases/static/src/css/kanban_copy_button.css',
+            'gestion_clases/static/src/js/kanban_copy_button.js',
+        ],
+    },
     'demo': [
         'demo/demo.xml',
     ],
