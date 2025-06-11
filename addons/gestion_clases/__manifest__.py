@@ -12,11 +12,12 @@ Long description of module's purpose
     'category': 'Uncategorized',
     'version': '0.1',
 
-    'depends': ['base', 'gestion_cursos'],
+    'depends': ['base', 'gestion_cursos', 'calendar'],
     
     'data': [
         'security/ir.model.access.csv',
         'data/aula_data.xml',
+        'wizard/cambiar_incidencia_wizard_view.xml',
         'views/root_menu.xml',
         'views/aula_list_view.xml',
         'views/aula_form_view.xml',
