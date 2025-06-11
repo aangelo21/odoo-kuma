@@ -32,6 +32,15 @@ class CaptacionAlumnos(models.Model):
         store=True
     )
 
+    @api.model
+    def default_get(self, fields_list):
+        res = super().default_get(fields_list)
+        user = self.env.user
+        empleado = self.env['hr.employee'].search([('user_id', '=', user.id)], limit=1)
+        if empleado:
+            res['empleado_id'] = empleado.id
+        return res
+
     @api.depends('empleado_id', 'categoria_id', 'numero_alumnos')
     def _compute_display_name(self):
         for record in self:
@@ -45,7 +54,7 @@ class CaptacionAlumnos(models.Model):
         """Obtiene los datos para el gráfico de barras"""
         try:
             # Buscar todos los registros de captación
-            captaciones = self.search([])
+            captaciones = self.sudo().search([])
 
             if not captaciones:
                 return {

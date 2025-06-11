@@ -9,7 +9,7 @@
                     <sheet>
                         <group>
                             <group>
-                                <field name="empleado_id" options="{'no_create': True, 'no_create_edit': True}"/>
+                                <field name="empleado_id" options="{'no_create': True, 'no_create_edit': True}" readonly="1"/>
                                 <field name="categoria_id" options="{'no_create': True, 'no_create_edit': True}"/>
                             </group>
                             <group>
