@@ -9,14 +9,14 @@
       <field name="domain">[('es_plantilla', '=', True)]</field>
     </record>
 
-    <record model="ir.actions.act_window.view" id="action_horario_list_view">
+    <record model="ir.actions.act_window.view" id="gestion_clases.action_horario_list_view">
       <field name="sequence" eval="1" />
       <field name="view_mode">list</field>
       <field name="view_id" ref="gestion_clases.horario_list" />
       <field name="act_window_id" ref="gestion_clases.action_window_horario" />
     </record>
 
-    <record model="ir.actions.act_window.view" id="action_horario_form_view">
+    <record model="ir.actions.act_window.view" id="gestion_clases.action_horario_form_view">
       <field name="sequence" eval="2" />
       <field name="view_mode">form</field>
       <field name="view_id" ref="gestion_clases.horario_form" />
@@ -40,19 +40,19 @@
       <field name="domain">[('es_plantilla', '=', False)]</field>
     </record>
 
-    <record model="ir.actions.act_window.view" id="action_horario_panel_kanban_view">
+    <record model="ir.actions.act_window.view" id="gestion_clases.action_horario_panel_kanban_view">
       <field name="sequence" eval="1" />
       <field name="view_mode">kanban</field>
       <field name="view_id" ref="gestion_clases.horario_kanban" />
       <field name="act_window_id" ref="gestion_clases.action_window_horario_panel" />
     </record>
-    <record model="ir.actions.act_window.view" id="action_horario_diario_kanban_view">
+    <record model="ir.actions.act_window.view" id="gestion_clases.action_horario_diario_kanban_view">
       <field name="sequence" eval="1" />
       <field name="view_mode">kanban</field>
       <field name="view_id" ref="gestion_clases.horario_kanban" />
       <field name="act_window_id" ref="gestion_clases.action_window_horario_diario" />
     </record>
-    <record model="ir.actions.act_window.view" id="action_horario_diario_form_view">
+    <record model="ir.actions.act_window.view" id="gestion_clases.action_horario_diario_form_view">
       <field name="sequence" eval="2" />
       <field name="view_mode">form</field>
       <field name="view_id" ref="gestion_clases.horario_form" />
@@ -67,25 +67,31 @@
       <field name="search_view_id" ref="gestion_clases.horario_search" />
     </record>
 
-    <record model="ir.actions.act_window.view" id="action_horario_eventos_calendar_view">
+    <record model="ir.actions.act_window.view" id="gestion_clases.action_horario_eventos_calendar_view">
       <field name="sequence" eval="1" />
       <field name="view_mode">calendar</field>
       <field name="view_id" ref="horario_calendar_view" />
       <field name="act_window_id" ref="gestion_clases.action_window_horario_calendar_eventos" />
     </record>
 
-    <record model="ir.actions.act_window.view" id="action_horario_eventos_list_view">
+    <record model="ir.actions.act_window.view" id="gestion_clases.action_horario_eventos_list_view">
       <field name="sequence" eval="2" />
       <field name="view_mode">list</field>
       <field name="view_id" ref="gestion_clases.horario_list" />
       <field name="act_window_id" ref="gestion_clases.action_window_horario_calendar_eventos" />
     </record>
 
-    <record model="ir.actions.act_window.view" id="action_horario_eventos_form_view">
+    <record model="ir.actions.act_window.view" id="gestion_clases.action_horario_eventos_form_view">
       <field name="sequence" eval="3" />
       <field name="view_mode">form</field>
       <field name="view_id" ref="gestion_clases.horario_form" />
       <field name="act_window_id" ref="gestion_clases.action_window_horario_calendar_eventos" />
+    </record>
+    <record model="ir.actions.act_window" id="gestion_clases.action_window_horario_form_only">
+      <field name="name">Horario</field>
+      <field name="res_model">gestion_clases.horario</field>
+      <field name="view_mode">form</field>
+      <field name="view_id" ref="gestion_clases.horario_form"/>
     </record>
   </data>
 </odoo>

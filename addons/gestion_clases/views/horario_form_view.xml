@@ -13,6 +13,9 @@
               <field name="aula_id" />
               <field name="es_plantilla" invisible="1" />
             </group>
+            <separator string="Incidencia" invisible="es_plantilla" />
+            <field name="incidencias"
+              invisible="es_plantilla" />
             <separator string="Temario" invisible="es_plantilla" />
             <field name="temario"
               placeholder="Escriba aquí el contenido impartido en la clase..."

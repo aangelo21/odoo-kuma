@@ -1,0 +1,30 @@
+<?xml version="1.0" encoding="utf-8"?>
+<odoo>
+    <data>
+        <record id="view_cambiar_incidencia_wizard_form" model="ir.ui.view">
+            <field name="name">gestion_clases.cambiar_incidencia_wizard.form</field>
+            <field name="model">gestion_clases.cambiar_incidencia_wizard</field>
+            <field name="arch" type="xml">
+                <form string="Cambiar Incidencia">
+                    <group>
+                        <field name="horario_id" invisible="1"/>
+                        <field name="incidencias_field" widget="selection"/>
+                    </group>
+                    <footer>
+                        <button string="Guardar" name="action_guardar_incidencia" type="object" class="btn-primary"/>
+                        <button string="Cancelar" class="btn-secondary" special="cancel"/>
+                    </footer>
+                </form>
+            </field>
+        </record>
+
+        <record id="action_open_cambiar_incidencia_wizard" model="ir.actions.act_window">
+            <field name="name">Cambiar Incidencia</field>
+            <field name="res_model">gestion_clases.cambiar_incidencia_wizard</field>
+            <field name="view_mode">form</field>
+            <field name="target">new</field>
+            <field name="binding_model_id" ref="gestion_clases.model_gestion_clases_horario"/>
+            <field name="binding_view_types">kanban,list,form</field>
+        </record>
+    </data>
+</odoo>
