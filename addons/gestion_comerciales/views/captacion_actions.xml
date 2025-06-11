@@ -1,7 +1,6 @@
 <?xml version="1.0" encoding="utf-8"?>
 <odoo>
-    <data>
-        <!-- Acción para la lista de captaciones -->
+    <data>        <!-- Acción para la lista de captaciones -->
         <record id="action_captacion_alumnos" model="ir.actions.act_window">
             <field name="name">Captación de Alumnos</field>
             <field name="res_model">gestion_comerciales.captacion_alumnos</field>
@@ -20,11 +19,12 @@
 
         <!-- Acción para el gráfico -->
         <record id="action_captacion_chart" model="ir.actions.act_window">
-            <field name="name">Gráfico Captación de Alumnos</field>
+            <field name="name">Gráfico</field>
             <field name="res_model">gestion_comerciales.captacion_alumnos</field>
             <field name="view_mode">graph</field>
             <field name="view_id" ref="view_captacion_alumnos_chart"/>
             <field name="domain">[]</field>
-            <field name="context">{}</field>        </record>
+            <field name="context">{}</field>
+        </record>
     </data>
 </odoo>

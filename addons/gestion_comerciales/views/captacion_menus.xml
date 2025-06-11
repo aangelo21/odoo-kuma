@@ -4,9 +4,7 @@
         <!-- Menú principal de Gestión Comercial -->
         <menuitem id="menu_gestion_comerciales_root"
                   name="Gestión Comerciales"
-                  sequence="10"/>
-
-        <!-- Menú Captación de Alumnos -->
+                  sequence="10"/>        <!-- Menú Captación de Alumnos -->
         <menuitem id="menu_captacion_alumnos"
                   name="Captación de Alumnos"
                   parent="menu_gestion_comerciales_root"

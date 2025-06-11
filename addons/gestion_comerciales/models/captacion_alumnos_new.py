@@ -23,7 +23,7 @@ class CaptacionAlumnos(models.Model):
     numero_alumnos = fields.Integer(
         string='Número de Alumnos',
         required=True,
-                help='Cantidad de alumnos captados'
+        help='Cantidad de alumnos captados'
     )   
     fecha = fields.Date(
         string='Fecha',
@@ -52,6 +52,7 @@ class CaptacionAlumnos(models.Model):
         store=True,
         help='Año de la fecha de captación'
     )
+
     mes_año = fields.Char(
         string='Mes/Año',
         compute='_compute_fecha_parts',
