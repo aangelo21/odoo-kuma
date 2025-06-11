@@ -270,3 +270,7 @@ input.o_input:focus, textarea.o_input:focus, select.o_input:focus {
     color: $o-brand-primary;
     font-weight: bolder;
 }
+
+.o_date_picker, .o_datetime_picker {
+    color: $o-brand-primary;
+}
