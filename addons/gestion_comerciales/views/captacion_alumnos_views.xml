@@ -37,11 +37,10 @@
         <record id="view_captacion_alumnos_tree" model="ir.ui.view">
             <field name="name">captacion.alumnos.list</field>
             <field name="model">gestion_comerciales.captacion_alumnos</field>
-            <field name="arch" type="xml">
-                <list string="Captación de Alumnos">
+            <field name="arch" type="xml">                <list string="Captación de Alumnos">
                     <field name="empleado_id" />
                     <field name="categoria_id" />
-                    <field name="numero_alumnos" sum="Total Alumnos" />
+                    <field name="numero_alumnos" />
                     <field name="fecha" />
                 </list>
             </field>
