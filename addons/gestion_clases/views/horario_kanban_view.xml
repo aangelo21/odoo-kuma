@@ -20,11 +20,11 @@
           <templates>
             <t t-name="kanban-box">
               <div class="oe_kanban_card"
-                style="border-radius: 10px; border: 1px solid #dee2e6; box-shadow: 0 2px 4px rgba(0,0,0,0.1);">
+                t-attf-style="background-color: #{record.incidencias.raw_value == 'camara_en_negro' ? '#B0C4DE' : record.incidencias.raw_value == 'imagen_congelada' ? '#ADD8E6' : record.incidencias.raw_value == 'pte_grabacion_otra_clase' ? '#FFDEAD' : record.incidencias.raw_value == 'sin_sonido' ? '#FFB6C1' : record.incidencias.raw_value == 'no_grabado' ? '#FFA07A' : record.incidencias.raw_value == 'no_subido_a_vimeo' ? '#D8BFD8' : record.incidencias.raw_value == 'pte_de_edicion' ? '#F5DEB3' : record.incidencias.raw_value == 'problemas_microfono' ? '#FFDAB9' : '#FFFFFF'}; border-radius: 10px; border: 1px solid #dee2e6; box-shadow: 0 2px 4px rgba(0,0,0,0.1);">
                 <div class="oe_kanban_content p-3">
                   <div class="d-flex align-items-center mb-3">
                     <i class="fa fa-graduation-cap text-primary me-2" style="font-size: 1.2em;" />
-                    <strong class="fs-5 text-primary"
+                    <strong class="fs-5 text-dark"
                       style="word-wrap: break-word; word-break: break-word; white-space: normal; line-height: 1.3; flex: 1;">
                       <field name="curso_id" />
                     </strong>
@@ -33,7 +33,7 @@
                     <div class="d-flex align-items-center mb-2 bg-light p-2 rounded">
                       <i class="fa fa-play-circle text-success me-2" />
                       <div>
-                        <small class="text-muted d-block">Inicio</small>
+                        <small class="text-dark d-block">Inicio</small>
                         <strong>
                           <field name="fecha" widget="datetime"
                             options="{'format': 'EEEE d MMM, HH:mm'}" />
@@ -43,7 +43,7 @@
                     <div class="d-flex align-items-center bg-light p-2 rounded">
                       <i class="fa fa-stop-circle text-danger me-2" />
                       <div>
-                        <small class="text-muted d-block">Fin</small>
+                        <small class="text-dark d-block">Fin</small>
                         <strong>
                           <field name="fecha_fin" widget="datetime"
                             options="{'format': 'EEEE d MMM, HH:mm'}" />
@@ -54,7 +54,7 @@
                   <div class="border-top pt-2">
                     <div class="d-flex align-items-center mb-2">
                       <i class="fa fa-book text-info me-2" />
-                      <strong class="text-info">Temario</strong>
+                      <strong class="text-dark">Temario</strong>
                     </div>
                     <div class="text-dark"
                       style="max-height: 80px; overflow: hidden; font-size: 0.9rem; line-height: 1.4;">
@@ -63,18 +63,27 @@
                     <div class="d-flex align-items-center mb-2 mt-3"
                       t-if="record.tutor_id.raw_value">
                       <i class="fa fa-user text-warning me-2" />
-                      <strong class="text-warning">Tutor</strong>
+                      <strong class="text-dark">Tutor</strong>
                     </div>
                     <div class="text-dark" t-if="record.tutor_id.raw_value"
                       style="font-size: 0.9rem; line-height: 1.4;">
                       <field name="tutor_id" />
                     </div>
                   </div>
+                  <div t-if="record.incidencias.raw_value" class="mt-2">
+                    <div class="d-flex align-items-center mb-1">
+                      <i class="fa fa-exclamation-circle text-danger me-2" />
+                      <strong class="text-dark">Incidencia</strong>
+                    </div>
+                    <div class="text-dark" style="font-size: 0.9rem; line-height: 1.4;">
+                      <field name="incidencias"/>
+                    </div>
+                  </div>
                   <div class="position-absolute" style="bottom: 10px; right: 10px;">
                     <div class="d-flex gap-2">
                       <!-- Botón de incidencias -->
                       <button name="action_open_current_horario_form" type="object"
-                        class="btn btn-sm btn-outline-warning"
+                        class="btn btn-sm btn-outline-dark"
                         style="border-radius: 50%; width: 35px; height: 35px; padding: 0; cursor: pointer; display: flex; align-items: center; justify-content: center;"
                         title="Gestionar incidencias">
                         <i class="fa fa-exclamation-triangle"></i>
