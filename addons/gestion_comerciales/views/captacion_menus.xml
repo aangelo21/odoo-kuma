@@ -3,7 +3,7 @@
     <data>
         <!-- Menú principal de Gestión Comercial -->
         <menuitem id="menu_gestion_comerciales_root"
-                  name="Gestión Comercial"
+                  name="Gestión Comerciales"
                   sequence="10"/>
 
         <!-- Menú Captación de Alumnos -->
@@ -15,7 +15,7 @@
 
         <!-- Menú Gráfico -->
         <menuitem id="menu_captacion_chart"
-                  name="Gráfico de Barras"
+                  name="Gráfico"
                   parent="menu_gestion_comerciales_root"
                   action="action_captacion_chart"
                   sequence="20"/>

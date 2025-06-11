@@ -2,7 +2,7 @@
 {
     'name': "Gestión Comerciales",
 
-    'summary': "Sistema de gestión comercial con gráficos de captación de alumnos",
+    'summary': "Módulo para la gestión comercial con gráficos de captación de alumnos",
 
     'description': """
 Sistema completo de gestión comercial que permite:
