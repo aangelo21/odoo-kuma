@@ -73,14 +73,13 @@
                   <div class="position-absolute" style="bottom: 10px; right: 10px;">
                     <div class="d-flex gap-2">
                       <!-- Botón de incidencias -->
-                      <div class="btn btn-sm btn-outline-warning incidencias-btn"
+                        <button name="%(gestion_clases.action_window_horario)d" type="action"
+                        class="btn btn-sm btn-outline-warning"
                         style="border-radius: 50%; width: 35px; height: 35px; padding: 0; cursor: pointer; display: flex; align-items: center; justify-content: center;"
-                        t-att-data-id="record.id.raw_value"
-                        t-att-data-incidencia-actual="record.incidencias.raw_value or ''"
-                        onclick="openIncidenciasModal(this)"
+                        context="{'default_id': id, 'form_view_initial_mode': 'edit', 'form_view_ref': 'gestion_clases.horario_form'}"
                         title="Gestionar incidencias">
                         <i class="fa fa-exclamation-triangle"></i>
-                      </div>
+                        </button>
                       <!-- Botón de copiar -->
                       <div class="btn btn-sm btn-outline-secondary copy-btn"
                         style="border-radius: 50%; width: 35px; height: 35px; padding: 0; cursor: pointer; display: flex; align-items: center; justify-content: center;"
@@ -100,43 +99,6 @@
               </div>
             </t>
           </templates>
-
-          <!-- Modal para seleccionar incidencias -->
-          <div id="incidenciasModal" class="modal fade" tabindex="-1" aria-hidden="true">
-            <div class="modal-dialog modal-sm">
-              <div class="modal-content">
-                <div class="modal-header">
-                  <h5 class="modal-title">Seleccionar Incidencia</h5>
-                  <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"
-                    name="close_modal"></button>
-                </div>
-                <div class="modal-body">
-                  <form id="incidenciasForm">
-                    <div class="mb-3">
-                      <div class="o_form_label">Tipo de incidencia:</div>
-                      <select class="form-select" id="incidenciaSelect" name="incidencia">
-                        <option value="">Sin Incidencias</option>
-                        <option value="sin_incidencias">Sin Incidencias</option>
-                        <option value="camara_en_negro">Cámara en Negro</option>
-                        <option value="imagen_congelada">Imagen Congelada</option>
-                        <option value="pte_grabacion_otra_clase">PTE Grabación Otra Clase</option>
-                        <option value="sin_sonido">Sin Sonido</option>
-                        <option value="no_grabado">No Grabado</option>
-                        <option value="no_subido_a_vimeo">No Subido a Vimeo</option>
-                        <option value="pte_de_edicion">PTE de Edición</option>
-                        <option value="problemas_microfono">Problemas Micrófono</option>
-                      </select>
-                    </div>
-                  </form>
-                </div>                <div class="modal-footer">
-                  <button type="button" class="btn btn-secondary" data-bs-dismiss="modal"
-                    name="cancel_modal" onclick="closeModal()">Cancelar</button>
-                  <button type="button" class="btn btn-primary" id="saveIncidencia"
-                    name="save_incidencia" onclick="saveIncidencia()">Guardar</button>
-                </div>
-              </div>
-            </div>
-          </div>
         </kanban>
       </field>
     </record>

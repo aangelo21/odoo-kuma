@@ -7,12 +7,14 @@
 Long description of module's purpose
     """,
 
-    'author': "My Company",
+    'author': "My Company",   
     'website': "https://www.yourcompany.com",
     'category': 'Uncategorized',
     'version': '0.1',
 
-    'depends': ['base', 'gestion_cursos'],    'data': [
+    'depends': ['base', 'gestion_cursos'],
+    
+    'data': [
         'security/ir.model.access.csv',
         'data/aula_data.xml',
         'views/root_menu.xml',
@@ -26,11 +28,13 @@ Long description of module's purpose
         'views/horario_kanban_view.xml',
         'views/horario_calendar_view.xml',
         'views/horario_actions.xml',
-        'views/horario_menu.xml',    ],    'assets': {
+        'views/horario_menu.xml',
+    ],
+    
+    'assets': {
         'web.assets_backend': [
             'gestion_clases/static/src/css/kanban_copy_button.css',
             'gestion_clases/static/src/js/kanban_copy_button.js',
-            # 'gestion_clases/static/src/js/kanban_incidencias.js',
         ],
     },
     'demo': [
