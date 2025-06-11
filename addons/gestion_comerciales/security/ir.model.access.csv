@@ -1,2 +1,2 @@
 id,name,model_id:id,group_id:id,perm_read,perm_write,perm_create,perm_unlink
-access_gestion_comerciales_gestion_comerciales,gestion_comerciales.gestion_comerciales,model_gestion_comerciales_gestion_comerciales,base.group_user,1,1,1,1
+access_gestion_comerciales_captacion_alumnos,gestion_comerciales.captacion_alumnos,model_gestion_comerciales_captacion_alumnos,base.group_user,1,1,1,1

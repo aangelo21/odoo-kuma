@@ -1,33 +1,36 @@
 # -*- coding: utf-8 -*-
 {
-    'name': "gestion_comerciales",
+    'name': "Gestión Comerciales",
 
-    'summary': "Short (1 phrase/line) summary of the module's purpose",
+    'summary': "Módulo para la gestión comercial con gráficos de captación de alumnos",
 
     'description': """
-Long description of module's purpose
+Sistema completo de gestión comercial que permite:
+- Registrar captación de alumnos por trabajador
+- Visualizar gráficos de barras interactivos
+- Dashboard con estadísticas en tiempo real
+- Integración con módulo de empleados y categorías
     """,
 
-    'author': "My Company",
-    'website': "https://www.yourcompany.com",
+    'author': "Tu Empresa",
+    'website': "https://www.tuempresa.com",
 
-    # Categories can be used to filter modules in modules listing
-    # Check https://github.com/odoo/odoo/blob/15.0/odoo/addons/base/data/ir_module_category_data.xml
-    # for the full list
-    'category': 'Uncategorized',
-    'version': '0.1',
+    'category': 'Sales',
+    'version': '1.0',
 
-    # any module necessary for this one to work correctly
-    'depends': ['base'],
+    # Dependencias necesarias
+    'depends': ['base', 'hr', 'gestion_cursos', 'web'],
 
-    # always loaded
+    # Archivos de datos
     'data': [
         'security/ir.model.access.csv',
-        # 'views/templates.xml',
+        'views/captacion_alumnos_views.xml',
+        'views/captacion_actions.xml',
+        'views/captacion_menus.xml',
     ],
-    # only loaded in demonstration mode
-    #'demo': [
-    #    'demo/demo.xml',
-    #],
+
+    'installable': True,
+    'application': True,
+    'auto_install': False,
 }
 

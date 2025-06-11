@@ -1,0 +1,67 @@
+<?xml version="1.0" encoding="utf-8"?>
+<odoo>    <data>
+        <!-- Vista de formulario para captación de alumnos -->
+        <record id="view_captacion_alumnos_form" model="ir.ui.view">
+            <field name="name">captacion.alumnos.form</field>
+            <field name="model">gestion_comerciales.captacion_alumnos</field>
+            <field name="arch" type="xml">
+                <form string="Captación de Alumnos">
+                    <sheet>
+                        <group>
+                            <group>
+                                <field name="empleado_id" options="{'no_create': True, 'no_create_edit': True}" readonly="1"/>
+                                <field name="categoria_id" options="{'no_create': True, 'no_create_edit': True}"/>
+                            </group>                            <group>
+                                <field name="numero_alumnos"/>
+                                <field name="fecha" readonly="1"/>
+                            </group>
+                        </group>
+                    </sheet>
+                </form>
+            </field>        </record>
+
+        <!-- Vista de lista para captación de alumnos -->
+        <record id="view_captacion_alumnos_tree" model="ir.ui.view">
+            <field name="name">captacion.alumnos.list</field>
+            <field name="model">gestion_comerciales.captacion_alumnos</field>
+            <field name="arch" type="xml">                <list string="Captación de Alumnos">
+                    <field name="empleado_id"/>
+                    <field name="categoria_id"/>
+                    <field name="numero_alumnos" sum="Total Alumnos"/>
+                    <field name="fecha"/>
+                </list>
+            </field>
+        </record>
+
+        <!-- Vista de búsqueda -->
+        <record id="view_captacion_alumnos_search" model="ir.ui.view">
+            <field name="name">captacion.alumnos.search</field>
+            <field name="model">gestion_comerciales.captacion_alumnos</field>
+            <field name="arch" type="xml">
+                <search string="Buscar Captación de Alumnos">                    <field name="empleado_id"/>
+                    <field name="categoria_id"/>
+                    <field name="numero_alumnos"/>
+                    <field name="fecha"/>
+                    <separator/>
+                    <group expand="0" string="Agrupar por">
+                        <filter string="Empleado" name="group_empleado" context="{'group_by': 'empleado_id'}"/>
+                        <filter string="Categoría" name="group_categoria" context="{'group_by': 'categoria_id'}"/>
+                        <filter string="Fecha" name="group_fecha" context="{'group_by': 'fecha'}"/>
+                    </group>
+                </search>
+            </field>
+        </record>
+
+        <!-- Vista de gráfico para análisis -->        <record id="view_captacion_alumnos_chart" model="ir.ui.view">
+            <field name="name">captacion.alumnos.chart</field>
+            <field name="model">gestion_comerciales.captacion_alumnos</field>
+            <field name="arch" type="xml">
+                <graph string="Captación de Alumnos por Trabajador" type="bar" disable_linking="1">
+                    <field name="empleado_id" type="row"/>
+                    <field name="categoria_id" type="row"/>
+                    <field name="numero_alumnos" type="measure"/>
+                </graph>
+            </field>
+        </record>
+    </data>
+</odoo>
