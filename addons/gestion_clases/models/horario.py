@@ -18,6 +18,17 @@ class Horario(models.Model):
     temario = fields.Text(string='Temario', help='Contenido impartido en la clase')
     tutor_id = fields.Many2one('gestion_cursos.tutor', string='Tutor', help='Tutor que da esta clase específica', domain="[('id_curso', 'in', [curso_id])]")
     
+    incidencias = fields.Selection([
+        ('camara_en_negro', 'Cámara en Negro'),
+        ('imagen_congelada', 'Imagen Congelada'),
+        ('pte_grabacion_otra_clase', 'PTE Grabación Otra Clase'),
+        ('sin_sonido', 'Sin Sonido'),
+        ('no_grabado', 'No Grabado'),
+        ('no_subido_a_vimeo', 'No Subido a Vimeo'),
+        ('pte_de_edicion', 'PTE de Edicion'),
+        ('problemas_microfono', 'Problemas Micrófono'),
+    ])
+
     kanban_state = fields.Selection([
         ('normal', 'Sin incidencias'),
         ('blocked', 'Con incidencias'),
