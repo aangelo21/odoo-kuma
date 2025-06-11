@@ -11,9 +11,9 @@
                             <group>
                                 <field name="empleado_id" options="{'no_create': True, 'no_create_edit': True}" readonly="1"/>
                                 <field name="categoria_id" options="{'no_create': True, 'no_create_edit': True}"/>
-                            </group>
-                            <group>
+                            </group>                            <group>
                                 <field name="numero_alumnos"/>
+                                <field name="fecha" readonly="1"/>
                             </group>
                         </group>
                     </sheet>
@@ -24,11 +24,11 @@
         <record id="view_captacion_alumnos_tree" model="ir.ui.view">
             <field name="name">captacion.alumnos.list</field>
             <field name="model">gestion_comerciales.captacion_alumnos</field>
-            <field name="arch" type="xml">
-                <list string="Captación de Alumnos">
+            <field name="arch" type="xml">                <list string="Captación de Alumnos">
                     <field name="empleado_id"/>
                     <field name="categoria_id"/>
                     <field name="numero_alumnos" sum="Total Alumnos"/>
+                    <field name="fecha"/>
                 </list>
             </field>
         </record>
@@ -38,14 +38,15 @@
             <field name="name">captacion.alumnos.search</field>
             <field name="model">gestion_comerciales.captacion_alumnos</field>
             <field name="arch" type="xml">
-                <search string="Buscar Captación de Alumnos">
-                    <field name="empleado_id"/>
+                <search string="Buscar Captación de Alumnos">                    <field name="empleado_id"/>
                     <field name="categoria_id"/>
                     <field name="numero_alumnos"/>
+                    <field name="fecha"/>
                     <separator/>
                     <group expand="0" string="Agrupar por">
                         <filter string="Empleado" name="group_empleado" context="{'group_by': 'empleado_id'}"/>
                         <filter string="Categoría" name="group_categoria" context="{'group_by': 'categoria_id'}"/>
+                        <filter string="Fecha" name="group_fecha" context="{'group_by': 'fecha'}"/>
                     </group>
                 </search>
             </field>

@@ -19,11 +19,17 @@ class CaptacionAlumnos(models.Model):
         string='Categoría',
         required=True,
         help='Categoría del curso de los alumnos captados'
-    )
+    )   
     numero_alumnos = fields.Integer(
         string='Número de Alumnos',
         required=True,
         help='Cantidad de alumnos captados'
+    )   
+    fecha = fields.Date(
+        string='Fecha',
+        default=fields.Date.context_today,
+        required=True,
+        help='Fecha de captación de alumnos'
     )
 
     display_name = fields.Char(
@@ -40,12 +46,13 @@ class CaptacionAlumnos(models.Model):
         if empleado:
             res['empleado_id'] = empleado.id
         return res
-
-    @api.depends('empleado_id', 'categoria_id', 'numero_alumnos')
+    
+    @api.depends('empleado_id', 'categoria_id', 'numero_alumnos', 'fecha')
     def _compute_display_name(self):
         for record in self:
             if record.empleado_id and record.categoria_id:
-                record.display_name = f"{record.empleado_id.name} - {record.categoria_id.nombre} ({record.numero_alumnos} alumnos)"
+                fecha_str = record.fecha.strftime('%d/%m/%Y') if record.fecha else ''
+                record.display_name = f"{record.empleado_id.name} - {record.categoria_id.nombre} ({record.numero_alumnos} alumnos) - {fecha_str}"
             else:
                 record.display_name = "Captación de Alumnos"
 
