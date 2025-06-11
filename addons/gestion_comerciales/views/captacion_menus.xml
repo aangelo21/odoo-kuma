@@ -6,23 +6,18 @@
                   name="Gestión Comercial"
                   sequence="10"/>
 
-        <!-- Menú Dashboard -->
-        <menuitem id="menu_captacion_dashboard"
-                  name="Dashboard"
-                  parent="menu_gestion_comerciales_root"
-                  action="action_captacion_dashboard"
-                  sequence="10"/>
-
         <!-- Menú Captación de Alumnos -->
         <menuitem id="menu_captacion_alumnos"
                   name="Captación de Alumnos"
                   parent="menu_gestion_comerciales_root"
                   action="action_captacion_alumnos"
-                  sequence="20"/>        <!-- Menú Gráfico -->
+                  sequence="10"/>
+
+        <!-- Menú Gráfico -->
         <menuitem id="menu_captacion_chart"
                   name="Gráfico de Barras"
                   parent="menu_gestion_comerciales_root"
                   action="action_captacion_chart"
-                  sequence="30"/>
+                  sequence="20"/>
     </data>
 </odoo>
