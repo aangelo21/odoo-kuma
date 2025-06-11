@@ -1,6 +1,6 @@
 # -*- coding: utf-8 -*-
-from odoo import http
-from odoo.http import request
+from odoo import http  # type: ignore
+from odoo.http import request  # type: ignore
 import json
 
 class CaptacionController(http.Controller):
