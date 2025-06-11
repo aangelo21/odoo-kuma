@@ -22,12 +22,12 @@ Long description of module's purpose
         'views/aula_form_view.xml',
         'views/aula_actions.xml',
         'views/aula_menu.xml',
+        'views/horario_actions.xml',
         'views/horario_form_view.xml',
         'views/horario_list_view.xml',
         'views/horario_search_view.xml',
         'views/horario_kanban_view.xml',
         'views/horario_calendar_view.xml',
-        'views/horario_actions.xml',
         'views/horario_menu.xml',
     ],
     
