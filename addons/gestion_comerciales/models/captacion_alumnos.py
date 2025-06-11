@@ -82,9 +82,10 @@ class CaptacionAlumnos(models.Model):
     def default_get(self, fields_list):
         res = super().default_get(fields_list)
         user = self.env.user
-        empleado = self.env['hr.employee'].search([('user_id', '=', user.id)], limit=1)
-        if empleado:
-            res['empleado_id'] = empleado.id
+        if not user.has_group('base.group_system'):
+            empleado = self.env['hr.employee'].search([('user_id', '=', user.id)], limit=1)
+            if empleado:
+                res['empleado_id'] = empleado.id
         return res
     
     @api.depends('empleado_id', 'categoria_id', 'numero_alumnos', 'fecha')
