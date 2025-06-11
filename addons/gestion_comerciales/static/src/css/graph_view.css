@@ -1,0 +1,27 @@
+/* CSS para ocultar tipos de gráfico circular y lineal */
+
+/* Ocultar botones de gráfico circular (pie) y lineal (line) */
+.o_graph_controller .o_graph_buttons .btn[title="Pie"],
+.o_graph_controller .o_graph_buttons .btn[title="Line"],
+.o_graph_controller .o_graph_buttons .btn[data-tooltip="Pie"],
+.o_graph_controller .o_graph_buttons .btn[data-tooltip="Line"] {
+    display: none !important;
+}
+
+/* Ocultar específicamente por iconos FontAwesome */
+.o_graph_controller .fa-pie-chart,
+.o_graph_controller .fa-line-chart {
+    display: none !important;
+}
+
+/* Selector más específico para botones de control de gráfico */
+.o_cp_controller .o_graph_buttons .btn:nth-child(2),
+.o_cp_controller .o_graph_buttons .btn:nth-child(3) {
+    display: none !important;
+}
+
+/* Para versiones más recientes de Odoo que usan diferentes clases */
+.o_control_panel .btn-group button[data-mode="pie"],
+.o_control_panel .btn-group button[data-mode="line"] {
+    display: none !important;
+}

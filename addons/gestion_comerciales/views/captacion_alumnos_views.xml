@@ -22,11 +22,10 @@
         <record id="view_captacion_alumnos_tree" model="ir.ui.view">
             <field name="name">captacion.alumnos.list</field>
             <field name="model">gestion_comerciales.captacion_alumnos</field>
-            <field name="arch" type="xml">
-                <list string="Captación de Alumnos">
+            <field name="arch" type="xml">                <list string="Captación de Alumnos">
                     <field name="empleado_id"/>
                     <field name="categoria_id"/>
-                    <field name="numero_alumnos" sum="Total Alumnos"/>
+                    <field name="numero_alumnos"/>
                     <field name="fecha"/>
                     <field name="mes"/>
                     <field name="año"/>
@@ -62,20 +61,10 @@
                     <filter string="Agosto" name="agosto" domain="[('mes', '=', '08')]"/>
                     <filter string="Septiembre" name="septiembre" domain="[('mes', '=', '09')]"/>
                     <filter string="Octubre" name="octubre" domain="[('mes', '=', '10')]"/>
-                    <filter string="Noviembre" name="noviembre" domain="[('mes', '=', '11')]"/>
-                    <filter string="Diciembre" name="diciembre" domain="[('mes', '=', '12')]"/>
-                    <separator/>
-                    <group expand="0" string="Agrupar por">
-                        <filter string="Empleado" name="group_empleado" context="{'group_by': 'empleado_id'}"/>
-                        <filter string="Categoría" name="group_categoria" context="{'group_by': 'categoria_id'}"/>
-                        <filter string="Fecha" name="group_fecha" context="{'group_by': 'fecha:day'}"/>
-                        <filter string="Mes" name="group_mes" context="{'group_by': 'mes'}"/>
-                        <filter string="Año" name="group_año" context="{'group_by': 'año'}"/>
-                        <filter string="Mes/Año" name="group_mes_año" context="{'group_by': 'mes_año'}"/>
-                    </group>
+                    <filter string="Noviembre" name="noviembre" domain="[('mes', '=', '11')]"/>                    <filter string="Diciembre" name="diciembre" domain="[('mes', '=', '12')]"/>
                 </search>
             </field>
-        </record>        <!-- Vista de gráfico para análisis -->        
+        </record><!-- Vista de gráfico para análisis -->        
         <record id="view_captacion_alumnos_chart" model="ir.ui.view">
             <field name="name">captacion.alumnos.chart</field>
             <field name="model">gestion_comerciales.captacion_alumnos</field>
