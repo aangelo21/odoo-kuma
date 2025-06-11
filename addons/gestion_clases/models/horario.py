@@ -19,7 +19,6 @@ class Horario(models.Model):
     tutor_id = fields.Many2one('gestion_cursos.tutor', string='Tutor', help='Tutor que da esta clase específica', domain="[('id_curso', 'in', [curso_id])]")
     
     incidencias = fields.Selection([
-        ('sin_incidencias', 'Sin Incidencias'),
         ('camara_en_negro', 'Cámara en Negro'),
         ('imagen_congelada', 'Imagen Congelada'),
         ('pte_grabacion_otra_clase', 'PTE Grabación Otra Clase'),
@@ -405,7 +404,20 @@ class Horario(models.Model):
                 minuto = int((record.hora_fin_evento - hora) * 60)
                 nueva_fecha_fin = fecha_fin_local.replace(hour=hora, minute=minuto, second=0, microsecond=0)
                 nueva_fecha_fin_utc = nueva_fecha_fin.astimezone(pytz.UTC).replace(tzinfo=None)
-                record.fecha_fin = nueva_fecha_fin_utc    @api.depends('curso_id', 'aula_display')
+                record.fecha_fin = nueva_fecha_fin_utc
+
+    def action_open_current_horario_form(self):
+        self.ensure_one()
+        return {
+            'type': 'ir.actions.act_window',
+            'res_model': 'gestion_clases.horario',
+            'view_mode': 'form',
+            'res_id': self.id,
+            'target': 'current', # o 'new' si prefieres un popup
+            'context': {'form_view_initial_mode': 'edit'},
+        }
+
+    @api.depends('curso_id', 'aula_display')
     def _compute_display_name_calendar(self):
         for record in self:
             curso_name = record.curso_id.nombre if record.curso_id else ""

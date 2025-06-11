@@ -73,10 +73,9 @@
                   <div class="position-absolute" style="bottom: 10px; right: 10px;">
                     <div class="d-flex gap-2">
                       <!-- Botón de incidencias -->
-                      <button name="%(gestion_clases.action_window_horario_form_only)d" type="action"
+                      <button name="action_open_current_horario_form" type="object"
                         class="btn btn-sm btn-outline-warning"
                         style="border-radius: 50%; width: 35px; height: 35px; padding: 0; cursor: pointer; display: flex; align-items: center; justify-content: center;"
-                        context="{'active_id': id, 'form_view_initial_mode': 'edit'}"
                         title="Gestionar incidencias">
                         <i class="fa fa-exclamation-triangle"></i>
                       </button>
