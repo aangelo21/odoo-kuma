@@ -3,7 +3,7 @@
   position: relative !important;
 }
 
-.copy-btn {
+.copy-btn, .incidencias-btn {
   transition: all 0.3s ease;
   z-index: 10;
   cursor: pointer !important;
@@ -21,10 +21,31 @@
   transform: scale(0.95);
 }
 
+/* Estilos específicos para el botón de incidencias */
+.incidencias-btn {
+  border-color: #ffc107 !important;
+}
+
+.incidencias-btn:hover {
+  background-color: #fff3cd !important;
+  border-color: #ffc107 !important;
+  transform: scale(1.1);
+}
+
+.incidencias-btn:active {
+  transform: scale(0.95);
+}
+
 /* Animación para el feedback visual */
 .copy-btn.copied {
   background-color: #d4edda !important;
   border-color: #c3e6cb !important;
+  animation: pulse 0.5s ease-in-out;
+}
+
+.incidencias-btn.updated {
+  background-color: #fff3cd !important;
+  border-color: #ffeaa7 !important;
   animation: pulse 0.5s ease-in-out;
 }
 
@@ -36,8 +57,32 @@
 
 /* Responsividad para dispositivos móviles */
 @media (max-width: 768px) {
-  .copy-btn {
+  .copy-btn, .incidencias-btn {
     width: 40px !important;
     height: 40px !important;
   }
+}
+
+/* Estilos para el modal de incidencias */
+.modal-content {
+  border-radius: 10px;
+}
+
+.modal-header {
+  border-bottom: 1px solid #dee2e6;
+  background-color: #f8f9fa;
+}
+
+.modal-footer {
+  border-top: 1px solid #dee2e6;
+  background-color: #f8f9fa;
+}
+
+/* Estilos para el gap entre botones */
+.d-flex.gap-2 > * {
+  margin-right: 8px;
+}
+
+.d-flex.gap-2 > *:last-child {
+  margin-right: 0;
 }

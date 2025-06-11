@@ -19,6 +19,7 @@ class Horario(models.Model):
     tutor_id = fields.Many2one('gestion_cursos.tutor', string='Tutor', help='Tutor que da esta clase específica', domain="[('id_curso', 'in', [curso_id])]")
     
     incidencias = fields.Selection([
+        ('sin_incidencias', 'Sin Incidencias'),
         ('camara_en_negro', 'Cámara en Negro'),
         ('imagen_congelada', 'Imagen Congelada'),
         ('pte_grabacion_otra_clase', 'PTE Grabación Otra Clase'),
