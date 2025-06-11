@@ -1,5 +1,6 @@
 <?xml version="1.0" encoding="utf-8"?>
-<odoo>    <data>
+<odoo>
+    <data>
         <!-- Vista de formulario para captación de alumnos -->
         <record id="view_captacion_alumnos_form" model="ir.ui.view">
             <field name="name">captacion.alumnos.form</field>
@@ -9,27 +10,32 @@
                     <sheet>
                         <group>
                             <group>
-                                <field name="empleado_id" options="{'no_create': True, 'no_create_edit': True}" readonly="1"/>
-                                <field name="categoria_id" options="{'no_create': True, 'no_create_edit': True}"/>
-                            </group>                            <group>
-                                <field name="numero_alumnos"/>
-                                <field name="fecha" readonly="1"/>
+                                <field name="empleado_id"
+                                    options="{'no_create': True, 'no_create_edit': True}"
+                                    readonly="1" />
+                                <field name="categoria_id"
+                                    options="{'no_create': True, 'no_create_edit': True}" />
+                            </group>
+                            <group>
+                                <field name="numero_alumnos" />
+                                <field name="fecha" readonly="1" />
                             </group>
                         </group>
                     </sheet>
                 </form>
-            </field>        </record>        <!-- Vista de lista para captación de alumnos -->
+            </field>
+        </record>
+
+        <!-- Vista de lista para captación de alumnos -->
         <record id="view_captacion_alumnos_tree" model="ir.ui.view">
             <field name="name">captacion.alumnos.list</field>
             <field name="model">gestion_comerciales.captacion_alumnos</field>
-            <field name="arch" type="xml">                <list string="Captación de Alumnos">
-                    <field name="empleado_id"/>
-                    <field name="categoria_id"/>
-                    <field name="numero_alumnos"/>
-                    <field name="fecha"/>
-                    <field name="mes"/>
-                    <field name="año"/>
-                    <field name="mes_año"/>
+            <field name="arch" type="xml">
+                <list string="Captación de Alumnos">
+                    <field name="empleado_id" />
+                    <field name="categoria_id" />
+                    <field name="numero_alumnos" sum="Total Alumnos" />
+                    <field name="fecha" />
                 </list>
             </field>
         </record>        <!-- Vista de búsqueda -->
@@ -38,41 +44,36 @@
             <field name="model">gestion_comerciales.captacion_alumnos</field>
             <field name="arch" type="xml">
                 <search string="Buscar Captación de Alumnos">
-                    <field name="empleado_id"/>
-                    <field name="categoria_id"/>
-                    <field name="numero_alumnos"/>
-                    <field name="fecha"/>
-                    <field name="mes"/>
-                    <field name="año"/>                    <separator/>
-                    <!-- Filtros por período -->
-                    <filter string="Hoy" name="today" domain="[('fecha', '=', context_today())]"/>
-                    <filter string="Últimos 7 días" name="last_week" domain="[('fecha', '&gt;=', (context_today() - datetime.timedelta(days=7)))]"/>
-                    <filter string="Últimos 30 días" name="last_month" domain="[('fecha', '&gt;=', (context_today() - datetime.timedelta(days=30)))]"/>
-                    <filter string="Últimos 90 días" name="last_3_months" domain="[('fecha', '&gt;=', (context_today() - datetime.timedelta(days=90)))]"/>
-                    <separator/>
-                    <!-- Filtros por mes específico -->
-                    <filter string="Enero" name="enero" domain="[('mes', '=', '01')]"/>
-                    <filter string="Febrero" name="febrero" domain="[('mes', '=', '02')]"/>
-                    <filter string="Marzo" name="marzo" domain="[('mes', '=', '03')]"/>
-                    <filter string="Abril" name="abril" domain="[('mes', '=', '04')]"/>
-                    <filter string="Mayo" name="mayo" domain="[('mes', '=', '05')]"/>
-                    <filter string="Junio" name="junio" domain="[('mes', '=', '06')]"/>
-                    <filter string="Julio" name="julio" domain="[('mes', '=', '07')]"/>
-                    <filter string="Agosto" name="agosto" domain="[('mes', '=', '08')]"/>
-                    <filter string="Septiembre" name="septiembre" domain="[('mes', '=', '09')]"/>
-                    <filter string="Octubre" name="octubre" domain="[('mes', '=', '10')]"/>
-                    <filter string="Noviembre" name="noviembre" domain="[('mes', '=', '11')]"/>                    <filter string="Diciembre" name="diciembre" domain="[('mes', '=', '12')]"/>
+                    <field name="empleado_id" />
+                    <field name="categoria_id" />
+                    <field name="numero_alumnos" />
+                    <field name="fecha" />
+                    <separator />
+                    <filter string="Mis Registros" name="my_records"
+                        domain="[('empleado_id.user_id', '=', uid)]" />
+                    <filter string="Todos los Registros" name="all_records"
+                        domain="[]" groups="base.group_system" />
+                    <separator />
+                    <group expand="0" string="Agrupar por">
+                        <filter string="Empleado" name="group_empleado"
+                            context="{'group_by': 'empleado_id'}" />
+                        <filter string="Categoría" name="group_categoria"
+                            context="{'group_by': 'categoria_id'}" />
+                        <filter string="Fecha" name="group_fecha" context="{'group_by': 'fecha'}" />
+                    </group>
                 </search>
             </field>
-        </record><!-- Vista de gráfico para análisis -->        
+        </record>
+
+        <!-- Vista de gráfico para análisis -->
         <record id="view_captacion_alumnos_chart" model="ir.ui.view">
             <field name="name">captacion.alumnos.chart</field>
             <field name="model">gestion_comerciales.captacion_alumnos</field>
             <field name="arch" type="xml">
                 <graph string="Captación de Alumnos por Trabajador" type="bar" disable_linking="1">
-                    <field name="empleado_id" type="row"/>
-                    <field name="categoria_id" type="row"/>
-                    <field name="numero_alumnos" type="measure"/>
+                    <field name="empleado_id" type="row" />
+                    <field name="categoria_id" type="row" />
+                    <field name="numero_alumnos" type="measure" />
                 </graph>
             </field>
         </record>
