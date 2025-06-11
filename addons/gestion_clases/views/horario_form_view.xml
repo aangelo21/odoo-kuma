@@ -13,10 +13,19 @@
               <field name="aula_id" />
               <field name="es_plantilla" invisible="1" />
             </group>
+            <separator string="Incidencia" invisible="es_plantilla" />
+            <field name="incidencias"
+              invisible="es_plantilla" />
             <separator string="Temario" invisible="es_plantilla" />
             <field name="temario"
               placeholder="Escriba aquí el contenido impartido en la clase..."
               invisible="es_plantilla" />
+            <separator string="Tutor" invisible="es_plantilla" />
+            <group invisible="es_plantilla">
+              <field name="tutor_id" string="Tutor que imparte la clase"
+                options="{'no_create': True, 'no_open': True}"
+                help="Selecciona el tutor que da esta clase específica" />
+            </group>
             <separator string="Horarios por día" invisible="not es_plantilla" />
             <group invisible="not es_plantilla">
               <group string="Lunes">

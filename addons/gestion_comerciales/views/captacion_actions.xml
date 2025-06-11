@@ -1,0 +1,51 @@
+<?xml version="1.0" encoding="utf-8"?>
+<odoo>
+    <data>
+
+        <!-- Acción para la lista de captaciones -->
+        <record id="action_captacion_alumnos" model="ir.actions.act_window">
+            <field name="name">Captación de Alumnos</field>
+            <field name="res_model">gestion_comerciales.captacion_alumnos</field>
+            <field name="view_mode">list,form,graph</field>
+            <field name="domain">[('empleado_id.user_id', '=', uid)]</field>
+            <field name="context">{'search_default_my_records': 1}</field>
+            <field name="help" type="html">
+                <p class="o_view_nocontent_smiling_face">
+                    ¡Registra la primera captación de alumnos!
+                </p>
+                <p>
+                    Aquí puedes registrar cuántos alumnos ha captado cada trabajador por categoría.
+                </p>
+            </field>
+        </record>
+
+        <!-- Acción para el gráfico -->
+        <record id="action_captacion_chart" model="ir.actions.act_window">
+            <field name="name">Gráfico</field>
+            <field name="res_model">gestion_comerciales.captacion_alumnos</field>
+            <field name="view_mode">graph</field>
+            <field name="view_id" ref="view_captacion_alumnos_chart" />
+            <field name="domain">[]</field>
+            <field name="context">{}</field>
+        </record>
+
+        <!-- Acción para administradores - ver todos los registros -->
+        <record id="action_captacion_alumnos_admin" model="ir.actions.act_window">
+            <field name="name">Captación de Alumnos (Admin)</field>
+            <field name="res_model">gestion_comerciales.captacion_alumnos</field>
+            <field name="view_mode">list,form,graph</field>
+            <field name="domain">[]</field>
+            <field name="context">{'search_default_all_records': 1}</field>
+            <field name="groups_id" eval="[(4, ref('base.group_system'))]" />
+            <field name="help" type="html">
+                <p class="o_view_nocontent_smiling_face">
+                    ¡Registra la primera captación de alumnos!
+                </p>
+                <p>
+                    Aquí puedes ver y gestionar todas las captaciones de alumnos de todos los
+                    trabajadores.
+                </p>
+            </field>
+        </record>
+    </data>
+</odoo>

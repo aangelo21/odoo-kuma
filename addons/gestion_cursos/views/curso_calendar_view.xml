@@ -10,12 +10,48 @@
           date_stop="fecha_fin"
           mode="month"
           color="color_calendar"
-          event_open_popup="true">
+          event_open_popup="true"
+          form_view_id="gestion_cursos.curso_form_calendar_popup" delete="false">
           <field name="nombre" />
-          <field name="expediente" />
-          <field name="tutor" />
           <field name="id_categoria" />
+          <field name="id_tutor" />
+          <field name="fecha_inicio" />
+          <field name="fecha_fin" />
+          <field name="fecha_consolidacion" />
+          <field name="numero_alumnos" />
+          <field name="consolidados_display" />
+          <field name="finalizados_display" />
         </calendar>
+      </field>
+    </record>
+    <record model="ir.ui.view" id="gestion_cursos.curso_form_calendar_popup">
+      <field name="name">gestion_cursos.curso.form.calendar.popup</field>
+      <field name="model">gestion_cursos.curso</field>
+      <field name="arch" type="xml">
+        <form string="Información del Curso">
+          <sheet>
+            <group>
+              <group>
+                <field name="nombre" readonly="1" />
+                <field name="expediente" readonly="1" />
+                <field name="id_categoria" readonly="1" />
+                <field name="id_tutor" readonly="1" />
+              </group>
+              <group>
+                <field name="fecha_inicio" readonly="1" />
+                <field name="fecha_consolidacion" readonly="1" />
+                <field name="fecha_fin" readonly="1" />
+              </group>
+            </group>
+            <group string="Información de Alumnos">
+              <group>
+                <field name="numero_alumnos" string="Total alumnos" readonly="1" />
+                <field name="consolidados_display" string="Alumnos consolidados" readonly="1" />
+                <field name="finalizados_display" string="Alumnos finalizados" readonly="1" />
+              </group>
+            </group>
+          </sheet>
+        </form>
       </field>
     </record>
   </data>

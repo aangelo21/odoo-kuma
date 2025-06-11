@@ -9,9 +9,6 @@ Long description of module's purpose
     'website': "https://www.yourcompany.com",
     'category': 'Uncategorized',
     'version': '0.1',    'depends': ['base'],
-    'data': [
-        'views/favicon.xml',
-    ],
      'assets': {
         'web.assets_backend': [
             'temas_kuma/static/scss/custom_colors.scss',
@@ -21,7 +18,6 @@ Long description of module's purpose
         'web.assets_frontend': [
             'temas_kuma/static/scss/custom_colors.scss',
             'temas_kuma/static/css/login.css',
-            'temas_kuma/static/img/favicon.png',
         ],
     },
 }

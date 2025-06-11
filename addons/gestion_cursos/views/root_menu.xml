@@ -1,8 +1,8 @@
 <?xml version="1.0" encoding="utf-8"?>
 <odoo>
     <data>
-        <menuitem name="Gestión Cursos" 
-                  id="gestion_cursos.menu_root" 
-                  web_icon="gestion_cursos,static/description/icon.png"/>
+        <menuitem name="Gestión Cursos"
+            id="gestion_cursos.menu_root"
+            web_icon="gestion_cursos,static/description/icon.png" />
     </data>
 </odoo>

@@ -1,0 +1,31 @@
+<?xml version="1.0" encoding="utf-8"?>
+<odoo>
+    <data>
+        <!-- Menú principal de Gestión Comercial -->
+        <menuitem id="menu_gestion_comerciales_root"
+            name="Gestión Comerciales"
+            sequence="10" />
+
+        <!-- Menú Captación de Alumnos -->
+        <menuitem id="menu_captacion_alumnos"
+            name="Captación de Alumnos"
+            parent="menu_gestion_comerciales_root"
+            action="action_captacion_alumnos"
+            sequence="10" />
+
+        <!-- Menú Gráfico -->
+        <menuitem id="menu_captacion_chart"
+            name="Gráfico"
+            parent="menu_gestion_comerciales_root"
+            action="action_captacion_chart"
+            sequence="20" />
+
+        <!-- Menú para Administradores - Ver todas las captaciones -->
+        <menuitem id="menu_captacion_alumnos_admin"
+            name="Todas las Captaciones (Admin)"
+            parent="menu_gestion_comerciales_root"
+            action="action_captacion_alumnos_admin"
+            groups="base.group_system"
+            sequence="30" />
+    </data>
+</odoo>

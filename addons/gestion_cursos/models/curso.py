@@ -4,12 +4,12 @@ from odoo import models, fields, api # type: ignore
 class Curso(models.Model):
     _name = 'gestion_cursos.curso'
     _description = 'gestion_cursos.curso'
-    _rec_name = 'nombre'
-
+    _rec_name = 'nombre'    
     nombre = fields.Char(string = 'Nombre')
     expediente = fields.Char(string = 'Expediente')
-    codigo = fields.Char(string = 'Código')
-    tutor = fields.Char(string = 'Tutor')
+    codigo = fields.Char(string = 'Código')    
+    id_tutor = fields.Many2many('gestion_cursos.tutor', string='Tutores')
+    tutor = fields.Char(string='Tutores (texto)', compute='_compute_tutor_display', store=False)
     duracion = fields.Integer(string = 'Duración')
     modalidad = fields.Selection([
         ('presencial', 'Presencial'),
@@ -25,7 +25,6 @@ class Curso(models.Model):
     fecha_fin = fields.Date(string='Fecha Fin')
     fecha_consolidacion = fields.Date(string='Fecha de consolidación')
     id_categoria = fields.Many2one('gestion_cursos.categoria', string='Categoría')
-    id_familia_profesional = fields.Many2one('gestion_cursos.familia_profesional', string='Familia profesional')
     color_categoria = fields.Selection(
         related='id_categoria.color',
         string='Color de categoría',
@@ -33,7 +32,6 @@ class Curso(models.Model):
     )
 
     color_calendar = fields.Char(string='Color calendario', compute='_compute_color_calendar', store=True)
-
     consolidados_display = fields.Char(
         string="Consolidados",
         compute="_compute_consolidados_display"
@@ -49,14 +47,28 @@ class Curso(models.Model):
         for record in self:
             consolidados = record.numero_alumnos_consolidacion or 0
             total = record.numero_alumnos or 0
-            record.consolidados_display = f"{consolidados}/{total}"
+            if total > 0:
+                record.consolidados_display = f"{consolidados}/{total}"
+            else:
+                record.consolidados_display = "0/0"
     
     @api.depends('numero_alumnos_finalizados', 'numero_alumnos_consolidacion')
     def _compute_finalizados_display(self):
         for record in self:
             finalizados = record.numero_alumnos_finalizados or 0
             consolidados = record.numero_alumnos_consolidacion or 0
-            record.finalizados_display = f"{finalizados}/{consolidados}"
+            if consolidados > 0:
+                record.finalizados_display = f"{finalizados}/{consolidados}"
+            else:
+                record.finalizados_display = "0/0"
+
+    @api.depends('id_tutor')
+    def _compute_tutor_display(self):
+        for record in self:
+            if record.id_tutor:
+                record.tutor = ', '.join(record.id_tutor.mapped('nombre'))
+            else:
+                record.tutor = ''
 
     @api.model_create_multi
     def create(self, vals_list):
@@ -72,8 +84,7 @@ class Curso(models.Model):
                         <li><strong>Expediente:</strong> {curso.expediente}</li>
                         <li><strong>Código:</strong> {curso.codigo}</li>
                         <li><strong>Tutor:</strong> {curso.tutor}</li>
-                        <li><strong>Categoría:</strong> {curso.id_categoria.nombre}</li>
-                        <li><strong>Familia profesional:</strong> {curso.id_familia_profesional.nombre}</li>
+                        <li><strong>Categoría:</strong> {curso.id_categoria.nombre if curso.id_categoria else 'N/A'}</li>
                         <li><strong>Número de alumnos:</strong> {curso.numero_alumnos}</li>
                         <li><strong>Número de alumnos consolidados:</strong> {curso.numero_alumnos_consolidacion}</li>
                         <li><strong>Número de alumnos finalizados:</strong> {curso.numero_alumnos_finalizados}</li>
@@ -135,7 +146,7 @@ class Curso(models.Model):
                         <li><strong>Nombre:</strong> {curso.nombre}</li>
                         <li><strong>Expediente:</strong> {curso.expediente}</li>
                         <li><strong>Tutor:</strong> {curso.tutor}</li>
-                        <li><strong>Categoría:</strong> {curso.id_categoria.nombre}</li>
+                        <li><strong>Categoría:</strong> {curso.id_categoria.nombre if curso.id_categoria else 'N/A'}</li>
                         <li><strong>Fecha inicio:</strong> {curso.fecha_inicio}</li>
                         <li><strong>Fecha consolidación:</strong> {curso.fecha_consolidacion}</li>
                         <li><strong>Fecha fin:</strong> {curso.fecha_fin}</li>
@@ -165,7 +176,7 @@ class Curso(models.Model):
                     <strong>Nombre:</strong> {curso.nombre}<br/>
                     <strong>Expediente:</strong> {curso.expediente}<br/>
                     <strong>Tutor:</strong> {curso.tutor}<br/>
-                    <strong>Categoría:</strong> {curso.id_categoria.nombre}<br/>
+                    <strong>Categoría:</strong> {curso.id_categoria.nombre if curso.id_categoria else 'N/A'}<br/>
                     <strong>Fecha inicio:</strong> {curso.fecha_inicio}<br/>
                     <strong>Fecha consolidación:</strong> {curso.fecha_consolidacion}<br/>
                     <strong>Fecha fin:</strong> {curso.fecha_fin}
@@ -181,7 +192,7 @@ class Curso(models.Model):
                     <strong>Nombre:</strong> {curso.nombre}<br/>
                     <strong>Expediente:</strong> {curso.expediente}<br/>
                     <strong>Tutor:</strong> {curso.tutor}<br/>
-                    <strong>Categoría:</strong> {curso.id_categoria.nombre}<br/>
+                    <strong>Categoría:</strong> {curso.id_categoria.nombre if curso.id_categoria else 'N/A'}<br/>
                     <strong>Fecha inicio:</strong> {curso.fecha_inicio}<br/>
                     <strong>Fecha consolidación:</strong> {curso.fecha_consolidacion}<br/>
                     <strong>Fecha fin:</strong> {curso.fecha_fin}
@@ -197,7 +208,7 @@ class Curso(models.Model):
                     <strong>Nombre:</strong> {curso.nombre}<br/>
                     <strong>Expediente:</strong> {curso.expediente}<br/>
                     <strong>Tutor:</strong> {curso.tutor}<br/>
-                    <strong>Categoría:</strong> {curso.id_categoria.nombre}<br/>
+                    <strong>Categoría:</strong> {curso.id_categoria.nombre if curso.id_categoria else 'N/A'}<br/>
                     <strong>Fecha inicio:</strong> {curso.fecha_inicio}<br/>
                     <strong>Fecha consolidación:</strong> {curso.fecha_consolidacion}<br/>
                     <strong>Fecha fin:</strong> {curso.fecha_fin}
@@ -258,7 +269,7 @@ class Curso(models.Model):
                                 <strong>Nombre:</strong> {curso.nombre}<br/>
                                 <strong>Expediente:</strong> {curso.expediente}<br/>
                                 <strong>Tutor:</strong> {curso.tutor}<br/>
-                                <strong>Categoría:</strong> {curso.id_categoria.nombre}<br/>
+                                <strong>Categoría:</strong> {curso.id_categoria.nombre if curso.id_categoria else 'N/A'}<br/>
                                 <strong>Fecha inicio:</strong> {curso.fecha_inicio}<br/>
                                 <strong>Fecha consolidación:</strong> {curso.fecha_consolidacion}<br/>
                                 <strong>Fecha fin:</strong> {curso.fecha_fin}
@@ -273,7 +284,7 @@ class Curso(models.Model):
                                 <strong>Nombre:</strong> {curso.nombre}<br/>
                                 <strong>Expediente:</strong> {curso.expediente}<br/>
                                 <strong>Tutor:</strong> {curso.tutor}<br/>
-                                <strong>Categoría:</strong> {curso.id_categoria.nombre}<br/>
+                                <strong>Categoría:</strong> {curso.id_categoria.nombre if curso.id_categoria else 'N/A'}<br/>
                                 <strong>Fecha inicio:</strong> {curso.fecha_inicio}<br/>
                                 <strong>Fecha consolidación:</strong> {curso.fecha_consolidacion}<br/>
                                 <strong>Fecha fin:</strong> {curso.fecha_fin}
@@ -288,7 +299,7 @@ class Curso(models.Model):
                                 <strong>Nombre:</strong> {curso.nombre}<br/>
                                 <strong>Expediente:</strong> {curso.expediente}<br/>
                                 <strong>Tutor:</strong> {curso.tutor}<br/>
-                                <strong>Categoría:</strong> {curso.id_categoria.nombre}<br/>
+                                <strong>Categoría:</strong> {curso.id_categoria.nombre if curso.id_categoria else 'N/A'}<br/>
                                 <strong>Fecha inicio:</strong> {curso.fecha_inicio}<br/>
                                 <strong>Fecha consolidación:</strong> {curso.fecha_consolidacion}<br/>
                                 <strong>Fecha fin:</strong> {curso.fecha_fin}
