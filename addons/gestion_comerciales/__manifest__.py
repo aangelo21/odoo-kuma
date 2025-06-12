@@ -24,6 +24,8 @@ Sistema completo de gestión comercial que permite:
         'security/ir.model.access.csv',
         'views/captacion_alumnos_views.xml',
         'views/captacion_actions.xml',
+        'views/visitas_views.xml',
+        'views/visitas_actions.xml',
         'views/captacion_menus.xml',
     ],
 

@@ -24,10 +24,11 @@ class CaptacionAlumnos(models.Model):
         string='Número de Alumnos',
         required=True,
                 help='Cantidad de alumnos captados'
-    )   
+    )     
+    
     fecha = fields.Date(
         string='Fecha',
-        default=fields.Date.context_today,
+        default=fields.Date.today,
         required=True,
         help='Fecha de captación de alumnos'
     )
