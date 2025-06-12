@@ -4,15 +4,21 @@
         <!-- Menú principal de Gestión Comercial -->
         <menuitem id="menu_gestion_comerciales_root"
             name="Gestión Comerciales"
-            sequence="10" />
-
-        <!-- Menú Captación de Alumnos - Solo visible para usuarios normales -->
+            sequence="10" />        <!-- Menú Captación de Alumnos - Solo visible para usuarios normales -->
         <menuitem id="menu_captacion_alumnos"
             name="Captación de Alumnos"
             parent="menu_gestion_comerciales_root"
             action="action_captacion_alumnos"
             groups="base.group_user"
             sequence="10" />
+
+        <!-- Menú Visitas y Llamadas -->
+        <menuitem id="menu_visitas"
+            name="Visitas y Llamadas"
+            parent="menu_gestion_comerciales_root"
+            action="action_visitas"
+            groups="base.group_user"
+            sequence="15" />
 
         <!-- Menú Gráfico -->
         <menuitem id="menu_captacion_chart"
