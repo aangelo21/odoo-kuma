@@ -351,7 +351,7 @@ class Curso(models.Model):
         ])
         
         if cursos_dos_semanas:
-            bloques = ["<h3>Cursos que iniciarán en 2 semanas:</h3><ul>"]
+            bloques = ["<h3>RRSS + Cartel: Cursos que iniciarán en 2 semanas:</h3><ul>"]
             for curso in cursos_dos_semanas:
                 bloques.append(f"""
                 <li style="margin-bottom: 20px;">
@@ -402,7 +402,7 @@ class Curso(models.Model):
         ])
         
         if cursos_una_semana:
-            bloques = ["<h3>Cursos que iniciarán en 1 semana:</h3><ul>"]
+            bloques = ["<h3>RRSS + Cartel: Cursos que iniciarán en 1 semana:</h3><ul>"]
             for curso in cursos_una_semana:
                 bloques.append(f"""
                 <li style="margin-bottom: 20px;">
