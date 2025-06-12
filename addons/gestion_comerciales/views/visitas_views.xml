@@ -11,6 +11,7 @@
           <sheet>
             <group>
               <group>
+                <field name="fecha" />
                 <!-- Campo editable para administradores -->
                 <field name="empleado_id"
                   options="{'no_create': True, 'no_create_edit': True}"
@@ -19,9 +20,7 @@
                 <field name="empleado_id" readonly="1"
                   options="{'no_create': True, 'no_create_edit': True}"
                   groups="!base.group_system" />
-
-                <field name="fecha" />
-                <field name="nombre" />
+                <field name="dni_empresa" />
                 <field name="telefono" />
                 <field name="mail" widget="email" />
               </group>
@@ -31,9 +30,6 @@
                   options="{'no_create': True, 'no_create_edit': True}" />
                 <field name="confirmado" />
               </group>
-            </group>
-            <group>
-              <field name="dni_empresa" />
             </group>
             <group>
               <field name="observaciones" />
@@ -49,14 +45,15 @@
       <field name="model">gestion_comerciales.visitas</field>
       <field name="arch" type="xml">
         <list string="Visitas y Llamadas">
-          <field name="empleado_id" />
           <field name="fecha" />
-          <field name="nombre" />
+          <field name="empleado_id" />
+          <field name="dni_empresa" />
           <field name="telefono" />
           <field name="mail" />
           <field name="tipo_contacto" />
           <field name="plan_id" />
           <field name="confirmado" />
+          <field name="observaciones" />
         </list>
       </field>
     </record>
@@ -68,7 +65,6 @@
       <field name="arch" type="xml">
         <search string="Buscar Visitas y Llamadas">
           <field name="empleado_id" />
-          <field name="nombre" />
           <field name="telefono" />
           <field name="mail" />
           <field name="tipo_contacto" />

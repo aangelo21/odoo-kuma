@@ -1,4 +1,4 @@
-from odoo import models, fields, api
+from odoo import models, fields, api # type: ignore
 import logging
 
 _logger = logging.getLogger(__name__)
@@ -20,12 +20,6 @@ class Visitas(models.Model):
         default=fields.Date.today,
         required=True,
         help='Fecha de la visita o llamada'
-    )
-    
-    nombre = fields.Char(
-        string='Nombre',
-        required=True,
-        help='Nombre del contacto'
     )
     
     dni_empresa = fields.Text(
@@ -131,14 +125,14 @@ class Visitas(models.Model):
             if empleado:
                 res['empleado_id'] = empleado.id
         return res
-    
-    @api.depends('empleado_id', 'nombre', 'tipo_contacto', 'fecha', 'confirmado')
+      
+    @api.depends('empleado_id', 'dni_empresa', 'tipo_contacto', 'fecha', 'confirmado')
     def _compute_display_name(self):
         for record in self:
-            if record.empleado_id and record.nombre:
+            if record.empleado_id and record.dni_empresa:
                 fecha_str = record.fecha.strftime('%d/%m/%Y') if record.fecha else ''
                 tipo_str = dict(record._fields['tipo_contacto'].selection).get(record.tipo_contacto, '')
                 confirmado_str = ' ✓' if record.confirmado else ''
-                record.display_name = f"{record.empleado_id.name} - {record.nombre} ({tipo_str}) - {fecha_str}{confirmado_str}"
+                record.display_name = f"{record.empleado_id.name} - {record.dni_empresa} ({tipo_str}) - {fecha_str}{confirmado_str}"
             else:
                 record.display_name = "Visita/Llamada"
