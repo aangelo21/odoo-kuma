@@ -11,14 +11,14 @@
                     <sheet>
                         <group>
                             <group>
-                                <!-- Campo editable para administradores -->
+                                <!-- Editable para grupo admin gestion comerciales -->
                                 <field name="empleado_id"
                                     options="{'no_create': True, 'no_create_edit': True}"
-                                    groups="base.group_system" />
-                                <!-- Campo readonly para otros usuarios -->
+                                    groups="gestion_comerciales.group_admin_gestion_comerciales" />
+                                <!-- Readonly para otros usuarios -->
                                 <field name="empleado_id" readonly="1"
                                     options="{'no_create': True, 'no_create_edit': True}"
-                                    groups="!base.group_system" />
+                                    groups="!gestion_comerciales.group_admin_gestion_comerciales" />
 
                                 <field name="categoria_id"
                                     options="{'no_create': True, 'no_create_edit': True}" />
@@ -32,6 +32,7 @@
                 </form>
             </field>
         </record>
+
 
         <!-- Vista de lista -->
         <record id="view_captacion_alumnos_tree" model="ir.ui.view">
