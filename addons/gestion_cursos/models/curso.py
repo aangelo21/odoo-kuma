@@ -336,3 +336,105 @@ class Curso(models.Model):
     def _compute_color_calendar(self):
         for record in self:
             record.color_calendar = record.id_categoria.color if record.id_categoria else False
+            
+    @api.model
+    def cron_aviso_dos_semanas_inicio(self):
+        """Función para notificar cuando faltan 2 semanas para que inicie un curso"""
+        hoy = date.today()
+        fecha_dos_semanas = hoy + timedelta(days=14)
+        employees = self.env['hr.employee'].search([])
+        
+        # Buscar cursos que inicien en la fecha de dos semanas (sin importar la hora)
+        cursos_dos_semanas = self.search([
+            ('fecha_inicio', '>=', fecha_dos_semanas),
+            ('fecha_inicio', '<', fecha_dos_semanas + timedelta(days=1))
+        ])
+        
+        if cursos_dos_semanas:
+            bloques = ["<h3>Cursos que iniciarán en 2 semanas:</h3><ul>"]
+            for curso in cursos_dos_semanas:
+                bloques.append(f"""
+                <li style="margin-bottom: 20px;">
+                    <strong>Nombre:</strong> {curso.nombre}<br/>
+                    <strong>Expediente:</strong> {curso.expediente}<br/>
+                    <strong>Código:</strong> {curso.codigo}<br/>
+                    <strong>Tutor:</strong> {curso.tutor}<br/>
+                    <strong>Categoría:</strong> {curso.id_categoria.nombre if curso.id_categoria else 'N/A'}<br/>
+                    <strong>Modalidad:</strong> {curso.modalidad}<br/>
+                    <strong>Duración:</strong> {curso.duracion}h<br/>
+                    <strong>Número de alumnos:</strong> {curso.numero_alumnos}<br/>
+                    <strong>Fecha inicio:</strong> {curso.fecha_inicio}<br/>
+                    <strong>Fecha consolidación:</strong> {curso.fecha_consolidacion}<br/>
+                    <strong>Fecha fin:</strong> {curso.fecha_fin}
+                </li>
+                <br>
+            """)
+            bloques.append("</ul>")
+            
+            cuerpo = f"""
+                <html>
+                    <body>
+                        <p>Recordatorio: Los siguientes cursos iniciarán dentro de 2 semanas ({fecha_dos_semanas.strftime('%d/%m/%Y')}):</p>
+                        {''.join(bloques)}
+                    </body>
+                </html>
+            """
+            
+            mail_template = {
+                'subject': f'Recordatorio: Cursos que inician en 2 semanas ({fecha_dos_semanas.strftime("%d/%m/%Y")})',
+                'body_html': cuerpo.strip(),
+                'email_from': self.env.user.email,
+                'email_to': ','.join(employees.mapped('work_email')),
+            }
+            self.env['mail.mail'].create(mail_template).send()
+
+    @api.model
+    def cron_aviso_una_semana_inicio(self):
+        """Función para notificar cuando falta 1 semana para que inicie un curso"""
+        hoy = date.today()
+        fecha_una_semana = hoy + timedelta(days=7)
+        employees = self.env['hr.employee'].search([])
+        
+        # Buscar cursos que inicien en la fecha de una semana (sin importar la hora)
+        cursos_una_semana = self.search([
+            ('fecha_inicio', '>=', fecha_una_semana),
+            ('fecha_inicio', '<', fecha_una_semana + timedelta(days=1))
+        ])
+        
+        if cursos_una_semana:
+            bloques = ["<h3>Cursos que iniciarán en 1 semana:</h3><ul>"]
+            for curso in cursos_una_semana:
+                bloques.append(f"""
+                <li style="margin-bottom: 20px;">
+                    <strong>Nombre:</strong> {curso.nombre}<br/>
+                    <strong>Expediente:</strong> {curso.expediente}<br/>
+                    <strong>Código:</strong> {curso.codigo}<br/>
+                    <strong>Tutor:</strong> {curso.tutor}<br/>
+                    <strong>Categoría:</strong> {curso.id_categoria.nombre if curso.id_categoria else 'N/A'}<br/>
+                    <strong>Modalidad:</strong> {curso.modalidad}<br/>
+                    <strong>Duración:</strong> {curso.duracion}h<br/>
+                    <strong>Número de alumnos:</strong> {curso.numero_alumnos}<br/>
+                    <strong>Fecha inicio:</strong> {curso.fecha_inicio}<br/>
+                    <strong>Fecha consolidación:</strong> {curso.fecha_consolidacion}<br/>
+                    <strong>Fecha fin:</strong> {curso.fecha_fin}
+                </li>
+                <br>
+            """)
+            bloques.append("</ul>")
+            
+            cuerpo = f"""
+                <html>
+                    <body>
+                        <p>¡Atención! Los siguientes cursos iniciarán dentro de 1 semana ({fecha_una_semana.strftime('%d/%m/%Y')}):</p>
+                        {''.join(bloques)}
+                    </body>
+                </html>
+            """
+            
+            mail_template = {
+                'subject': f'¡Próximo inicio! Cursos que inician en 1 semana ({fecha_una_semana.strftime("%d/%m/%Y")})',
+                'body_html': cuerpo.strip(),
+                'email_from': self.env.user.email,
+                'email_to': ','.join(employees.mapped('work_email')),
+            }
+            self.env['mail.mail'].create(mail_template).send()
