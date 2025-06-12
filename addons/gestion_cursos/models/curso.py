@@ -134,29 +134,6 @@ class Curso(models.Model):
                 }
                 self.env['mail.mail'].create(mail_template).send()
         return result
-
-    def unlink(self):
-        for curso in self:
-            employees = self.env['hr.employee'].search([])
-            mail_template = {
-                'subject': f'Curso eliminado: {curso.nombre}',
-                'body_html': f'''
-                    <p>Se ha eliminado el siguiente curso del calendario:</p>
-                    <ul>
-                        <li><strong>Nombre:</strong> {curso.nombre}</li>
-                        <li><strong>Expediente:</strong> {curso.expediente}</li>
-                        <li><strong>Tutor:</strong> {curso.tutor}</li>
-                        <li><strong>Categoría:</strong> {curso.id_categoria.nombre if curso.id_categoria else 'N/A'}</li>
-                        <li><strong>Fecha inicio:</strong> {curso.fecha_inicio}</li>
-                        <li><strong>Fecha consolidación:</strong> {curso.fecha_consolidacion}</li>
-                        <li><strong>Fecha fin:</strong> {curso.fecha_fin}</li>
-                    </ul>
-                ''',
-                'email_from': self.env.user.email,
-                'email_to': ','.join(employees.mapped('work_email')),
-            }
-            self.env['mail.mail'].create(mail_template).send()
-        return super().unlink()
     
     @api.model
     def cron_aviso_fechas_dia(self):
