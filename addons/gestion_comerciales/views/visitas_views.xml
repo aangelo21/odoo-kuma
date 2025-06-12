@@ -1,0 +1,106 @@
+<?xml version="1.0" encoding="utf-8"?>
+<odoo>
+  <data>
+
+    <!-- Vista de formulario -->
+    <record id="view_visitas_form" model="ir.ui.view">
+      <field name="name">visitas.form</field>
+      <field name="model">gestion_comerciales.visitas</field>
+      <field name="arch" type="xml">
+        <form string="Visitas y Llamadas">
+          <sheet>
+            <group>
+              <group>
+                <field name="fecha" />
+                <!-- Campo editable para administradores -->
+                <field name="empleado_id"
+                  options="{'no_create': True, 'no_create_edit': True}"
+                  groups="base.group_system" />
+                <!-- Campo readonly para otros usuarios -->
+                <field name="empleado_id" readonly="1"
+                  options="{'no_create': True, 'no_create_edit': True}"
+                  groups="!base.group_system" />
+                <field name="dni_empresa" />
+                <field name="telefono" />
+                <field name="mail" widget="email" />
+              </group>
+              <group>
+                <field name="tipo_contacto" widget="radio" />
+                <field name="plan_id"
+                  options="{'no_create': True, 'no_create_edit': True}" />
+                <field name="confirmado" />
+              </group>
+            </group>
+            <group>
+              <field name="observaciones" />
+            </group>
+          </sheet>
+        </form>
+      </field>
+    </record>
+
+    <!-- Vista de lista -->
+    <record id="view_visitas_tree" model="ir.ui.view">
+      <field name="name">visitas.list</field>
+      <field name="model">gestion_comerciales.visitas</field>
+      <field name="arch" type="xml">
+        <list string="Visitas y Llamadas">
+          <field name="fecha" />
+          <field name="empleado_id" />
+          <field name="dni_empresa" />
+          <field name="telefono" />
+          <field name="mail" />
+          <field name="tipo_contacto" />
+          <field name="plan_id" />
+          <field name="confirmado" />
+          <field name="observaciones" />
+        </list>
+      </field>
+    </record>
+
+    <!-- Vista de búsqueda -->
+    <record id="view_visitas_search" model="ir.ui.view">
+      <field name="name">visitas.search</field>
+      <field name="model">gestion_comerciales.visitas</field>
+      <field name="arch" type="xml">
+        <search string="Buscar Visitas y Llamadas">
+          <field name="empleado_id" />
+          <field name="telefono" />
+          <field name="mail" />
+          <field name="tipo_contacto" />
+          <field name="plan_id" />
+          <field name="fecha" />
+          <separator />
+          <filter string="Mis Registros" name="my_records"
+            domain="[('empleado_id.user_id', '=', uid)]" />
+          <filter string="Todos los Registros" name="all_records"
+            domain="[]" groups="base.group_system" />
+          <separator />
+          <filter string="Confirmados" name="confirmados"
+            domain="[('confirmado', '=', True)]" />
+          <filter string="Pendientes" name="pendientes"
+            domain="[('confirmado', '=', False)]" />
+          <separator />
+          <filter string="Visitas" name="visitas"
+            domain="[('tipo_contacto', '=', 'visita')]" />
+          <filter string="Llamadas" name="llamadas"
+            domain="[('tipo_contacto', '=', 'llamada')]" />
+          <separator />
+          <group expand="0" string="Agrupar por">
+            <filter string="Empleado" name="group_empleado"
+              context="{'group_by': 'empleado_id'}" />
+            <filter string="Tipo de Contacto" name="group_tipo"
+              context="{'group_by': 'tipo_contacto'}" />
+            <filter string="Plan" name="group_plan"
+              context="{'group_by': 'plan_id'}" />
+            <filter string="Confirmado" name="group_confirmado"
+              context="{'group_by': 'confirmado'}" />
+            <filter string="Fecha" name="group_fecha"
+              context="{'group_by': 'fecha'}" />
+          </group>
+        </search>
+      </field>
+    </record>
+
+  </data>
+</odoo>

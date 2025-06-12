@@ -1,7 +1,8 @@
 <?xml version="1.0" encoding="utf-8"?>
 <odoo>
     <data>
-        <!-- Vista de formulario para captación de alumnos -->
+
+        <!-- Vista de formulario -->
         <record id="view_captacion_alumnos_form" model="ir.ui.view">
             <field name="name">captacion.alumnos.form</field>
             <field name="model">gestion_comerciales.captacion_alumnos</field>
@@ -10,15 +11,21 @@
                     <sheet>
                         <group>
                             <group>
+                                <!-- Editable para grupo admin gestion comerciales -->
                                 <field name="empleado_id"
                                     options="{'no_create': True, 'no_create_edit': True}"
-                                    readonly="1" />
+                                    groups="gestion_comerciales.group_admin_gestion_comerciales" />
+                                <!-- Readonly para otros usuarios -->
+                                <field name="empleado_id" readonly="1"
+                                    options="{'no_create': True, 'no_create_edit': True}"
+                                    groups="!gestion_comerciales.group_admin_gestion_comerciales" />
+
                                 <field name="categoria_id"
                                     options="{'no_create': True, 'no_create_edit': True}" />
                             </group>
                             <group>
                                 <field name="numero_alumnos" />
-                                <field name="fecha" readonly="1" />
+                                <field name="fecha" />
                             </group>
                         </group>
                     </sheet>
@@ -26,7 +33,8 @@
             </field>
         </record>
 
-        <!-- Vista de lista para captación de alumnos -->
+
+        <!-- Vista de lista -->
         <record id="view_captacion_alumnos_tree" model="ir.ui.view">
             <field name="name">captacion.alumnos.list</field>
             <field name="model">gestion_comerciales.captacion_alumnos</field>
@@ -34,11 +42,13 @@
                 <list string="Captación de Alumnos">
                     <field name="empleado_id" />
                     <field name="categoria_id" />
-                    <field name="numero_alumnos" sum="Total Alumnos" />
+                    <field name="numero_alumnos" />
                     <field name="fecha" />
                 </list>
             </field>
-        </record>        <!-- Vista de búsqueda -->
+        </record>
+
+        <!-- Vista de búsqueda -->
         <record id="view_captacion_alumnos_search" model="ir.ui.view">
             <field name="name">captacion.alumnos.search</field>
             <field name="model">gestion_comerciales.captacion_alumnos</field>
@@ -59,13 +69,14 @@
                             context="{'group_by': 'empleado_id'}" />
                         <filter string="Categoría" name="group_categoria"
                             context="{'group_by': 'categoria_id'}" />
-                        <filter string="Fecha" name="group_fecha" context="{'group_by': 'fecha'}" />
+                        <filter string="Fecha" name="group_fecha"
+                            context="{'group_by': 'fecha'}" />
                     </group>
                 </search>
             </field>
         </record>
 
-        <!-- Vista de gráfico para análisis -->
+        <!-- Vista de gráfico -->
         <record id="view_captacion_alumnos_chart" model="ir.ui.view">
             <field name="name">captacion.alumnos.chart</field>
             <field name="model">gestion_comerciales.captacion_alumnos</field>
@@ -77,5 +88,6 @@
                 </graph>
             </field>
         </record>
+
     </data>
 </odoo>
