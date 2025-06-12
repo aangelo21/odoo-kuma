@@ -1,6 +1,6 @@
 <?xml version="1.0" encoding="utf-8"?>
 <odoo>
-    <data>        
+    <data>
         <!-- Menú principal de Gestión Comercial -->
         <menuitem id="menu_gestion_comerciales_root"
             name="Gestión Comerciales"
@@ -32,7 +32,8 @@
             name="Todas las Captaciones (Admin)"
             parent="menu_gestion_comerciales_root"
             action="action_captacion_alumnos_admin"
-            groups="base.group_system"
+            groups="gestion_comerciales.group_admin_gestion_comerciales"
             sequence="30" />
+
     </data>
 </odoo>

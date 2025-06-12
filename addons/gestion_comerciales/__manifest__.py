@@ -22,6 +22,7 @@ Sistema completo de gestión comercial que permite:
     'depends': ['base', 'hr', 'gestion_cursos', 'web'],    # Archivos de datos
     'data': [
         'security/ir.model.access.csv',
+        'security/groups.xml',
         'views/captacion_alumnos_views.xml',
         'views/captacion_actions.xml',
         'views/visitas_views.xml',
