@@ -41,6 +41,22 @@ class Curso(models.Model):
         string="Finalizados",
         compute="_compute_finalizados_display"
     )
+
+    def _get_destinatarios_filtrados(self):
+        """Devuelve los emails de empleados que NO están en los grupos Dirección, Contabilidad o Secretaría"""
+        empleados = self.env['hr.employee'].search([])
+
+        grupos_excluir = [
+            'gestion_cursos.group_direccion',
+            'gestion_cursos.group_contabilidad',
+            'gestion_cursos.group_secretaria',
+        ]
+
+        empleados_filtrados = empleados.filtered(
+            lambda emp: not any(emp.user_id.has_group(grupo) for grupo in grupos_excluir)
+        )
+        return ','.join(empleados_filtrados.mapped('work_email'))
+
     
     @api.depends('numero_alumnos_consolidacion', 'numero_alumnos')
     def _compute_consolidados_display(self):
@@ -74,7 +90,7 @@ class Curso(models.Model):
     def create(self, vals_list):
         cursos = super().create(vals_list)
         for curso in cursos:
-            employees = self.env['hr.employee'].search([])
+            email_to = self._get_destinatarios_filtrados()
             mail_template = {
                 'subject': f'Nuevo curso añadido al calendario: {curso.nombre}',
                 'body_html': f'''
@@ -96,7 +112,7 @@ class Curso(models.Model):
                     </ul>
                 ''',
                 'email_from': self.env.user.email,
-                'email_to': ','.join(employees.mapped('work_email')),
+                'email_to': email_to,
             }
             self.env['mail.mail'].create(mail_template).send()
         return cursos
@@ -119,7 +135,7 @@ class Curso(models.Model):
             else:
                 cambios.append(f"<li><strong>Fecha consolidación:</strong> {curso.fecha_consolidacion}</li>")
             if 'fecha_inicio' in vals or 'fecha_fin' in vals or 'fecha_consolidacion' in vals:
-                employees = self.env['hr.employee'].search([])
+                email_to = self._get_destinatarios_filtrados()
                 mail_template = {
                     'subject': f'Actualización de fechas en el curso: {curso.nombre}',
                     'body_html': f'''
@@ -130,14 +146,14 @@ class Curso(models.Model):
                         </ul>
                     ''',
                     'email_from': self.env.user.email,
-                    'email_to': ','.join(employees.mapped('work_email')),
+                    'email_to': email_to,
                 }
                 self.env['mail.mail'].create(mail_template).send()
         return result
 
     def unlink(self):
         for curso in self:
-            employees = self.env['hr.employee'].search([])
+            email_to = self._get_destinatarios_filtrados()
             mail_template = {
                 'subject': f'Curso eliminado: {curso.nombre}',
                 'body_html': f'''
@@ -153,7 +169,7 @@ class Curso(models.Model):
                     </ul>
                 ''',
                 'email_from': self.env.user.email,
-                'email_to': ','.join(employees.mapped('work_email')),
+                'email_to': email_to,
             }
             self.env['mail.mail'].create(mail_template).send()
         return super().unlink()

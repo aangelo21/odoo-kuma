@@ -1,0 +1,55 @@
+<?xml version="1.0" encoding="utf-8"?>
+<odoo>
+  <data noupdate="0">
+
+    <record id="group_comercial" model="res.groups">
+      <field name="name">Comercial</field>
+      <field name="category_id" ref="base.module_category_hidden"/>
+    </record>
+
+    <record id="group_trello" model="res.groups">
+      <field name="name">Trello</field>
+      <field name="trello_id" ref="base.module_category_hidden"/>
+    </record>
+
+    <record id="group_coordinacion" model="res.groups">
+      <field name="name">Coordinación</field>
+      <field name="category_id" ref="base.module_category_hidden"/>
+    </record>
+
+    <record id="group_direccion" model="res.groups">
+      <field name="name">Dirección</field>
+      <field name="category_id" ref="base.module_category_hidden"/>
+    </record>
+
+    <record id="group_formacion" model="res.groups">
+      <field name="name">Formación</field>
+      <field name="category_id" ref="base.module_category_hidden"/>
+    </record>
+
+    <record id="group_rrss_cartel" model="res.groups">
+      <field name="name">RRSS + Cartel</field>
+      <field name="category_id" ref="base.module_category_hidden"/>
+    </record>
+
+    <record id="group_contabilidad" model="res.groups">
+      <field name="name">Contabilidad</field>
+      <field name="category_id" ref="base.module_category_hidden"/>
+    </record>
+
+    <record id="group_desarrollo" model="res.groups">
+      <field name="name">Desarrollo</field>
+      <field name="category_id" ref="base.module_category_hidden"/>
+    </record>
+
+    <record id="group_jefa_comercial" model="res.groups">
+      <field name="name">Jefa comercial</field>
+      <field name="category_id" ref="base.module_category_hidden"/>
+    </record>
+
+    <record id="group_secretaria" model="res.groups">
+      <field name="name">Secretaría</field>
+      <field name="category_id" ref="base.module_category_hidden"/>
+    </record>
+  </data>
+</odoo>

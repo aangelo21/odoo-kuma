@@ -233,10 +233,17 @@ class Horario(models.Model):
 
 
     def _send_email_notificacion(self):
-        employees = self.env['hr.employee'].search([])
+        # Filtrar empleados que están en el grupo Trello
+        empleados = self.env['hr.employee'].search([]).filtered(
+            lambda emp: emp.user_id and emp.user_id.has_group('gestion_cursos.group_trello')
+        )
+    
+        if not empleados:
+            return  # No hay nadie en el grupo, no se envía correo
+
         fecha_local = fields.Datetime.context_timestamp(self, self.fecha)
         fecha_fin_local = fields.Datetime.context_timestamp(self, self.fecha_fin)
-        
+
         mail_template = {
             'subject': f'Clase lista para subir a plataforma - {self.curso_id.nombre}',
             'body_html': f'''
@@ -251,9 +258,10 @@ class Horario(models.Model):
                 </ul>
             ''',
             'email_from': self.env.user.email,
-            'email_to': ','.join(employees.mapped('work_email')),
-        }
+            'email_to': ','.join(empleados.mapped('work_email')),
+    }
         self.env['mail.mail'].create(mail_template).send()
+
 
     @api.constrains('aula_id', 'lunes', 'martes', 'miercoles', 'jueves', 'viernes',
                     'lunes_hora_inicio', 'lunes_hora_fin',
