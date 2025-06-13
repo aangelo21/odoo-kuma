@@ -150,7 +150,7 @@ class Curso(models.Model):
                 }
                 self.env['mail.mail'].create(mail_template).send()
         return result
-
+    
     def unlink(self):
         for curso in self:
             email_to = self._get_destinatarios_filtrados()
