@@ -1,0 +1,9 @@
+<?xml version="1.0" encoding="utf-8"?>
+<odoo>
+    <template id="custom_favicon" inherit_id="web.layout" name="Custom Favicon">
+        <xpath expr="//link[@rel='shortcut icon']" position="replace">
+            <link rel="shortcut icon" href="/temas_kuma/static/favicon.png" type="image/png"/>
+            <link rel="icon" href="/temas_kuma/static/favicon.png" type="image/png"/>
+        </xpath>
+    </template>
+</odoo>

@@ -1,0 +1,43 @@
+<?xml version="1.0" encoding="utf-8"?>
+<odoo>
+    <!-- Override del template base para el favicon -->
+    <template id="override_base_favicon" inherit_id="web.layout" name="Override Base Favicon">
+        <xpath expr="//head" position="inside">
+            <link rel="shortcut icon" href="/temas_kuma/static/favicon.png" type="image/png"/>
+            <link rel="icon" href="/temas_kuma/static/favicon.png" type="image/png"/>
+            <link rel="icon" sizes="16x16" href="/temas_kuma/static/favicon.png" type="image/png"/>
+            <link rel="icon" sizes="32x32" href="/temas_kuma/static/favicon.png" type="image/png"/>
+            <link rel="apple-touch-icon" href="/temas_kuma/static/favicon.png"/>
+        </xpath>
+    </template>
+
+    <!-- Script para forzar el cambio del favicon en el DOM -->
+    <template id="force_favicon_change" inherit_id="web.layout" name="Force Favicon Change">
+        <xpath expr="//head" position="inside">
+            <script type="text/javascript">
+                document.addEventListener('DOMContentLoaded', function() {
+                    // Remover favicons existentes
+                    var existingIcons = document.querySelectorAll('link[rel*="icon"]');
+                    existingIcons.forEach(function(icon) {
+                        if (icon.href.includes('favicon.ico')) {
+                            icon.remove();
+                        }
+                    });
+                    
+                    // Agregar el nuevo favicon
+                    var newIcon = document.createElement('link');
+                    newIcon.rel = 'shortcut icon';
+                    newIcon.type = 'image/png';
+                    newIcon.href = '/temas_kuma/static/favicon.png';
+                    document.head.appendChild(newIcon);
+                    
+                    var newIcon2 = document.createElement('link');
+                    newIcon2.rel = 'icon';
+                    newIcon2.type = 'image/png';
+                    newIcon2.href = '/temas_kuma/static/favicon.png';
+                    document.head.appendChild(newIcon2);
+                });
+            </script>
+        </xpath>
+    </template>
+</odoo>

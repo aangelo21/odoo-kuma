@@ -1,0 +1,19 @@
+<?xml version="1.0" encoding="utf-8"?>
+<odoo>
+    <!-- Override completo del layout base para forzar el favicon -->
+    <template id="layout_favicon_override" inherit_id="web.layout" name="Layout Favicon Override" priority="100">
+        <!-- Eliminar cualquier favicon existente primero -->
+        <xpath expr="//link[@rel='shortcut icon' or @rel='icon']" position="replace"/>
+        
+        <!-- Agregar nuestro favicon al principio del head -->
+        <xpath expr="//head" position="after">
+            <head>
+                <link rel="shortcut icon" type="image/png" href="/temas_kuma/static/favicon.png"/>
+                <link rel="icon" type="image/png" href="/temas_kuma/static/favicon.png"/>
+                <link rel="icon" type="image/png" sizes="16x16" href="/temas_kuma/static/favicon.png"/>
+                <link rel="icon" type="image/png" sizes="32x32" href="/temas_kuma/static/favicon.png"/>
+                <link rel="apple-touch-icon" href="/temas_kuma/static/favicon.png"/>
+            </head>
+        </xpath>
+    </template>
+</odoo>

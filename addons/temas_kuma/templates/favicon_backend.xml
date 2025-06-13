@@ -1,0 +1,10 @@
+<?xml version="1.0" encoding="utf-8"?>
+<odoo>
+    <template id="favicon_backend" inherit_id="web.webclient_bootstrap" name="Backend Favicon">
+        <xpath expr="//head" position="inside">
+            <link rel="shortcut icon" href="/temas_kuma/static/favicon.png" type="image/png"/>
+            <link rel="icon" href="/temas_kuma/static/favicon.png" type="image/png"/>
+            <link rel="apple-touch-icon" href="/temas_kuma/static/favicon.png"/>
+        </xpath>
+    </template>
+</odoo>
