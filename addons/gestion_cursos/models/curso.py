@@ -177,7 +177,17 @@ class Curso(models.Model):
     @api.model
     def cron_aviso_fechas_dia(self):
         hoy = date.today()
-        employees = self.env['hr.employee'].search([])
+
+        # Filtrar usuarios por grupos permitidos
+        allowed_group_ids = [
+            self.env.ref('gestion_cursos.group_comercial').id,
+            self.env.ref('gestion_cursos.group_coordinacion').id,
+            self.env.ref('gestion_cursos.group_jefa_comercial').id,
+            self.env.ref('gestion_cursos.group_formacion').id,
+        ]
+        users = self.env['res.users'].search([('groups_id', 'in', allowed_group_ids)])
+        emails = users.mapped('partner_id.email')
+
         cursos_inicio = self.search([('fecha_inicio', '=', hoy)])
         cursos_fin = self.search([('fecha_fin', '=', hoy)])
         cursos_consolidacion = self.search([('fecha_consolidacion', '=', hoy)])
@@ -187,8 +197,7 @@ class Curso(models.Model):
         if cursos_inicio:
             bloques.append("<h3>Cursos que inician hoy:</h3><ul>")
             for curso in cursos_inicio:
-                bloques.append(f"""
-                <li style="margin-bottom: 20px;">
+                bloques.append(f"""<li style="margin-bottom: 20px;">
                     <strong>Nombre:</strong> {curso.nombre}<br/>
                     <strong>Expediente:</strong> {curso.expediente}<br/>
                     <strong>Tutor:</strong> {curso.tutor}<br/>
@@ -196,15 +205,12 @@ class Curso(models.Model):
                     <strong>Fecha inicio:</strong> {curso.fecha_inicio}<br/>
                     <strong>Fecha consolidación:</strong> {curso.fecha_consolidacion}<br/>
                     <strong>Fecha fin:</strong> {curso.fecha_fin}
-                </li>
-                <br>
-            """)
+                </li><br>""")
             bloques.append("</ul>")
         if cursos_fin:
             bloques.append("<h3>Cursos que finalizan hoy:</h3><ul>")
             for curso in cursos_fin:
-                bloques.append(f"""
-                <li style="margin-bottom: 20px;">
+                bloques.append(f"""<li style="margin-bottom: 20px;">
                     <strong>Nombre:</strong> {curso.nombre}<br/>
                     <strong>Expediente:</strong> {curso.expediente}<br/>
                     <strong>Tutor:</strong> {curso.tutor}<br/>
@@ -212,15 +218,12 @@ class Curso(models.Model):
                     <strong>Fecha inicio:</strong> {curso.fecha_inicio}<br/>
                     <strong>Fecha consolidación:</strong> {curso.fecha_consolidacion}<br/>
                     <strong>Fecha fin:</strong> {curso.fecha_fin}
-                </li>
-                <br>
-            """)
+                </li><br>""")
             bloques.append("</ul>")
         if cursos_consolidacion:
             bloques.append("<h3>Cursos que consolidan hoy:</h3><ul>")
             for curso in cursos_consolidacion:
-                bloques.append(f"""
-                <li style="margin-bottom: 20px;">
+                bloques.append(f"""<li style="margin-bottom: 20px;">
                     <strong>Nombre:</strong> {curso.nombre}<br/>
                     <strong>Expediente:</strong> {curso.expediente}<br/>
                     <strong>Tutor:</strong> {curso.tutor}<br/>
@@ -228,46 +231,43 @@ class Curso(models.Model):
                     <strong>Fecha inicio:</strong> {curso.fecha_inicio}<br/>
                     <strong>Fecha consolidación:</strong> {curso.fecha_consolidacion}<br/>
                     <strong>Fecha fin:</strong> {curso.fecha_fin}
-                </li>
-                <br>
-            """)
+                </li><br>""")
             bloques.append("</ul>")
 
-        if not bloques:
-            cuerpo = f"""
-                <html>
-                    <body>
-                        <p>No hay cursos con fechas coincidentes para hoy ({hoy}).</p>
-                    </body>
-                </html>
-            """
-        else:
-            cuerpo = f"""
-                <html>
-                    <body>
-                        <p>Resumen de cursos para hoy ({hoy}):</p>
-                        {''.join(bloques)}
-                    </body>
-                </html>
-            """
+        cuerpo = f"""
+            <html><body>
+            {'<p>Resumen de cursos para hoy (' + str(hoy) + '):</p>' + ''.join(bloques)
+            if bloques else '<p>No hay cursos con fechas coincidentes para hoy (' + str(hoy) + ').</p>'}
+            </body></html>
+        """
+
         mail_template = {
             'subject': f'Resumen diario de cursos ({hoy})',
             'body_html': cuerpo.strip(),
             'email_from': self.env.user.email,
-            'email_to': ','.join(employees.mapped('work_email')),
+            'email_to': ','.join(emails),
         }
         self.env['mail.mail'].create(mail_template).send()
-
+    
     @api.model
     def cron_aviso_fechas_semana(self):
         hoy = date.today()
         lunes = hoy - timedelta(days=hoy.weekday())
         viernes = lunes + timedelta(days=4)
-        employees = self.env['hr.employee'].search([])
+
+        # Filtrar usuarios por grupos permitidos
+        allowed_group_ids = [
+            self.env.ref('gestion_cursos.group_comercial').id,
+            self.env.ref('gestion_cursos.group_coordinacion').id,
+            self.env.ref('gestion_cursos.group_jefa_comercial').id,
+            self.env.ref('gestion_cursos.group_formacion').id,
+        ]
+        users = self.env['res.users'].search([('groups_id', 'in', allowed_group_ids)])
+        emails = users.mapped('partner_id.email')
 
         dias_es = ['Lunes', 'Martes', 'Miércoles', 'Jueves', 'Viernes']
-
         bloques = []
+
         for i in range(5):
             dia = lunes + timedelta(days=i)
             cursos_inicio = self.search([('fecha_inicio', '=', dia)])
@@ -280,71 +280,55 @@ class Curso(models.Model):
                 if cursos_inicio:
                     bloques.append("<b>Cursos que inician este día:</b><ul>")
                     for curso in cursos_inicio:
-                        bloques.append(f"""
-                            <li style="margin-bottom: 10px;">
-                                <strong>Nombre:</strong> {curso.nombre}<br/>
-                                <strong>Expediente:</strong> {curso.expediente}<br/>
-                                <strong>Tutor:</strong> {curso.tutor}<br/>
-                                <strong>Categoría:</strong> {curso.id_categoria.nombre if curso.id_categoria else 'N/A'}<br/>
-                                <strong>Fecha inicio:</strong> {curso.fecha_inicio}<br/>
-                                <strong>Fecha consolidación:</strong> {curso.fecha_consolidacion}<br/>
-                                <strong>Fecha fin:</strong> {curso.fecha_fin}
-                            </li>
-                        """)
+                        bloques.append(f"""<li style="margin-bottom: 10px;">
+                            <strong>Nombre:</strong> {curso.nombre}<br/>
+                            <strong>Expediente:</strong> {curso.expediente}<br/>
+                            <strong>Tutor:</strong> {curso.tutor}<br/>
+                            <strong>Categoría:</strong> {curso.id_categoria.nombre if curso.id_categoria else 'N/A'}<br/>
+                            <strong>Fecha inicio:</strong> {curso.fecha_inicio}<br/>
+                            <strong>Fecha consolidación:</strong> {curso.fecha_consolidacion}<br/>
+                            <strong>Fecha fin:</strong> {curso.fecha_fin}
+                        </li>""")
                     bloques.append("</ul>")
                 if cursos_fin:
                     bloques.append("<b>Cursos que finalizan este día:</b><ul>")
                     for curso in cursos_fin:
-                        bloques.append(f"""
-                            <li style="margin-bottom: 10px;">
-                                <strong>Nombre:</strong> {curso.nombre}<br/>
-                                <strong>Expediente:</strong> {curso.expediente}<br/>
-                                <strong>Tutor:</strong> {curso.tutor}<br/>
-                                <strong>Categoría:</strong> {curso.id_categoria.nombre if curso.id_categoria else 'N/A'}<br/>
-                                <strong>Fecha inicio:</strong> {curso.fecha_inicio}<br/>
-                                <strong>Fecha consolidación:</strong> {curso.fecha_consolidacion}<br/>
-                                <strong>Fecha fin:</strong> {curso.fecha_fin}
-                            </li>
-                        """)
+                        bloques.append(f"""<li style="margin-bottom: 10px;">
+                            <strong>Nombre:</strong> {curso.nombre}<br/>
+                            <strong>Expediente:</strong> {curso.expediente}<br/>
+                            <strong>Tutor:</strong> {curso.tutor}<br/>
+                            <strong>Categoría:</strong> {curso.id_categoria.nombre if curso.id_categoria else 'N/A'}<br/>
+                            <strong>Fecha inicio:</strong> {curso.fecha_inicio}<br/>
+                            <strong>Fecha consolidación:</strong> {curso.fecha_consolidacion}<br/>
+                            <strong>Fecha fin:</strong> {curso.fecha_fin}
+                        </li>""")
                     bloques.append("</ul>")
                 if cursos_consolidacion:
                     bloques.append("<b>Cursos que consolidan este día:</b><ul>")
                     for curso in cursos_consolidacion:
-                        bloques.append(f"""
-                            <li style="margin-bottom: 10px;">
-                                <strong>Nombre:</strong> {curso.nombre}<br/>
-                                <strong>Expediente:</strong> {curso.expediente}<br/>
-                                <strong>Tutor:</strong> {curso.tutor}<br/>
-                                <strong>Categoría:</strong> {curso.id_categoria.nombre if curso.id_categoria else 'N/A'}<br/>
-                                <strong>Fecha inicio:</strong> {curso.fecha_inicio}<br/>
-                                <strong>Fecha consolidación:</strong> {curso.fecha_consolidacion}<br/>
-                                <strong>Fecha fin:</strong> {curso.fecha_fin}
-                            </li>
-                        """)
+                        bloques.append(f"""<li style="margin-bottom: 10px;">
+                            <strong>Nombre:</strong> {curso.nombre}<br/>
+                            <strong>Expediente:</strong> {curso.expediente}<br/>
+                            <strong>Tutor:</strong> {curso.tutor}<br/>
+                            <strong>Categoría:</strong> {curso.id_categoria.nombre if curso.id_categoria else 'N/A'}<br/>
+                            <strong>Fecha inicio:</strong> {curso.fecha_inicio}<br/>
+                            <strong>Fecha consolidación:</strong> {curso.fecha_consolidacion}<br/>
+                            <strong>Fecha fin:</strong> {curso.fecha_fin}
+                        </li>""")
                     bloques.append("</ul>")
 
-        if not [b for b in bloques if '<li' in b]:
-            cuerpo = f"""
-                <html>
-                    <body>
-                        <p>No hay cursos con fechas coincidentes para esta semana ({lunes.strftime('%d/%m/%Y')} - {viernes.strftime('%d/%m/%Y')}).</p>
-                    </body>
-                </html>
-            """
-        else:
-            cuerpo = f"""
-                <html>
-                    <body>
-                        <p>Resumen semanal de cursos ({lunes.strftime('%d/%m/%Y')} - {viernes.strftime('%d/%m/%Y')}):</p>
-                        {''.join(bloques)}
-                    </body>
-                </html>
-            """
+        cuerpo = f"""
+            <html><body>
+            {'<p>Resumen semanal de cursos (' + lunes.strftime('%d/%m/%Y') + ' - ' + viernes.strftime('%d/%m/%Y') + '):</p>' + ''.join(bloques)
+            if [b for b in bloques if '<li' in b] else '<p>No hay cursos con fechas coincidentes para esta semana (' + lunes.strftime('%d/%m/%Y') + ' - ' + viernes.strftime('%d/%m/%Y') + ').</p>'}
+            </body></html>
+        """
+
         mail_template = {
             'subject': f'Resumen semanal de cursos ({lunes.strftime("%d/%m/%Y")} - {viernes.strftime("%d/%m/%Y")})',
             'body_html': cuerpo.strip(),
             'email_from': self.env.user.email,
-            'email_to': ','.join(employees.mapped('work_email')),
+            'email_to': ','.join(emails),
         }
         self.env['mail.mail'].create(mail_template).send()
     
@@ -358,35 +342,33 @@ class Curso(models.Model):
         """Función para notificar cuando faltan 2 semanas para que inicie un curso"""
         hoy = date.today()
         fecha_dos_semanas = hoy + timedelta(days=14)
-        employees = self.env['hr.employee'].search([])
-        
-        # Buscar cursos que inicien en la fecha de dos semanas (sin importar la hora)
+
+        group_rrss = self.env.ref('gestion_cursos.group_rrss_cartel')
+        employees = self.env['hr.employee'].search([('user_id.groups_id', 'in', [group_rrss.id])])
+
         cursos_dos_semanas = self.search([
             ('fecha_inicio', '>=', fecha_dos_semanas),
             ('fecha_inicio', '<', fecha_dos_semanas + timedelta(days=1))
         ])
-        
-        if cursos_dos_semanas:
+
+        if cursos_dos_semanas and employees:
             bloques = ["<h3>RRSS + Cartel: Cursos que iniciarán en 2 semanas:</h3><ul>"]
             for curso in cursos_dos_semanas:
-                bloques.append(f"""
-                <li style="margin-bottom: 20px;">
+                bloques.append(f"""<li style="margin-bottom: 20px;">
                     <strong>Nombre:</strong> {curso.nombre}<br/>
                     <strong>Expediente:</strong> {curso.expediente}<br/>
                     <strong>Código:</strong> {curso.codigo}<br/>
                     <strong>Tutor:</strong> {curso.tutor}<br/>
                     <strong>Categoría:</strong> {curso.id_categoria.nombre if curso.id_categoria else 'N/A'}<br/>
-                    <strong>Modalidad:</strong> {curso.modalidad}<br/>
+                    strong>Modalidad:</strong> {curso.modalidad}<br/>
                     <strong>Duración:</strong> {curso.duracion}h<br/>
                     <strong>Número de alumnos:</strong> {curso.numero_alumnos}<br/>
                     <strong>Fecha inicio:</strong> {curso.fecha_inicio}<br/>
                     <strong>Fecha consolidación:</strong> {curso.fecha_consolidacion}<br/>
                     <strong>Fecha fin:</strong> {curso.fecha_fin}
-                </li>
-                <br>
-            """)
+                </li><br>""")
             bloques.append("</ul>")
-            
+
             cuerpo = f"""
                 <html>
                     <body>
@@ -395,7 +377,7 @@ class Curso(models.Model):
                     </body>
                 </html>
             """
-            
+
             mail_template = {
                 'subject': f'Recordatorio: Cursos que inician en 2 semanas ({fecha_dos_semanas.strftime("%d/%m/%Y")})',
                 'body_html': cuerpo.strip(),
@@ -409,19 +391,19 @@ class Curso(models.Model):
         """Función para notificar cuando falta 1 semana para que inicie un curso"""
         hoy = date.today()
         fecha_una_semana = hoy + timedelta(days=7)
-        employees = self.env['hr.employee'].search([])
-        
-        # Buscar cursos que inicien en la fecha de una semana (sin importar la hora)
+
+        group_rrss = self.env.ref('gestion_cursos.group_rrss_cartel')
+        employees = self.env['hr.employee'].search([('user_id.groups_id', 'in', [group_rrss.id])])
+
         cursos_una_semana = self.search([
             ('fecha_inicio', '>=', fecha_una_semana),
             ('fecha_inicio', '<', fecha_una_semana + timedelta(days=1))
         ])
-        
-        if cursos_una_semana:
+
+        if cursos_una_semana and employees:
             bloques = ["<h3>RRSS + Cartel: Cursos que iniciarán en 1 semana:</h3><ul>"]
             for curso in cursos_una_semana:
-                bloques.append(f"""
-                <li style="margin-bottom: 20px;">
+                bloques.append(f"""<li style="margin-bottom: 20px;">
                     <strong>Nombre:</strong> {curso.nombre}<br/>
                     <strong>Expediente:</strong> {curso.expediente}<br/>
                     <strong>Código:</strong> {curso.codigo}<br/>
@@ -433,11 +415,9 @@ class Curso(models.Model):
                     <strong>Fecha inicio:</strong> {curso.fecha_inicio}<br/>
                     <strong>Fecha consolidación:</strong> {curso.fecha_consolidacion}<br/>
                     <strong>Fecha fin:</strong> {curso.fecha_fin}
-                </li>
-                <br>
-            """)
+                </li><br>""")
             bloques.append("</ul>")
-            
+
             cuerpo = f"""
                 <html>
                     <body>
@@ -446,7 +426,7 @@ class Curso(models.Model):
                     </body>
                 </html>
             """
-            
+
             mail_template = {
                 'subject': f'¡Próximo inicio! Cursos que inician en 1 semana ({fecha_una_semana.strftime("%d/%m/%Y")})',
                 'body_html': cuerpo.strip(),

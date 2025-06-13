@@ -168,69 +168,57 @@ class CaptacionAlumnos(models.Model):
                 'totals': [],
                 'details': []
             }
+    
+    @api.model
+    def _get_group_employees(self):
+        group_jefa = self.env.ref('gestion_cursos.group_jefa_comercial')
+        group_coord = self.env.ref('gestion_cursos.group_coordinacion')
+        users = group_jefa.users | group_coord.users
+        return self.env['hr.employee'].search([
+            ('user_id', 'in', users.ids),
+            ('work_email', '!=', False)
+        ])
 
     @api.model
     def enviar_informe_diario_captacion(self):
         """Envía un informe diario de captación de alumnos por comercial"""
         try:
             hoy = fields.Date.today()
-            
-            # Buscar todas las captaciones del día actual
             captaciones_hoy = self.sudo().search([('fecha', '=', hoy)])
-            
             if not captaciones_hoy:
                 _logger.info(f"No hay captaciones para el día {hoy}")
                 return
-            
-            # Obtener todos los empleados para enviar el correo
-            employees = self.env['hr.employee'].search([])
-            if not employees.mapped('work_email'):
-                _logger.warning("No hay empleados con email configurado")
+
+            employees = self._get_group_employees()
+            if not employees:
+                _logger.warning("No hay empleados de grupo jefa comercial o coordinación con email")
                 return
-            
-            # Agrupar por empleado
+
             empleado_data = {}
             total_alumnos_dia = 0
-            
+
             for captacion in captaciones_hoy:
                 empleado_name = captacion.empleado_id.name
                 categoria_name = captacion.categoria_id.nombre
                 alumnos = captacion.numero_alumnos
                 total_alumnos_dia += alumnos
-                
-                if empleado_name not in empleado_data:
-                    empleado_data[empleado_name] = {
-                        'total': 0,
-                        'categorias': {}
-                    }
-                
+
+                empleado_data.setdefault(empleado_name, {'total': 0, 'categorias': {}})
                 empleado_data[empleado_name]['total'] += alumnos
-                
-                if categoria_name not in empleado_data[empleado_name]['categorias']:
-                    empleado_data[empleado_name]['categorias'][categoria_name] = 0
-                
+                empleado_data[empleado_name]['categorias'].setdefault(categoria_name, 0)
                 empleado_data[empleado_name]['categorias'][categoria_name] += alumnos
-            
-            # Ordenar por total de alumnos (descendente)
+
             sorted_empleados = sorted(empleado_data.items(), key=lambda x: x[1]['total'], reverse=True)
-            
-            # Crear el contenido HTML del correo
-            bloques = []
-            bloques.append("<h3>📊 Resumen de Captación por Comercial:</h3>")
-            bloques.append("<ul>")
-            
+
+            bloques = ["<h3>📊 Resumen de Captación por Comercial:</h3><ul>"]
             for empleado_name, data in sorted_empleados:
-                bloques.append(f"<li><strong>{empleado_name}</strong>: {data['total']} alumnos")
-                if data['categorias']:
-                    bloques.append("<ul>")
-                    for categoria, cantidad in data['categorias'].items():
-                        bloques.append(f"<li>{categoria}: {cantidad} alumnos</li>")
-                    bloques.append("</ul>")
-                bloques.append("</li>")
-            
+                bloques.append(f"<li><strong>{empleado_name}</strong>: {data['total']} alumnos<ul>")
+                for categoria, cantidad in data['categorias'].items():
+                    bloques.append(f"<li>{categoria}: {cantidad} alumnos</li>")
+                bloques.append("</ul></li>")
             bloques.append("</ul>")
             bloques.append(f"<p><strong>Total del día:</strong> {total_alumnos_dia} alumnos captados</p>")
-            
+
             cuerpo = f"""
                 <html>
                     <body>
@@ -241,16 +229,16 @@ class CaptacionAlumnos(models.Model):
                     </body>
                 </html>
             """
-            
-            mail_template = {
+
+            self.env['mail.mail'].create({
                 'subject': f'📊 Informe Diario de Captación - {hoy.strftime("%d/%m/%Y")}',
                 'body_html': cuerpo.strip(),
                 'email_from': self.env.user.email,
                 'email_to': ','.join(employees.mapped('work_email')),
-            }
-            self.env['mail.mail'].create(mail_template).send()
+            }).send()
+
             _logger.info(f"Informe diario de captación enviado para el día {hoy}")
-            
+
         except Exception as e:
             _logger.error(f"Error al enviar informe diario de captación: {str(e)}")
 
@@ -259,71 +247,47 @@ class CaptacionAlumnos(models.Model):
         """Envía un informe semanal de captación de alumnos por comercial"""
         try:
             hoy = fields.Date.today()
-            
-            # Calcular el lunes y viernes de la semana actual
-            dias_desde_lunes = hoy.weekday()
-            lunes = hoy - timedelta(days=dias_desde_lunes)
+            lunes = hoy - timedelta(days=hoy.weekday())
             viernes = lunes + timedelta(days=4)
-            
-            # Buscar todas las captaciones de la semana actual
+
             captaciones_semana = self.sudo().search([
                 ('fecha', '>=', lunes),
                 ('fecha', '<=', viernes)
             ])
-            
             if not captaciones_semana:
                 _logger.info(f"No hay captaciones para la semana {lunes} - {viernes}")
                 return
-            
-            # Obtener todos los empleados para enviar el correo
-            employees = self.env['hr.employee'].search([])
-            if not employees.mapped('work_email'):
-                _logger.warning("No hay empleados con email configurado")
+
+            employees = self._get_group_employees()
+            if not employees:
+                _logger.warning("No hay empleados de grupo jefa comercial o coordinación con email")
                 return
-            
-            # Agrupar por empleado
+
             empleado_data = {}
             total_alumnos_semana = 0
-            
+
             for captacion in captaciones_semana:
                 empleado_name = captacion.empleado_id.name
                 categoria_name = captacion.categoria_id.nombre
                 alumnos = captacion.numero_alumnos
                 total_alumnos_semana += alumnos
-                
-                if empleado_name not in empleado_data:
-                    empleado_data[empleado_name] = {
-                        'total': 0,
-                        'categorias': {}
-                    }
-                
+
+                empleado_data.setdefault(empleado_name, {'total': 0, 'categorias': {}})
                 empleado_data[empleado_name]['total'] += alumnos
-                
-                if categoria_name not in empleado_data[empleado_name]['categorias']:
-                    empleado_data[empleado_name]['categorias'][categoria_name] = 0
-                
+                empleado_data[empleado_name]['categorias'].setdefault(categoria_name, 0)
                 empleado_data[empleado_name]['categorias'][categoria_name] += alumnos
-            
-            # Ordenar por total de alumnos (descendente)
+
             sorted_empleados = sorted(empleado_data.items(), key=lambda x: x[1]['total'], reverse=True)
-            
-            # Crear el contenido HTML del correo
-            bloques = []
-            bloques.append("<h3>📊 Resumen Semanal de Captación por Comercial:</h3>")
-            bloques.append("<ul>")
-            
+
+            bloques = ["<h3>📊 Resumen Semanal de Captación por Comercial:</h3><ul>"]
             for empleado_name, data in sorted_empleados:
-                bloques.append(f"<li><strong>{empleado_name}</strong>: {data['total']} alumnos")
-                if data['categorias']:
-                    bloques.append("<ul>")
-                    for categoria, cantidad in data['categorias'].items():
-                        bloques.append(f"<li>{categoria}: {cantidad} alumnos</li>")
-                    bloques.append("</ul>")
-                bloques.append("</li>")
-            
+                bloques.append(f"<li><strong>{empleado_name}</strong>: {data['total']} alumnos<ul>")
+                for categoria, cantidad in data['categorias'].items():
+                    bloques.append(f"<li>{categoria}: {cantidad} alumnos</li>")
+                bloques.append("</ul></li>")
             bloques.append("</ul>")
             bloques.append(f"<p><strong>Total de la semana:</strong> {total_alumnos_semana} alumnos captados</p>")
-            
+
             cuerpo = f"""
                 <html>
                     <body>
@@ -334,16 +298,16 @@ class CaptacionAlumnos(models.Model):
                     </body>
                 </html>
             """
-            
-            mail_template = {
+
+            self.env['mail.mail'].create({
                 'subject': f'📊 Informe Semanal de Captación - Semana del {lunes.strftime("%d/%m/%Y")} al {viernes.strftime("%d/%m/%Y")}',
                 'body_html': cuerpo.strip(),
                 'email_from': self.env.user.email,
                 'email_to': ','.join(employees.mapped('work_email')),
-            }
-            self.env['mail.mail'].create(mail_template).send()
+            }).send()
+
             _logger.info(f"Informe semanal de captación enviado para la semana {lunes} - {viernes}")
-            
+
         except Exception as e:
             _logger.error(f"Error al enviar informe semanal de captación: {str(e)}")
 
@@ -352,86 +316,56 @@ class CaptacionAlumnos(models.Model):
         """Envía un informe mensual de captación de alumnos por comercial"""
         try:
             hoy = fields.Date.today()
-            
-            # Calcular el primer y último día del mes anterior
             primer_dia_mes_anterior = (hoy.replace(day=1) - timedelta(days=1)).replace(day=1)
             ultimo_dia_mes_anterior = hoy.replace(day=1) - timedelta(days=1)
-            
-            # Buscar todas las captaciones del mes anterior
+
             captaciones_mes = self.sudo().search([
                 ('fecha', '>=', primer_dia_mes_anterior),
                 ('fecha', '<=', ultimo_dia_mes_anterior)
             ])
-            
             if not captaciones_mes:
                 _logger.info(f"No hay captaciones para el mes {primer_dia_mes_anterior.strftime('%m/%Y')}")
                 return
-            
-            # Obtener todos los empleados para enviar el correo
-            employees = self.env['hr.employee'].search([])
-            if not employees.mapped('work_email'):
-                _logger.warning("No hay empleados con email configurado")
+
+            employees = self._get_group_employees()
+            if not employees:
+                _logger.warning("No hay empleados de grupo jefa comercial o coordinación con email")
                 return
-            
-            # Agrupar por empleado
+
             empleado_data = {}
             total_alumnos_mes = 0
             categoria_totals = {}
-            
+
             for captacion in captaciones_mes:
                 empleado_name = captacion.empleado_id.name
                 categoria_name = captacion.categoria_id.nombre
                 alumnos = captacion.numero_alumnos
                 total_alumnos_mes += alumnos
-                
-                # Totales por categoría globales
-                if categoria_name not in categoria_totals:
-                    categoria_totals[categoria_name] = 0
-                categoria_totals[categoria_name] += alumnos
-                
-                if empleado_name not in empleado_data:
-                    empleado_data[empleado_name] = {
-                        'total': 0,
-                        'categorias': {}
-                    }
-                
+
+                categoria_totals[categoria_name] = categoria_totals.get(categoria_name, 0) + alumnos
+                empleado_data.setdefault(empleado_name, {'total': 0, 'categorias': {}})
                 empleado_data[empleado_name]['total'] += alumnos
-                
-                if categoria_name not in empleado_data[empleado_name]['categorias']:
-                    empleado_data[empleado_name]['categorias'][categoria_name] = 0
-                
+                empleado_data[empleado_name]['categorias'].setdefault(categoria_name, 0)
                 empleado_data[empleado_name]['categorias'][categoria_name] += alumnos
-            
-            # Ordenar por total de alumnos (descendente)
+
             sorted_empleados = sorted(empleado_data.items(), key=lambda x: x[1]['total'], reverse=True)
             sorted_categorias = sorted(categoria_totals.items(), key=lambda x: x[1], reverse=True)
-            
-            # Crear el contenido HTML del correo
-            bloques = []
-            bloques.append("<h3>📊 Resumen Mensual de Captación por Comercial:</h3>")
-            bloques.append("<ul>")
-            
+
+            bloques = ["<h3>📊 Resumen Mensual de Captación por Comercial:</h3><ul>"]
             for empleado_name, data in sorted_empleados:
-                bloques.append(f"<li><strong>{empleado_name}</strong>: {data['total']} alumnos")
-                if data['categorias']:
-                    bloques.append("<ul>")
-                    for categoria, cantidad in data['categorias'].items():
-                        bloques.append(f"<li>{categoria}: {cantidad} alumnos</li>")
-                    bloques.append("</ul>")
-                bloques.append("</li>")
-            
+                bloques.append(f"<li><strong>{empleado_name}</strong>: {data['total']} alumnos<ul>")
+                for categoria, cantidad in data['categorias'].items():
+                    bloques.append(f"<li>{categoria}: {cantidad} alumnos</li>")
+                bloques.append("</ul></li>")
             bloques.append("</ul>")
-            
-            # Agregar resumen por categorías
-            bloques.append("<h3>📈 Resumen por Categorías:</h3>")
-            bloques.append("<ul>")
+
+            bloques.append("<h3>📈 Resumen por Categorías:</h3><ul>")
             for categoria, total in sorted_categorias:
-                porcentaje = (total / total_alumnos_mes * 100) if total_alumnos_mes > 0 else 0
+                porcentaje = (total / total_alumnos_mes * 100) if total_alumnos_mes else 0
                 bloques.append(f"<li><strong>{categoria}</strong>: {total} alumnos ({porcentaje:.1f}%)</li>")
             bloques.append("</ul>")
-            
             bloques.append(f"<p><strong>Total del mes:</strong> {total_alumnos_mes} alumnos captados</p>")
-            
+
             cuerpo = f"""
                 <html>
                     <body>
@@ -442,15 +376,15 @@ class CaptacionAlumnos(models.Model):
                     </body>
                 </html>
             """
-            
-            mail_template = {
+
+            self.env['mail.mail'].create({
                 'subject': f'📊 Informe Mensual de Captación - {primer_dia_mes_anterior.strftime("%B %Y")}',
                 'body_html': cuerpo.strip(),
                 'email_from': self.env.user.email,
                 'email_to': ','.join(employees.mapped('work_email')),
-            }
-            self.env['mail.mail'].create(mail_template).send()
+            }).send()
+
             _logger.info(f"Informe mensual de captación enviado para {primer_dia_mes_anterior.strftime('%B %Y')}")
-            
+
         except Exception as e:
             _logger.error(f"Error al enviar informe mensual de captación: {str(e)}")
