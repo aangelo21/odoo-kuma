@@ -9,7 +9,7 @@
 
     <record id="group_trello" model="res.groups">
       <field name="name">Trello</field>
-      <field name="trello_id" ref="base.module_category_hidden"/>
+      <field name="category_id" ref="base.module_category_hidden"/>
     </record>
 
     <record id="group_coordinacion" model="res.groups">
