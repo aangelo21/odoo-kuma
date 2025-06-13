@@ -6,10 +6,15 @@
 Long description of module's purpose
     """,
     'author': "My Company",
-    'website': "https://www.yourcompany.com",
-    'category': 'Uncategorized',
-    'version': '0.1',    'depends': ['base'],
-     'assets': {
+    'website': "https://www.yourcompany.com",    'category': 'Themes/Backend',
+    'version': '0.1',
+    'installable': True,
+    'auto_install': False,
+    'application': False,
+    'depends': ['base', 'web'],    'data': [
+        'templates/favicon_template.xml',
+    ],
+    'assets': {
         'web.assets_backend': [
             'temas_kuma/static/scss/custom_colors.scss',
             'temas_kuma/static/scss/iconos-actuales.scss',
